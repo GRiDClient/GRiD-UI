@@ -10,14 +10,10 @@ public class GRiDUI {
 	public static void initialize() {
 		ThemeManager.loadThemes();
 		
-		if(!ThemeManager.setTheme("GRiD")) {
+		if(!ThemeManager.setTheme("GRiD Theme")) {
 			System.err.println("Failed to load default theme");
 			return;
 		}
-		
-		System.out.println("Loaded default theme");
-		
-		
 	}
 	
 	public static UIManager createUIManager() {
