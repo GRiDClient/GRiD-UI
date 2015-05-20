@@ -1,4 +1,4 @@
-package com.codingforcookies.gridui.src.ui.theme;
+package com.codingforcookies.mayaui.src.ui.theme;
 
 import java.util.HashMap;
 

@@ -1,10 +1,10 @@
-package com.codingforcookies.gridui.src;
+package com.codingforcookies.mayaui.src;
 
 import javax.swing.UIManager;
 
-import com.codingforcookies.gridui.src.ui.theme.ThemeManager;
+import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
 
-public class GRiDUI {
+public class MayaUI {
 	public static final String version = "Chill Leopard";
 	
 	public static void initialize() {

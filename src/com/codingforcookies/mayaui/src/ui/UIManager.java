@@ -1,4 +1,4 @@
-package com.codingforcookies.gridui.src.ui;
+package com.codingforcookies.mayaui.src.ui;
 
 class UIManager {
 	protected UIManager() {

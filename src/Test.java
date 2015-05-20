@@ -4,7 +4,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
-import com.codingforcookies.gridui.src.GRiDUI;
+import com.codingforcookies.mayaui.src.MayaUI;
 
 public class Test {
 	public static void main(String[] args) {
@@ -15,12 +15,12 @@ public class Test {
 	
 	public Test() {
 		// Initialize GRiD UI
-		GRiDUI.initialize();
+		MayaUI.initialize();
 		
 		try {
 		    Display.setDisplayMode(new DisplayMode(800, 600));
 		    Display.create();
-		    Display.setTitle("GRiD UI  v." + GRiDUI.version);
+		    Display.setTitle("GRiD UI  v." + MayaUI.version);
 		} catch (LWJGLException e) {
 		    e.printStackTrace();
 		    System.exit(0);

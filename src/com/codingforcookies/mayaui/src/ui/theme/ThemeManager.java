@@ -1,4 +1,4 @@
-package com.codingforcookies.gridui.src.ui.theme;
+package com.codingforcookies.mayaui.src.ui.theme;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,8 +10,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.codingforcookies.gridui.src.exceptions.GRiDException;
-import com.codingforcookies.gridui.src.exceptions.ThemeInvalidException;
+import com.codingforcookies.mayaui.src.exceptions.MayaException;
+import com.codingforcookies.mayaui.src.exceptions.ThemeInvalidException;
 
 public class ThemeManager {
 	private static HashMap<String, File> availableThemes;
@@ -33,7 +33,7 @@ public class ThemeManager {
 		return false;
 	}
 
-	private static final File themeLocation = new File("E:/Git/GRiD Client/GRiD-UI/themes");
+	private static final File themeLocation = new File("E:/Git/Maya Client/Maya-UI/themes");
 	private static final String themePattern = "([^{]+)\\s*\\{\\s*([^}]+)\\s*}";
 
 	public static void loadThemes() {
@@ -47,8 +47,8 @@ public class ThemeManager {
 	}
 
 	private static String isTheme(File file) {
-		if(!file.getName().endsWith(".gridtheme")) {
-			GRiDException.throwNonClosing(new ThemeInvalidException("Invalid Theme file: " + file.getName()));
+		if(!file.getName().endsWith(".mayatheme")) {
+			MayaException.throwNonClosing(new ThemeInvalidException("Invalid Theme file: " + file.getName()));
 			return null;
 		}
 		
