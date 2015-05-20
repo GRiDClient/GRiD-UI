@@ -20,7 +20,7 @@ public class Test {
 		try {
 		    Display.setDisplayMode(new DisplayMode(800, 600));
 		    Display.create();
-		    Display.setTitle("GRiD UI  v." + MayaUI.version);
+		    Display.setTitle("Maya UI  v." + MayaUI.version);
 		} catch (LWJGLException e) {
 		    e.printStackTrace();
 		    System.exit(0);

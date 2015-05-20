@@ -10,7 +10,7 @@ public class MayaUI {
 	public static void initialize() {
 		ThemeManager.loadThemes();
 		
-		if(!ThemeManager.setTheme("GRiD Theme")) {
+		if(!ThemeManager.setTheme("Maya Theme")) {
 			System.err.println("Failed to load default theme");
 			return;
 		}
