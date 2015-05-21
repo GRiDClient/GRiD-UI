@@ -7,9 +7,15 @@ import org.lwjgl.opengl.GL11;
 import com.codingforcookies.mayaui.src.exceptions.MayaException;
 import com.codingforcookies.mayaui.src.exceptions.ThemeInvalidException;
 
-public class MayaColor {
+public class MayaColor implements Cloneable {
+	public static final MayaColor BLACK = new MayaColor(0F, 0F, 0F);
 	public static final MayaColor WHITE = new MayaColor(1F, 1F, 1F);
-	public static MayaColor GLOBAL_TEXT = WHITE;
+	public static final MayaColor RED = new MayaColor(1F, 0F, 0F);
+	public static final MayaColor GREEN = new MayaColor(0F, 1F, 0F);
+	public static final MayaColor BLUE = new MayaColor(0F, 0F, 1F);
+
+	public static MayaColor GLOBAL_TEXT = BLACK;
+	public static MayaColor GLOBAL_BACKGROUND = BLUE;
 	
 	private float r, g, b, a;
 
@@ -86,11 +92,34 @@ public class MayaColor {
 		return a;
 	}
 	
+	public MayaColor lighter() {
+		r += .1F;
+		g += .1F;
+		b += .1F;
+		return this;
+	}
+	
 	public MayaColor darker() {
-		return new MayaColor(r + .1F, g + .1F, b + .1F, a + .1F);
+		r -= .1F;
+		g -= .1F;
+		b -= .1F;
+		return this;
 	}
 
 	public void use() {
 		GL11.glColor4f(r, g, b, a);
+	}
+	
+	public String toString() {
+		return "color(r" + r + " g" + g + " b" + b + " a" + a + ")";
+	}
+	
+	public MayaColor clone() {
+		try {
+			return (MayaColor)super.clone();
+		} catch(CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -1,56 +1,70 @@
 package com.codingforcookies.mayaui.src.ui.theme.components;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 
 public class UIBarGraph extends UIComponent {
-	private HashMap<String, UIBarGraphBar> bars = new HashMap<String, UIBarGraphBar>();
-
-	public UIBarGraphBar addBar(String name, MayaColor color) {
-		return addBar(name, color, 0);
-	}
+	private HashMap<String, UIBarGraphBar> barInfo = new HashMap<String, UIBarGraphBar>();
+	private List<String> bars = new ArrayList<String>();
 	
-	public UIBarGraphBar addBar(String name, MayaColor color, int value) {
-		UIBarGraphBar bar = new UIBarGraphBar(name, color);
-		bar.value = value;
-		bars.put(name, bar);
-		return bar;
-	}
-	
-	public void removeBar(String name) {
-		bars.remove(name);
-	}
-
-	public void updateBar(String name, int value) {
-		bars.get(name).value = value;
-	}
-	
-	public UIBarGraph(float x, float y, float width, float height) {
-		super(x, y, width, height);
+	public UIBarGraph() {
+		super("bargraph");
 	}
 	
 	public void update() {
-		float total = 1;
-		for(String bar : bars.keySet())
-			total += bars.get(bar).value;
+		float total = 0F;
 		
-		for(String bar : bars.keySet())
-			bars.get(bar).percent = bars.get(bar).value / total;
+		for(String bar : bars)
+			total += barInfo.get(bar).value;
+		
+		if(total != 0F)
+			for(String bar : bars)
+				barInfo.get(bar).percent = barInfo.get(bar).value / total;
 	}
 	
 	public void render() {
 		int num = 0;
 		
-		for(String bar : bars.keySet()) {
-			UIBarGraphBar thebar = bars.get(bar);
+		//RenderHelper.renderBox(x, y, width, height);
+		
+		for(String bar : bars) {
+			UIBarGraphBar thebar = barInfo.get(bar);
 			
 			thebar.color.use();
 			float i = (width / bars.size());
-			RenderHelper.renderBox(x + i * num + i / 2 - 8, y + height - thebar.percent * height, 15, thebar.percent * height);
+			RenderHelper.renderBox(x + i * num + 2, y, i - 4, thebar.percent * height);
 			
 			num++;
 		}
+	}
+	
+	public UIBarGraph setBounds(float x, float y, float width, float height) {
+		return (UIBarGraph)super.setBounds(x, y, width, height);
+	}
+	
+
+	public UIBarGraphBar addBar(String name, MayaColor color) {
+		return addBar(name, color, 0);
+	}
+	
+	public UIBarGraphBar addBar(String name, MayaColor color, float value) {
+		UIBarGraphBar bar = new UIBarGraphBar(name, color);
+		bar.value = value;
+		barInfo.put(name, bar);
+		bars.add(name);
+		return bar;
+	}
+	
+	public void removeBar(String name) {
+		barInfo.remove(name);
+		bars.remove(name);
+	}
+
+	public void updateBar(String name, float value) {
+		barInfo.get(name).value = value;
 	}
 }

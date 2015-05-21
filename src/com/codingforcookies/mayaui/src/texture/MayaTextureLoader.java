@@ -14,9 +14,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public class MayaTextureLoader {
-	public static HashMap<String, MayaTexture> textures = new HashMap<String, MayaTexture>();
+	public static HashMap<String, MTexture> textures = new HashMap<String, MTexture>();
 	
-	public static MayaTexture getTexture(String texture) {
+	public static MTexture getTexture(String texture) {
 		return textures.get(texture);
 	}
 	
@@ -33,7 +33,7 @@ public class MayaTextureLoader {
 			return;
 		}
 		
-		textures.put(name, new MayaTexture(loadTexture(texture)));
+		textures.put(name, new MTexture(loadTexture(texture)));
 	}
 
 	private static final int BYTES_PER_PIXEL = 4;

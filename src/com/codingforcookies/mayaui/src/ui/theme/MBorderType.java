@@ -1,6 +1,6 @@
 package com.codingforcookies.mayaui.src.ui.theme;
 
-enum MayaBorderType {
+enum MBorderType {
 	INNER,
 	OUTER;
 }

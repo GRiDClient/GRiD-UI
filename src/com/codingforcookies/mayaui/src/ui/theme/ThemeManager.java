@@ -26,7 +26,11 @@ public class ThemeManager {
 			currentTheme = processTheme(availableThemes.get(name));
 			if(currentTheme != null) {
 				System.out.println("Applied theme '" + name + "'");
-				MayaColor.GLOBAL_TEXT = currentTheme.get("global").get("color", new MayaColor(), MayaColor.WHITE);
+				MayaColor.GLOBAL_TEXT = currentTheme.getClass("global").get("color", new MayaColor(), MayaColor.WHITE);
+				MayaColor.GLOBAL_BACKGROUND = currentTheme.getClass("global").get("background-color", new MayaColor(), MayaColor.BLUE);
+				
+				//currentTheme.output();
+				
 				return true;
 			}
 		}
@@ -87,14 +91,13 @@ public class ThemeManager {
 					if(!key.equals(returnkey[0]))
 						continue;
 				
-				KeyType type = KeyType.parse(key);
 				String[] split = m.group(2).split("\n");
 				
 				for(String line : split) {
 					if(line.startsWith("#"))
 						continue;
-					if(line.contains("=")) {
-						String[] set = line.split("=");
+					if(key.equals("vars")) {
+						String[] set = line.split(":");
 						set[0] = set[0].trim();
 						set[1] = set[1].trim();
 						
@@ -115,9 +118,8 @@ public class ThemeManager {
 						if(returnkey != null) {
 							if(returnkey[1].equals(set[0]))
 								return set[1];
-						}else{
-							theme.set(type, key, set[0], set[1]);
-						}
+						}else
+							theme.set(key, set[0], set[1]);
 					}
 				}
 			}

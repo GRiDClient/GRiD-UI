@@ -7,6 +7,15 @@ import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 public class MayaFontRenderer {
 	private static final double TEXTURE_WIDTH = 256;
 	public static final int CHAR_FILE_WIDTH = 16;
+	
+	public static final int CHAR_WIDTH = 8;
+	public static final int CHAR_WIDTH_HALF = CHAR_WIDTH / 2;
+	public static final int CHAR_SPACING = -2;
+	
+	public static int getStringWidth(String str) {
+		return str.length() * (CHAR_WIDTH + CHAR_SPACING);
+	}
+	
 	private static final String chars =
 			"                " +
 					"                " +
@@ -26,10 +35,10 @@ public class MayaFontRenderer {
 					"" +
 					"";
 
-	public static MayaTexture font;
+	public static MTexture font;
 
 	public static void draw(String string, float x, float y) {
-		draw(string, x, y, MayaColor.GLOBAL_TEXT, 8);
+		draw(string, x, y, MayaColor.GLOBAL_TEXT, CHAR_WIDTH);
 	}
 
 	public static void draw(String string, float x, float y, int size) {
@@ -37,7 +46,7 @@ public class MayaFontRenderer {
 	}
 
 	public static void draw(String string, float x, float y, MayaColor color) {
-		draw(string, x, y, color, 8);
+		draw(string, x, y, color, CHAR_WIDTH);
 	}
 	
 	public static void draw(String string, float x, float y, MayaColor color, int size) {
@@ -62,7 +71,7 @@ public class MayaFontRenderer {
 
 				int xx = (ch % 16) * CHAR_FILE_WIDTH;
 				int yy = (ch / 16) * CHAR_FILE_WIDTH;
-				float xd = x + i * (size - 2);
+				float xd = x + i * (size + CHAR_SPACING);
 
 				GL11.glBegin(GL11.GL_QUADS);
 				{

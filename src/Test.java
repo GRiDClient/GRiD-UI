@@ -1,3 +1,7 @@
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
@@ -5,11 +9,15 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.MayaUI;
-import com.codingforcookies.mayaui.src.ui.MayaWindow;
-import com.codingforcookies.mayaui.src.ui.MayaWindowPanel;
+import com.codingforcookies.mayaui.src.ui.MWindow;
+import com.codingforcookies.mayaui.src.ui.MWindowPanel;
 import com.codingforcookies.mayaui.src.ui.UIManager;
+import com.codingforcookies.mayaui.src.ui.theme.MAlign;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIBarGraph;
+import com.codingforcookies.mayaui.src.ui.theme.components.UIBox;
+import com.codingforcookies.mayaui.src.ui.theme.components.UILabel;
+import com.codingforcookies.mayaui.src.ui.theme.components.UISeparator;
 
 public class Test {
 	public static void main(String[] args) {
@@ -79,46 +87,81 @@ public class Test {
 	
 	public UIManager uimanager = new UIManager();
 	
-	private UIBarGraph performancechart;
+	private UIBarGraph perfChart;
+	private UILabel perfTime;
+
+	private List<Float> updateTimes = new ArrayList<Float>();
+	private List<Float> renderTimes = new ArrayList<Float>();
+	
 	public void init() {
 		MayaUI.SCREEN_WIDTH = Display.getWidth();
 		MayaUI.SCREEN_HEIGHT = Display.getHeight();
 		
-		uimanager.newWindow(new MayaWindow(uimanager, "Test Window", 10, 10, 300, 200));
+		uimanager.newWindow(new MWindow(uimanager, "Test Window", 10, 35, 300, 200));
 		
-		uimanager.newWindow(new MayaWindow(uimanager, "Test Window", 320, 10, 470, 200));
+		uimanager.newWindow(new MWindow(uimanager, "Test Window", 320, 35, 470, 200));
 		
-		uimanager.newWindow(new MayaWindowPanel(uimanager, Display.getWidth() - 210, Display.getHeight() - 210, 200, 200) {
+		uimanager.newWindow(new MWindowPanel(uimanager, "Performance Monitor", Display.getWidth() - 310, Display.getHeight() - 210, 300, 200) {
 			public void init() {
 				super.init();
+				UILabel perfLabel = new UILabel("Performance Monitor", MAlign.CENTER).setBounds(5, 5, 185, 10);
+				addComponent(perfLabel);
 				
-				performancechart = new UIBarGraph(Display.getWidth() - 202, Display.getHeight() - 202, 180, 185);
-				addComponent(performancechart);
+				perfChart = new UIBarGraph().setBounds(5, 17, 185, 173);
+				addComponent(perfChart);
+				
+				MayaColor perfUpdateColor = new MayaColor("#DDAF08").darker();
+				MayaColor perfRenderColor = new MayaColor("#2676AB").darker();
+
+				addComponent(new UISeparator().setBounds(198, 20, 0, 180));
+				
+				addComponent(new UIBox(perfUpdateColor).setBounds(210, 20, 10, 10));
+				addComponent(new UIBox(perfRenderColor).setBounds(210, 35, 10, 10));
+				
+				addComponent(new UILabel("Update").setBounds(230, 20, 60, 10).setColor(perfUpdateColor));
+				addComponent(new UILabel("Render").setBounds(230, 35, 60, 10).setColor(perfRenderColor));
+				
+				perfTime = new UILabel("0.0s", MAlign.RIGHT).setBounds(210, 180, 80, 10);
+				addComponent(perfTime);
 			}
 		});
-
-		performancechart.addBar("update", new MayaColor().random());
-		performancechart.addBar("render", new MayaColor().random());
-		performancechart.addBar("hyrtj", new MayaColor().random(), 37);
-		performancechart.addBar("hyet", new MayaColor().random(), 23);
-		performancechart.addBar("hrehtre", new MayaColor().random(), 13);
-		performancechart.addBar("xcfgjtu", new MayaColor().random(), 50);
-		performancechart.addBar("grehtr", new MayaColor().random(), 0);
-		performancechart.addBar("kjur", new MayaColor().random(), 8);
-		performancechart.addBar("jyrtjtyr", new MayaColor().random(), 64);
-		performancechart.addBar("loikuyjh", new MayaColor().random(), 100);
+		
+		perfChart.addBar("update", new MayaColor("#DDAF08"));
+		perfChart.addBar("render", new MayaColor("#2676AB"));
 	}
 	
 	public void update(int delta) {
-		long start = System.currentTimeMillis() - 50;
+		long start = System.nanoTime();
 		
 		uimanager.doUpdateUI();
 		
-		performancechart.updateBar("update", (int)(System.currentTimeMillis() - start) + 2);
+		updateTimes.add(0, (float)(System.nanoTime() - start));
+		
+		while(updateTimes.size() > 500)
+			updateTimes.remove(updateTimes.size() - 1);
+		while(renderTimes.size() > 500)
+			renderTimes.remove(renderTimes.size() - 1);
+		
+		float updateAvg = average(updateTimes) / 1000000000F;
+		float renderAvg = average(renderTimes) / 1000000000F;
+		
+		perfChart.updateBar("update", updateAvg);
+		perfChart.updateBar("render", renderAvg);
+		
+		perfTime.setText(new DecimalFormat("#.0000000000").format((updateAvg + renderAvg) / 2) + "s");
+	}
+	
+	public float average(List<Float> list) {
+		float avg = 0F;
+		
+		for(Float flo : list)
+			avg += flo;
+		
+		return avg / list.size();
 	}
 	
 	public void render() {
-		long start = System.currentTimeMillis() - 100;
+		long start = System.nanoTime();
 		
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		
@@ -135,6 +178,6 @@ public class Test {
 	    
 		uimanager.doRenderUI();
 		
-		performancechart.updateBar("render", (int)(System.currentTimeMillis() - start) + 5);
+		renderTimes.add(0, (float)(System.nanoTime() - start));
 	}
 }

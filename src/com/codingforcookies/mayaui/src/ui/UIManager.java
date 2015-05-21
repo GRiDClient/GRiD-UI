@@ -54,24 +54,24 @@ public class UIManager {
 		}
 	}
 
-	public void newWindow(MayaWindowPanel mayaWindow) {
+	public void newWindow(MWindowPanel mayaWindow) {
 		newWindow(MayaPriority.NORMAL, 0, mayaWindow);
 	}
 
-	public void newWindow(int zindex, MayaWindowPanel mayaWindow) {
+	public void newWindow(int zindex, MWindowPanel mayaWindow) {
 		newWindow(MayaPriority.NORMAL, zindex, mayaWindow);
 	}
 
-	public void newWindow(MayaPriority priority, MayaWindowPanel mayaWindow) {
+	public void newWindow(MayaPriority priority, MWindowPanel mayaWindow) {
 		newWindow(priority, 0, mayaWindow);
 	}
 	
-	public void newWindow(MayaPriority priority, int zindex, MayaWindowPanel mayaWindow) {
+	public void newWindow(MayaPriority priority, int zindex, MWindowPanel mayaWindow) {
 		newRender(zindex, mayaWindow);
 		newUpdate(priority, mayaWindow);
 	}
 	
-	public void bringWindow(MayaWindow mayaWindow) {
+	public void bringWindow(MWindow mayaWindow) {
 		for(int i = 0; i < renders.size(); i++)
 			if(renders.get(i) == mayaWindow) {
 				renders.add(renders.get(i));
