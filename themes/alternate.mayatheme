@@ -1,8 +1,0 @@
-info {
-	name: Alternate Theme
-	creator: Stumblinbear
-}
-
-.button {
-	color: #FF1919
-}

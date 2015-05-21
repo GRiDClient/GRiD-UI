@@ -18,10 +18,10 @@ public class UIClass {
 			if(value instanceof String) {
 				value = MayaUI.parseConfigValue(value.toString());
 				
-				if(name.equals("color")) {
+				if(name.contains("color")) {
 					((MayaColor)value).setAlpha(get("opacity", new Float(0F), 1F));
 				}else if(name.equals("opacity")) {
-					MayaColor color = get("color", new MayaColor(), new MayaColor());
+					MayaColor color = get("background-color", new MayaColor(), new MayaColor());
 					color.setAlpha(Float.parseFloat(value.toString()));
 				}else if(name.startsWith("border")) {
 					value = new MayaBorder(name, value.toString());
@@ -42,8 +42,11 @@ public class UIClass {
 
 	@SuppressWarnings("unchecked")
 	public <T> T get(String name, T returntype, T defaultValue) {
-		if(!values.containsKey(name))
+		if(!values.containsKey(name)) {
+			if(ThemeManager.getTheme() != null && ThemeManager.getTheme().get("global").has(name))
+				return ThemeManager.getTheme().get("global").get(name, returntype, defaultValue);
 			return defaultValue;
+		}
 		return (T)values.get(name);
 	}
 	

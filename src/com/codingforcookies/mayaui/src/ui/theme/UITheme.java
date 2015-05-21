@@ -13,6 +13,8 @@ public class UITheme {
 	public UITheme() {
 		basics = new HashMap<String, UIClass>();
 		classes = new HashMap<String, UIClass>();
+		
+		basics.put("global", new UIClass("global"));
 	}
 	
 	public void unload() {

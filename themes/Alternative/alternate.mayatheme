@@ -1,22 +1,24 @@
 info {
-	name: Maya Theme
+	name: Alternative Theme
 	creator: Stumblinbear
 }
 
 vars {
-	maincolor = #FF1919
+	maincolor = #E8532D
 }
 
 window {
-	color: #FFF
+	background-color: #FFF
 	opacity: 90%
 	border-bottom: inner 5px #777
 }
 
 window .title {
 	height: 25px
-	color: [maincolor]
-	border-bottom: inner 5px #FF3B3B
+	
+	color: #FFF
+	background-color: [maincolor]
+	border-bottom: inner 5px #BC4424
 }
 
 button {

@@ -3,13 +3,14 @@ package com.codingforcookies.mayaui.src.ui;
 import org.lwjgl.input.Mouse;
 
 import com.codingforcookies.mayaui.src.MayaUI;
+import com.codingforcookies.mayaui.src.texture.MayaFontRenderer;
+import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
 import com.codingforcookies.mayaui.src.ui.theme.UITheme;
 
-public class MayaWindow extends MayaUpdate implements MayaRender {
+public class MayaWindow extends MayaWindowPanel {
 	public String title = "";
 	public float titleHeight = 0;
-	public float x, y, width, height;
 	
 	/**
 	 * 0 = not grabbed
@@ -19,14 +20,15 @@ public class MayaWindow extends MayaUpdate implements MayaRender {
 	public int grabbed = 0;
 	public float grabbedX, grabbedY;
 	
-	public MayaWindow(float x, float y, float width, float height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+	public MayaWindow(UIManager uimanager, String title, float x, float y, float width, float height) {
+		super(uimanager, x, y, width, height);
+		
+		this.title = title;
 	}
 	
 	public void update() {
+		super.update();
+		
 		if(Mouse.isButtonDown(0)) {
 			if(grabbed == 0) {
 				grabbedX = Mouse.getX();
@@ -37,6 +39,8 @@ public class MayaWindow extends MayaUpdate implements MayaRender {
 					grabbed = 1;
 					grabbedX -= x;
 					grabbedY -= y;
+					
+					uimanager.bringWindow(this);
 				}else
 					grabbed = 2;
 			}
@@ -59,5 +63,9 @@ public class MayaWindow extends MayaUpdate implements MayaRender {
 	    
 	    /* DRAW WINDOW TITLE */
 	    RenderHelper.renderWithTheme(theme, "window .title", x, y, width);
+	    
+	    MayaFontRenderer.draw(title, x + 4, MayaUI.SCREEN_HEIGHT - y - titleHeight / 2 + 5, theme.get("window .title").get("color", new MayaColor(), MayaColor.WHITE));
+	    
+	    super.drawComponents(titleHeight);
 	}
 }

@@ -1,14 +1,24 @@
 package com.codingforcookies.mayaui.src.ui.theme;
 
+import java.util.Random;
+
 import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.exceptions.MayaException;
 import com.codingforcookies.mayaui.src.exceptions.ThemeInvalidException;
 
 public class MayaColor {
+	public static final MayaColor WHITE = new MayaColor(1F, 1F, 1F);
+	public static MayaColor GLOBAL_TEXT = WHITE;
+	
 	private float r, g, b, a;
 
 	public MayaColor() { }
+	
+	public MayaColor random() {
+		Random rand = new Random();
+		return new MayaColor(rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), 1F);
+	}
 
 	public MayaColor(float r, float g, float b) {
 		this.r = r;

@@ -15,7 +15,7 @@ public class RenderHelper {
 	 */
 	public static void renderWithTheme(UITheme theme, String type, float x, float y, float width, float height) {
 		UIClass themeclass = theme.get(type);
-		MayaColor color = themeclass.get("color", new MayaColor());
+		MayaColor color = themeclass.get("background-color", new MayaColor());
 		color.use();
 	    
 		if(color.getAlpha() != 1F) {

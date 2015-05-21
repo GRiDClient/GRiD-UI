@@ -10,8 +10,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.codingforcookies.mayaui.src.exceptions.MayaException;
 import com.codingforcookies.mayaui.src.exceptions.ThemeInvalidException;
+import com.codingforcookies.mayaui.src.texture.MayaFontRenderer;
+import com.codingforcookies.mayaui.src.texture.MayaTextureLoader;
 
 public class ThemeManager {
 	private static HashMap<String, File> availableThemes;
@@ -25,6 +26,7 @@ public class ThemeManager {
 			currentTheme = processTheme(availableThemes.get(name));
 			if(currentTheme != null) {
 				System.out.println("Applied theme '" + name + "'");
+				MayaColor.GLOBAL_TEXT = currentTheme.get("global").get("color", new MayaColor(), MayaColor.WHITE);
 				return true;
 			}
 		}
@@ -39,18 +41,20 @@ public class ThemeManager {
 	public static void loadThemes() {
 		availableThemes = new HashMap<String, File>();
 		
-		for(File file : themeLocation.listFiles()) {
-			String themename = isTheme(file);
-			if(themename != null)
-				availableThemes.put(themename, file);
+		for(File folder : themeLocation.listFiles()) {
+			if(folder.isDirectory()) {
+				for(File file : folder.listFiles()) {
+					String themename = isTheme(file);
+					if(themename != null)
+						availableThemes.put(themename, file);
+				}
+			}
 		}
 	}
 
 	private static String isTheme(File file) {
-		if(!file.getName().endsWith(".mayatheme")) {
-			MayaException.throwNonClosing(new ThemeInvalidException("Invalid Theme file: " + file.getName()));
+		if(!file.getName().endsWith(".mayatheme"))
 			return null;
-		}
 		
 		return processThemeForName(file);
 	}
@@ -120,6 +124,11 @@ public class ThemeManager {
 			
 			if(returnkey != null)
 				return null;
+			
+			File fontFile = new File(file.getParentFile(), "font.png");
+			System.out.println("  Loading font...");
+			MayaTextureLoader.loadFile("font", fontFile);
+			MayaFontRenderer.font = MayaTextureLoader.getTexture("font");
 			
 			if(theme.name == null)
 				throw new ThemeInvalidException("Invalid Theme: " + file.getName());
