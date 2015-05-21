@@ -20,15 +20,14 @@ public class UITheme {
 		classes.clear();
 	}
 	
-	public UIClass getBasic(String key) {
-		if(basics.containsKey(key))
-			return basics.get(key);
-		return null;
-	}
-	
-	public UIClass getClass(String key) {
-		if(classes.containsKey(key))
-			return classes.get(key);
+	public UIClass get(String key) {
+		if(!key.startsWith(".")) {
+			if(basics.containsKey(key))
+				return basics.get(key);
+		}else{
+			if(classes.containsKey(key))
+				return classes.get(key);
+		}
 		return null;
 	}
 	
@@ -38,12 +37,12 @@ public class UITheme {
 		switch(type) {
 			case BASIC:
 				if(!basics.containsKey(key))
-					basics.put(key, new UIClass());
+					basics.put(key, new UIClass(key));
 				uiclass = basics.get(key);
 				break;
 			case CLASS:
 				if(!classes.containsKey(key))
-					classes.put(key, new UIClass());
+					classes.put(key, new UIClass(key));
 				uiclass = classes.get(key);
 				break;
 			default:

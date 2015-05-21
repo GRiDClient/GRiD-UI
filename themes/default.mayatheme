@@ -3,6 +3,22 @@ info {
 	creator: Stumblinbear
 }
 
-.button {
-	color: #FF1919
+vars {
+	maincolor = #FF1919
+}
+
+window {
+	color: #FFF
+	opacity: 90%
+	border-bottom: inner 5px #777
+}
+
+window .title {
+	height: 25px
+	color: [maincolor]
+	border-bottom: inner 5px #FF3B3B
+}
+
+button {
+	color: [maincolor]
 }

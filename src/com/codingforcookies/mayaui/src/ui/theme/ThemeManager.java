@@ -73,6 +73,8 @@ public class ThemeManager {
 			if(returnkey == null)
 				theme = new UITheme();
 			
+			HashMap<String, String> themevars = new HashMap<String, String>();
+			
 			Matcher m = Pattern.compile(themePattern).matcher(content);
 			while(m.find()) {
 				String key = m.group(1).trim();
@@ -85,15 +87,33 @@ public class ThemeManager {
 				String[] split = m.group(2).split("\n");
 				
 				for(String line : split) {
-					String[] set = line.split(":");
-					set[0] = set[0].trim();
-					set[1] = set[1].trim();
-					
-					if(returnkey != null) {
-						if(returnkey[1].equals(set[0]))
-							return set[1];
+					if(line.startsWith("#"))
+						continue;
+					if(line.contains("=")) {
+						String[] set = line.split("=");
+						set[0] = set[0].trim();
+						set[1] = set[1].trim();
+						
+						themevars.put(set[0], set[1]);
 					}else{
-						theme.set(type, key, set[0], set[1]);
+						String[] set = line.split(":");
+						set[0] = set[0].trim();
+						set[1] = set[1].trim();
+						
+						while(set[1].contains("[") && set[1].contains("]")) {
+							String varkey = set[1].substring(set[1].indexOf("[") + 1, set[1].indexOf("]"));
+							if(themevars.containsKey(varkey))
+								set[1] = set[1].replace("[" + varkey + "]", themevars.get(varkey));
+							else
+								throw new ThemeInvalidException("Variable " + varkey + " does not exist");
+						}
+						
+						if(returnkey != null) {
+							if(returnkey[1].equals(set[0]))
+								return set[1];
+						}else{
+							theme.set(type, key, set[0], set[1]);
+						}
 					}
 				}
 			}

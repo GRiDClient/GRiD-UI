@@ -2,18 +2,37 @@ package com.codingforcookies.mayaui.src.ui.theme;
 
 import java.util.HashMap;
 
-class UIClass {
+import com.codingforcookies.mayaui.src.MayaUI;
+
+public class UIClass {
 	public String name;
 	private HashMap<String, Object> values;
-	
-	protected UIClass() {
+
+	protected UIClass(String name) {
+		this.name = name;
 		values = new HashMap<String, Object>();
 	}
-	
+
 	public void set(String name, Object value) {
-		values.put(name, value);
+		try {
+			if(value instanceof String) {
+				value = MayaUI.parseConfigValue(value.toString());
+				
+				if(name.equals("color")) {
+					((MayaColor)value).setAlpha(get("opacity", new Float(0F), 1F));
+				}else if(name.equals("opacity")) {
+					MayaColor color = get("color", new MayaColor(), new MayaColor());
+					color.setAlpha(Float.parseFloat(value.toString()));
+				}else if(name.startsWith("border")) {
+					value = new MayaBorder(name, value.toString());
+					name = "border";
+				}
+			}
+
+			values.put(name, value);
+		} catch(Exception e) { e.printStackTrace(); }
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <T> T get(String name, T returntype) {
 		if(!values.containsKey(name))
@@ -26,5 +45,13 @@ class UIClass {
 		if(!values.containsKey(name))
 			return defaultValue;
 		return (T)values.get(name);
+	}
+	
+	public Class<?> type(String name) {
+		return values.get(name).getClass();
+	}
+	
+	public boolean has(String name) {
+		return values.containsKey(name);
 	}
 }
