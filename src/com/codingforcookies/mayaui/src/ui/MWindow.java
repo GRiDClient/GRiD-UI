@@ -3,6 +3,7 @@ package com.codingforcookies.mayaui.src.ui;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.texture.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
@@ -24,8 +25,8 @@ public class MWindow extends MWindowPanel {
 	public int grabbed = 0;
 	public float grabbedX, grabbedY;
 	
-	public MWindow(UIManager uimanager, String title, float x, float y, float width, float height) {
-		super(uimanager, title, x, y, width, height);
+	public MWindow(String title, float x, float y, float width, float height) {
+		super(title, x, y, width, height);
 	}
 	
 	public void update() {
@@ -42,7 +43,7 @@ public class MWindow extends MWindowPanel {
 					grabbedX -= x;
 					grabbedY -= y;
 					
-					uimanager.bringWindow(this);
+					MayaUI.getUIManager().bringWindow(this);
 				}else
 					grabbed = 2;
 			}

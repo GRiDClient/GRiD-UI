@@ -65,7 +65,7 @@ public class Test {
 			
 		    Display.update();
 		}
-	 
+		
 		Display.destroy();
 	}
 	
@@ -91,7 +91,7 @@ public class Test {
         fps++;
     }
 	
-	public UIManager uimanager = new UIManager();
+	private UIManager uimanager;
 	
 	private UIBarGraph perfChart;
 	private UILabel perfTime;
@@ -103,10 +103,10 @@ public class Test {
 		MayaUI.SCREEN_WIDTH = Display.getWidth();
 		MayaUI.SCREEN_HEIGHT = Display.getHeight();
 		
+		uimanager = MayaUI.getUIManager();
+		
 		uimanager.createWindow(new MWindow(uimanager, "Test Window", 10, 40, 300, 200));
-		
 		uimanager.createWindow(new MWindow(uimanager, "Test Window", 320, 40, 470, 200));
-		
 		uimanager.createWindow(new MWindowPanel(uimanager, "Performance Monitor", Display.getWidth() - 310, Display.getHeight() - 210, 300, 200) {
 			public void init() {
 				super.init();

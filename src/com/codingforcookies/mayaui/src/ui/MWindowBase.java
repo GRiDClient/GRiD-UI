@@ -12,12 +12,7 @@ import com.codingforcookies.mayaui.src.ui.theme.components.UIComponent;
  * Base class for Maya UI windows and panels.
  * @author Stumblinbear
  */
-public class MWindowBase extends MayaUpdate implements MayaRender {
-	/**
-	 * The parent UI Manager
-	 */
-	protected UIManager uimanager;
-	
+public class MWindowBase extends MayaRender {
 	public float x, y, width, height;
 	
 	/**
@@ -25,7 +20,7 @@ public class MWindowBase extends MayaUpdate implements MayaRender {
 	 */
 	private List<UIComponent> components;
 	
-	public MWindowBase(UIManager uimanager, float x, float y, float width, float height) {
+	public MWindowBase(float x, float y, float width, float height) {
 		this.x = x;
 		this.y = MayaUI.SCREEN_HEIGHT - y;
 		this.width = width;

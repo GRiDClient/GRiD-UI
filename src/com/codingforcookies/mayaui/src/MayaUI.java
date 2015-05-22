@@ -1,7 +1,8 @@
 package com.codingforcookies.mayaui.src;
 
-import javax.swing.UIManager;
-
+import com.codingforcookies.mayaui.src.notification.MNotification;
+import com.codingforcookies.mayaui.src.notification.MNotificationType;
+import com.codingforcookies.mayaui.src.ui.UIManager;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
 
@@ -17,6 +18,11 @@ public class MayaUI {
 	public static int SCREEN_WIDTH = 0;
 	public static int SCREEN_HEIGHT = 0;
 	
+	public static UIManager uimanager;
+	public static UIManager getUIManager() {
+		return uimanager;
+	}
+	
 	/**
 	 * Currently only loads all themes available under /themes/
 	 */
@@ -27,14 +33,10 @@ public class MayaUI {
 			System.err.println("Failed to load default theme");
 			return;
 		}
-	}
-	
-	/**
-	 * Create a new UI Manager
-	 */
-	public static UIManager createUIManager() {
-		UIManager uimanager = new UIManager();
-		return uimanager;
+		
+		System.out.println("Initializing UIManager...");
+		uimanager = new UIManager();
+		System.out.println("  Done");
 	}
 	
 	/**
@@ -51,5 +53,19 @@ public class MayaUI {
 			return new MayaColor(str);
 		}else
 			return str;
+	}
+	
+	/**
+	 * Push a notification to the screen.
+	 */
+	public static void addNotification(MNotificationType type, String message) {
+		new MNotification(type, message).push();
+	}
+
+	/**
+	 * Push a notification to the screen.
+	 */
+	public static void addNotification(MNotification mNotification) {
+		uimanager.newRender(mNotification);
 	}
 }

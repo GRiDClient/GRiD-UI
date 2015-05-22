@@ -16,8 +16,8 @@ public class MWindowPanel extends MWindowBase {
 	 */
 	public String title = "";
 	
-	public MWindowPanel(UIManager uimanager, String title, float x, float y, float width, float height) {
-		super(uimanager, x, y, width, height);
+	public MWindowPanel(String title, float x, float y, float width, float height) {
+		super(x, y, width, height);
 		this.title = title;
 	}
 	

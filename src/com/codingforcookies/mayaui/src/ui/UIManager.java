@@ -27,8 +27,12 @@ public class UIManager {
 	 * Do the render functions.
 	 */
 	public void doRenderUI() {
-		for(MayaRender render : renders)
-			render.render();
+		for(int i = 0; i < renders.size(); i++) {
+			if(renders.get(i).scheduledForDrop)
+				renders.remove(i);
+			else
+				renders.get(i).render();
+		}
 	}
 	
 	/**
@@ -52,10 +56,10 @@ public class UIManager {
 	}
 
 	/**
-	 * Add a new render to the list with an order index;
+	 * Add a new render to the list with an order index; 0 = top
 	 */
 	public void newRender(int zindex, MayaRender mayaRender) {
-		renders.add(zindex, mayaRender);
+		renders.add(renders.size() - zindex, mayaRender);
 	}
 
 	/**

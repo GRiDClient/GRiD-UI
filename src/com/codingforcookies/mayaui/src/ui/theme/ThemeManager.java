@@ -30,6 +30,7 @@ public class ThemeManager {
 	 */
 	public static boolean setTheme(String name) {
 		if(availableThemes.containsKey(name)) {
+			System.out.println("Loading theme '" + name + "'");
 			currentTheme = processTheme(availableThemes.get(name));
 			if(currentTheme != null) {
 				System.out.println("Applied theme '" + name + "'");
@@ -157,7 +158,7 @@ public class ThemeManager {
 			if(theme.name == null)
 				throw new ThemeInvalidException("Invalid Theme: " + file.getName());
 			else
-				System.out.println("Loaded theme '" + theme.name + "' from file '" + file.getName() + "'");
+				System.out.println("  Finished processing theme '" + theme.name + "' from file '" + file.getName() + "'");
 			
 			return theme;
 		} catch(Exception e) {

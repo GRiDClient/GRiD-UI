@@ -16,13 +16,13 @@ global {
 panel {
 	background-color: #FFF
 	opacity: 80%
-	border-bottom: inner 3px [brightermaincolor]
+	border-bottom: inner 3px solid [brightermaincolor]
 }
 
 window {
 	background-color: #FFF
 	opacity: 90%
-	border-bottom: outer 5px [brightermaincolor]
+	border-bottom: outer 5px solid [brightermaincolor]
 }
 
 window .title {
@@ -30,7 +30,7 @@ window .title {
 	
 	color: #FFF
 	background-color: [maincolor]
-	border-bottom: inner 5px [brightermaincolor]
+	border-bottom: inner 5px solid [brightermaincolor]
 }
 
 progressbar {
@@ -40,9 +40,23 @@ progressbar {
 
 progressbar .overlay {
 	background-color: #44EE44
-	border-bottom: outer 2px #77FF77
+	border-bottom: outer 2px solid #77FF77
 }
 
 label {
 	color: #000
+}
+
+notification {
+	background-color: #000
+	opacity: 50%
+	border-bottom: inner 3px solid #000
+}
+
+notification #warning {
+
+}
+
+notification #error {
+
 }
