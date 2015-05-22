@@ -1,10 +1,10 @@
 package com.codingforcookies.mayaui.src.ui.theme;
 
 /**
- * Enum for border type
+ * Enum for border location
  * @author Stumblinbear
  */
-enum MBorderType {
-	SOLID,
-	DASHED;
+enum MBorderLocation {
+	INNER,
+	OUTER;
 }

@@ -11,7 +11,7 @@ public class NotificationManager {
 	private static MWindowBase notificationRender;
 	private static List<MNotification> notifications = new ArrayList<MNotification>();
 
-	public void addNotification(MNotification mNotification) {
+	protected void addNotification(MNotification mNotification) {
 		if(notifications.size() == 0) {
 			notificationRender = new MWindowBase(0, 0, Display.getWidth(), Display.getHeight()) {
 				public void update() {

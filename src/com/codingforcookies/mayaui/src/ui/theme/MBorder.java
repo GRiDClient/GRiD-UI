@@ -40,11 +40,12 @@ public class MBorder implements Cloneable {
 	 */
 	private MBorderOptions createBorder(String side, String type) {
 		String[] options = type.split(" ");
-		MBorderType borderType = MBorderType.valueOf(options[0].toUpperCase());
+		MBorderLocation borderLocation = MBorderLocation.valueOf(options[0].toUpperCase());
 		float size = ((Integer)MayaUI.parseConfigValue(options[1])).floatValue();
-		MayaColor color = (MayaColor)MayaUI.parseConfigValue(options[2]);
+		MBorderType borderType = MBorderType.valueOf(options[2].toUpperCase());
+		MayaColor color = (MayaColor)MayaUI.parseConfigValue(options[3]);
 		
-		return new MBorderOptions(side, borderType, size, color);
+		return new MBorderOptions(side, borderLocation, size, borderType, color);
 	}
 	
 	/**
@@ -105,18 +106,20 @@ public class MBorder implements Cloneable {
  */
 class MBorderOptions {
 	public String side = "";
-	public MBorderType borderType;
+	public MBorderLocation borderLocation;
 	public float size;
+	public MBorderType borderType;
 	public MayaColor color;
 	
-	public MBorderOptions(String side, MBorderType borderType, float size, MayaColor color) {
+	public MBorderOptions(String side, MBorderLocation borderLocation, float size, MBorderType borderType, MayaColor color) {
 		this.side = side;
-		this.borderType = borderType;
+		this.borderLocation = borderLocation;
 		this.size = size;
+		this.borderType = borderType;
 		this.color = color;
 	}
 	
 	public String toString() {
-		return "border-" + side + "(" + borderType + "; " + size + "; " + color.toString() + ")";
+		return "border-" + side + "(" + borderLocation + "; " + size + "; " + borderType + "; " + color.toString() + ")";
 	}
 }

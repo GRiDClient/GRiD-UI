@@ -9,6 +9,8 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.MayaUI;
+import com.codingforcookies.mayaui.src.notification.MNotification;
+import com.codingforcookies.mayaui.src.notification.MNotificationType;
 import com.codingforcookies.mayaui.src.ui.MWindow;
 import com.codingforcookies.mayaui.src.ui.MWindowBase;
 import com.codingforcookies.mayaui.src.ui.MWindowPanel;
@@ -105,9 +107,9 @@ public class Test {
 		
 		uimanager = MayaUI.getUIManager();
 		
-		uimanager.createWindow(new MWindow(uimanager, "Test Window", 10, 40, 300, 200));
-		uimanager.createWindow(new MWindow(uimanager, "Test Window", 320, 40, 470, 200));
-		uimanager.createWindow(new MWindowPanel(uimanager, "Performance Monitor", Display.getWidth() - 310, Display.getHeight() - 210, 300, 200) {
+		uimanager.createWindow(new MWindow("Test Window", 10, 40, 300, 200));
+		uimanager.createWindow(new MWindow("Test Window", 320, 40, 470, 200));
+		uimanager.createWindow(new MWindowPanel("Performance Monitor", Display.getWidth() - 310, Display.getHeight() - 210, 300, 200) {
 			public void init() {
 				super.init();
 				UILabel perfLabel = new UILabel("Performance Monitor", MAlign.CENTER).setBounds(5, 5, 185, 10);
@@ -132,7 +134,7 @@ public class Test {
 			}
 		});
 		
-		uimanager.createWindow(new MWindowBase(uimanager, 0, 0, Display.getWidth(), 5) {
+		uimanager.createWindow(new MWindowBase(0, 0, Display.getWidth(), 5) {
 			UIProgressBar prgBar;
 			public void init() {
 				prgBar = new UIProgressBar().setBounds(0, 0, Display.getWidth(), 5);
@@ -149,6 +151,9 @@ public class Test {
 		
 		perfChart.addBar("update", new MayaColor("#DDAF08"));
 		perfChart.addBar("render", new MayaColor("#2676AB"));
+		
+		MayaUI.addNotification(MNotificationType.INFO, "Loading complete.");
+		new MNotification(MNotificationType.WARNING, "Notification pushed.").push();
 	}
 	
 	public void update(int delta) {
