@@ -28,9 +28,10 @@ public class UIManager {
 	 */
 	public void doRenderUI() {
 		for(int i = 0; i < renders.size(); i++) {
-			if(renders.get(i).scheduledForDrop)
+			if(renders.get(i).scheduledForDrop) {
 				renders.remove(i);
-			else
+				i--;
+			}else
 				renders.get(i).render();
 		}
 	}
@@ -42,10 +43,9 @@ public class UIManager {
 		int size = updates.size();
 		
 		for(int i = 0; i < size; i++) {
-			if(!updates.peek().scheduledForDrop) {
+			if(!updates.peek().scheduledForDrop)
 				updates.add(0, updates.peek());
-				updates.pop().update();
-			}
+			updates.pop().update();
 		}
 	}
 	

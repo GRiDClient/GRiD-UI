@@ -19,14 +19,12 @@ public class NotificationManager {
 						notifications.get(i).update();
 						if(notifications.get(i).scheduledForDrop) {
 							notifications.remove(i);
-							System.out.println("Dropped notification");
+							i--;
 						}
 					}
 					
-					if(notifications.size() == 0) {
+					if(notifications.size() == 0)
 						this.scheduledForDrop = true;
-						System.out.println("Dropped notification panel");
-					}
 				}
 				
 				public void render() {
