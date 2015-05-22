@@ -19,7 +19,7 @@ public class MNotification extends MayaRender {
 	}
 	
 	public void update() {
-		
+		this.scheduledForDrop = true;
 	}
 	
 	public void render() {

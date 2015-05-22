@@ -2,6 +2,7 @@ package com.codingforcookies.mayaui.src;
 
 import com.codingforcookies.mayaui.src.notification.MNotification;
 import com.codingforcookies.mayaui.src.notification.MNotificationType;
+import com.codingforcookies.mayaui.src.notification.NotificationManager;
 import com.codingforcookies.mayaui.src.ui.UIManager;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
@@ -66,6 +67,6 @@ public class MayaUI {
 	 * Push a notification to the screen.
 	 */
 	public static void addNotification(MNotification mNotification) {
-		uimanager.newRender(mNotification);
+		NotificationManager.addNotification(mNotification);
 	}
 }
