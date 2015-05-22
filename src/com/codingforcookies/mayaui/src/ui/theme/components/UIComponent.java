@@ -1,5 +1,6 @@
 package com.codingforcookies.mayaui.src.ui.theme.components;
 
+import com.codingforcookies.mayaui.src.ui.MayaRender;
 import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 
@@ -7,12 +8,7 @@ import com.codingforcookies.mayaui.src.ui.theme.UIClass;
  * Common class for all Maya UI Components.
  * @author Stumblinbear
  */
-public abstract class UIComponent {
-	/**
-	 * True if the component should be removed
-	 */
-	public boolean scheduledForDrop = false;
-	
+public abstract class UIComponent extends MayaRender {
 	/**
 	 * The theme class for the component.
 	 */
@@ -34,14 +30,4 @@ public abstract class UIComponent {
 		
 		return this;
 	}
-	
-	/**
-	 * Updates the component.
-	 */
-	public abstract void update();
-	
-	/**
-	 * Renders the component.
-	 */
-	public abstract void render();
 }
