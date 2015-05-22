@@ -9,6 +9,11 @@ import com.codingforcookies.mayaui.src.ui.theme.UIClass;
  */
 public abstract class UIComponent {
 	/**
+	 * True if the component should be removed
+	 */
+	public boolean scheduledForDrop = false;
+	
+	/**
 	 * The theme class for the component.
 	 */
 	protected UIClass uiclass;

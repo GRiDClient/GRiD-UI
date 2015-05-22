@@ -1,41 +1,31 @@
 package com.codingforcookies.mayaui.src.notification;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.lwjgl.opengl.Display;
 
 import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.ui.MWindowBase;
 
 public class NotificationManager {
-	private static List<MNotification> notifications = new ArrayList<MNotification>();
-
+	private static MWindowBase notificationWindow;
+	
 	public static void addNotification(MNotification mNotification) {
-		if(notifications.size() == 0) {
-			MayaUI.getUIManager().createWindow(new MWindowBase(0, 0, Display.getWidth(), Display.getHeight()) {
+		if(notificationWindow == null) {
+			new MWindowBase(0, 0, Display.getWidth(), Display.getHeight()) {
 				public void update() {
-					for(int i = 0; i < notifications.size(); i++) {
-						notifications.get(i).update();
-						if(notifications.get(i).scheduledForDrop) {
-							notifications.remove(i);
-							i--;
-						}
-					}
+					super.update();
 					
-					if(notifications.size() == 0)
+					if(components.size() == 0) {
 						this.scheduledForDrop = true;
+						notificationWindow = null;
+					}
 				}
-				
-				public void render() {
-					for(int i = 0; i < notifications.size(); i++)
-						notifications.get(i).render();
-				}
-			});
+			};
+			
+			MayaUI.getUIManager().createWindow(notificationWindow);
 			
 			System.out.println("Created notification panel");
 		}
 		
-		notifications.add(mNotification);
+		notificationWindow.addComponent(mNotification);
 	}
 }

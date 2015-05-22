@@ -18,7 +18,7 @@ public class MWindowBase extends MayaRender {
 	/**
 	 * A list of all the components in the window.
 	 */
-	private List<UIComponent> components;
+	protected List<UIComponent> components;
 	
 	public MWindowBase(float x, float y, float width, float height) {
 		this.x = x;
@@ -42,8 +42,13 @@ public class MWindowBase extends MayaRender {
 	 * Updates all components in the window.
 	 */
 	public void update() {
-		for(UIComponent component : components)
-			component.update();
+		for(int i = 0; i < components.size(); i++) {
+			components.get(i).update();
+			if(components.get(i).scheduledForDrop) {
+				components.remove(i);
+				i--;
+			}
+		}
 	}
 
 	/**
