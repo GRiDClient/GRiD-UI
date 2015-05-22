@@ -33,6 +33,16 @@ window .title {
 	border-bottom: inner 5px [brightermaincolor]
 }
 
+progressbar {
+	background-color: #777
+	border-bottom: outer 2px #999
+}
+
+progressbar .overlay {
+	background-color: #44EE44
+	border-bottom: outer 2px #77FF77
+}
+
 label {
 	color: #000
 }

@@ -9,6 +9,10 @@ import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 import com.codingforcookies.mayaui.src.ui.theme.UITheme;
 
+/**
+ * Maya UI Window. Same as Maya Panel, but includes a title bar.
+ * @author Stumblinbear
+ */
 public class MWindow extends MWindowPanel {
 	public float titleHeight = 0;
 	
@@ -64,11 +68,11 @@ public class MWindow extends MWindowPanel {
 		    
 		    /* DRAW WINDOW BODY */
 			GL11.glTranslatef(x, y, 0F);
-		    RenderHelper.renderWithTheme(theme, windowclass, width, height);
+		    RenderHelper.renderWithTheme(windowclass, width, height);
 		    
 		    /* DRAW WINDOW TITLE */
 			GL11.glTranslatef(0F, titleHeight, 0F);
-		    RenderHelper.renderWithTheme(theme, windowclass.getClass(".title"), width);
+		    RenderHelper.renderWithTheme(windowclass.getClass(".title"), width);
 		    
 		    MayaFontRenderer.draw(title, 6, -7, windowclass.getClass(".title").get("color", new MayaColor(), MayaColor.WHITE));
 		    

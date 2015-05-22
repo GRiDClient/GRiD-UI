@@ -3,6 +3,10 @@ package com.codingforcookies.mayaui.src.ui.theme;
 import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
 
+/**
+ * The Maya border class. Handles parsing, storage, and rendering of borders.
+ * @author Stumblinbear
+ */
 public class MBorder implements Cloneable {
 	public MBorderOptions top, right, bottom, left;
 	
@@ -31,6 +35,9 @@ public class MBorder implements Cloneable {
 			top = right = bottom = left = createBorder("all", type);
 	}
 	
+	/**
+	 * Create the new border option.
+	 */
 	private MBorderOptions createBorder(String side, String type) {
 		String[] options = type.split(" ");
 		MBorderType borderType = MBorderType.valueOf(options[0].toUpperCase());
@@ -39,7 +46,11 @@ public class MBorder implements Cloneable {
 		
 		return new MBorderOptions(side, borderType, size, color);
 	}
-
+	
+	/**
+	 * Render the border.
+	 * TODO: Add outer rendering.
+	 */
 	public void render(float width, float height) {
 		boolean istop = top != null;
 		boolean isbottom = bottom != null;
@@ -87,6 +98,11 @@ public class MBorder implements Cloneable {
 		return null;
 	}
 }
+
+/**
+ * Holds side render information.
+ * @author Stumblinbear
+ */
 class MBorderOptions {
 	public String side = "";
 	public MBorderType borderType;

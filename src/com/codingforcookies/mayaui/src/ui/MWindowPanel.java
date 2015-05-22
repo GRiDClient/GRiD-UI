@@ -1,45 +1,24 @@
 package com.codingforcookies.mayaui.src.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.lwjgl.opengl.GL11;
 
-import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 import com.codingforcookies.mayaui.src.ui.theme.UITheme;
-import com.codingforcookies.mayaui.src.ui.theme.components.UIComponent;
 
-public class MWindowPanel extends MayaUpdate implements MayaRender {
-	protected UIManager uimanager;
-	
+/**
+ * Maya UI Panel. A square box with no title bar.
+ * @author Stumblinbear
+ */
+public class MWindowPanel extends MWindowBase {
+	/**
+	 * The title of the window.
+	 */
 	public String title = "";
-	public float x, y, width, height;
-	
-	private List<UIComponent> components;
 	
 	public MWindowPanel(UIManager uimanager, String title, float x, float y, float width, float height) {
-		this.uimanager = uimanager;
-		
+		super(uimanager, x, y, width, height);
 		this.title = title;
-		this.x = x;
-		this.y = MayaUI.SCREEN_HEIGHT - y;
-		this.width = width;
-		this.height = height;
-		
-		components = new ArrayList<UIComponent>();
-		
-		init();
-	}
-	
-	public void init() {
-		
-	}
-	
-	public void update() {
-		for(UIComponent component : components)
-			component.update();
 	}
 	
 	public void render() {
@@ -52,19 +31,10 @@ public class MWindowPanel extends MayaUpdate implements MayaRender {
 				panelclass = panelclass.getClass("#" + title.toLowerCase().replace(" ", "_"));
 			
 		    /* DRAW WINDOW BODY */
-		    RenderHelper.renderWithTheme(theme, panelclass, width, height);
+		    RenderHelper.renderWithTheme(panelclass, width, height);
 		    
 			drawComponents();
 		}
 		GL11.glPopMatrix();
-	}
-	
-	public void addComponent(UIComponent component) {
-		components.add(component);
-	}
-
-	public void drawComponents() {
-		for(UIComponent component : components)
-			component.render();
 	}
 }

@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.ui.MWindow;
+import com.codingforcookies.mayaui.src.ui.MWindowBase;
 import com.codingforcookies.mayaui.src.ui.MWindowPanel;
 import com.codingforcookies.mayaui.src.ui.UIManager;
 import com.codingforcookies.mayaui.src.ui.theme.MAlign;
@@ -17,8 +18,13 @@ import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIBarGraph;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIBox;
 import com.codingforcookies.mayaui.src.ui.theme.components.UILabel;
+import com.codingforcookies.mayaui.src.ui.theme.components.UIProgressBar;
 import com.codingforcookies.mayaui.src.ui.theme.components.UISeparator;
 
+/**
+ * Simple testing program
+ * @author Stumblinbear
+ */
 public class Test {
 	public static void main(String[] args) {
 		System.out.println("Starting LWJGL " + Sys.getVersion() + "..");
@@ -97,11 +103,11 @@ public class Test {
 		MayaUI.SCREEN_WIDTH = Display.getWidth();
 		MayaUI.SCREEN_HEIGHT = Display.getHeight();
 		
-		uimanager.newWindow(new MWindow(uimanager, "Test Window", 10, 35, 300, 200));
+		uimanager.createWindow(new MWindow(uimanager, "Test Window", 10, 40, 300, 200));
 		
-		uimanager.newWindow(new MWindow(uimanager, "Test Window", 320, 35, 470, 200));
+		uimanager.createWindow(new MWindow(uimanager, "Test Window", 320, 40, 470, 200));
 		
-		uimanager.newWindow(new MWindowPanel(uimanager, "Performance Monitor", Display.getWidth() - 310, Display.getHeight() - 210, 300, 200) {
+		uimanager.createWindow(new MWindowPanel(uimanager, "Performance Monitor", Display.getWidth() - 310, Display.getHeight() - 210, 300, 200) {
 			public void init() {
 				super.init();
 				UILabel perfLabel = new UILabel("Performance Monitor", MAlign.CENTER).setBounds(5, 5, 185, 10);
@@ -123,6 +129,21 @@ public class Test {
 				
 				perfTime = new UILabel("0.0s", MAlign.RIGHT).setBounds(210, 180, 80, 10);
 				addComponent(perfTime);
+			}
+		});
+		
+		uimanager.createWindow(new MWindowBase(uimanager, 0, 0, Display.getWidth(), 5) {
+			UIProgressBar prgBar;
+			public void init() {
+				prgBar = new UIProgressBar().setBounds(0, 0, Display.getWidth(), 5);
+				addComponent(prgBar);
+			}
+			
+			public void update() {
+				prgBar.setProgress(prgBar.getProgress() + .0005F);
+				
+				if(prgBar.getProgress() >= 1F)
+					prgBar.setProgress(0);
 			}
 		});
 		

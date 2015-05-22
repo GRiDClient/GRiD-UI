@@ -4,6 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 
+/**
+ * Maya UI's custom font renderer. Much less bulky than Minecraft's built in font renderer.
+ * @author Stumblinbear
+ */
 public class MayaFontRenderer {
 	private static final double TEXTURE_WIDTH = 256;
 	public static final int CHAR_FILE_WIDTH = 16;
@@ -16,6 +20,9 @@ public class MayaFontRenderer {
 		return str.length() * (CHAR_WIDTH + CHAR_SPACING);
 	}
 	
+	/**
+	 * Character mappings 
+	 */
 	private static final String chars =
 			"                " +
 					"                " +
@@ -34,21 +41,36 @@ public class MayaFontRenderer {
 					"" +
 					"" +
 					"";
-
+	
+	/**
+	 * The font texture
+	 */
 	public static MTexture font;
-
+	
+	/**
+	 * Various draw functions
+	 */
 	public static void draw(String string, float x, float y) {
-		draw(string, x, y, MayaColor.GLOBAL_TEXT, CHAR_WIDTH);
+		draw(string, x, y, MayaColor.GLOBAL_COLOR, CHAR_WIDTH);
 	}
-
+	
+	/**
+	 * Various draw functions
+	 */
 	public static void draw(String string, float x, float y, int size) {
-		draw(string, x, y, MayaColor.GLOBAL_TEXT, size);
+		draw(string, x, y, MayaColor.GLOBAL_COLOR, size);
 	}
-
+	
+	/**
+	 * Various draw functions
+	 */
 	public static void draw(String string, float x, float y, MayaColor color) {
 		draw(string, x, y, color, CHAR_WIDTH);
 	}
 	
+	/**
+	 * Draw the text to the screen
+	 */
 	public static void draw(String string, float x, float y, MayaColor color, int size) {
 		GL11.glPushMatrix();
 		{

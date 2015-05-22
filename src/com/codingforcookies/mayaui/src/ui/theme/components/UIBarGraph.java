@@ -7,6 +7,10 @@ import java.util.List;
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 
+/**
+ * Maya UI bar graph component. Displays a bar graph in the window.
+ * @author Stumblinbear
+ */
 public class UIBarGraph extends UIComponent {
 	private HashMap<String, UIBarGraphBar> barInfo = new HashMap<String, UIBarGraphBar>();
 	private List<String> bars = new ArrayList<String>();
@@ -46,11 +50,16 @@ public class UIBarGraph extends UIComponent {
 		return (UIBarGraph)super.setBounds(x, y, width, height);
 	}
 	
-
+	/**
+	 * Add a bar to the graph.
+	 */
 	public UIBarGraphBar addBar(String name, MayaColor color) {
 		return addBar(name, color, 0);
 	}
 	
+	/**
+	 * Add a bar to the graph with a set value.
+	 */
 	public UIBarGraphBar addBar(String name, MayaColor color, float value) {
 		UIBarGraphBar bar = new UIBarGraphBar(name, color);
 		bar.value = value;
@@ -59,11 +68,17 @@ public class UIBarGraph extends UIComponent {
 		return bar;
 	}
 	
+	/**
+	 * Remove a bar from the graph.
+	 */
 	public void removeBar(String name) {
 		barInfo.remove(name);
 		bars.remove(name);
 	}
-
+	
+	/**
+	 * Change a bar's value.
+	 */
 	public void updateBar(String name, float value) {
 		barInfo.get(name).value = value;
 	}

@@ -7,6 +7,10 @@ import org.lwjgl.opengl.GL11;
 import com.codingforcookies.mayaui.src.exceptions.MayaException;
 import com.codingforcookies.mayaui.src.exceptions.ThemeInvalidException;
 
+/**
+ * Maya's implementation of color.
+ * @author Stumblinbear
+ */
 public class MayaColor implements Cloneable {
 	public static final MayaColor BLACK = new MayaColor(0F, 0F, 0F);
 	public static final MayaColor WHITE = new MayaColor(1F, 1F, 1F);
@@ -14,13 +18,16 @@ public class MayaColor implements Cloneable {
 	public static final MayaColor GREEN = new MayaColor(0F, 1F, 0F);
 	public static final MayaColor BLUE = new MayaColor(0F, 0F, 1F);
 
-	public static MayaColor GLOBAL_TEXT = BLACK;
+	public static MayaColor GLOBAL_COLOR = BLACK;
 	public static MayaColor GLOBAL_BACKGROUND = BLUE;
 	
 	private float r, g, b, a;
 
 	public MayaColor() { }
 	
+	/**
+	 * Generate a random color.
+	 */
 	public MayaColor random() {
 		Random rand = new Random();
 		return new MayaColor(rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), 1F);
@@ -38,15 +45,24 @@ public class MayaColor implements Cloneable {
 		this.b = b;
 		this.a = a;
 	}
-
+	
+	/**
+	 * Load a color from a hex color code.
+	 */
 	public MayaColor(String hex) {
 		setup(hex, 1F);
 	}
-
+	
+	/**
+	 * Load a color from a hex color code. Includes alpha.
+	 */
 	public MayaColor(String hex, float alpha) {
 		setup(hex, alpha);
 	}
-
+	
+	/**
+	 * Parse the hex string.
+	 */
 	private void setup(String hex, float alpha) {
 		if(hex.startsWith("#"))
 			hex = hex.substring(1);
@@ -71,11 +87,11 @@ public class MayaColor implements Cloneable {
 		if(a > 1F)
 			a = 1F;
 	}
-
+	
 	public void setAlpha(float alpha) {
 		a = alpha;
 	}
-
+	
 	public float getRed() {
 		return r;
 	}
@@ -92,20 +108,29 @@ public class MayaColor implements Cloneable {
 		return a;
 	}
 	
+	/**
+	 * Make the color brighter.
+	 */
 	public MayaColor lighter() {
 		r += .1F;
 		g += .1F;
 		b += .1F;
 		return this;
 	}
-	
+
+	/**
+	 * Make the color darker.
+	 */
 	public MayaColor darker() {
 		r -= .1F;
 		g -= .1F;
 		b -= .1F;
 		return this;
 	}
-
+	
+	/**
+	 * Bind the color to LWJGL.
+	 */
 	public void use() {
 		GL11.glColor4f(r, g, b, a);
 	}

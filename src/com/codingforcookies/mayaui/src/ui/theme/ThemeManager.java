@@ -14,6 +14,10 @@ import com.codingforcookies.mayaui.src.exceptions.ThemeInvalidException;
 import com.codingforcookies.mayaui.src.texture.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.texture.MayaTextureLoader;
 
+/**
+ * Manages all theme loading, parsing, and storage.
+ * @author Stumblinbear
+ */
 public class ThemeManager {
 	private static HashMap<String, File> availableThemes;
 	private static UITheme currentTheme;
@@ -21,12 +25,15 @@ public class ThemeManager {
 	public static Set<String> getThemes() { return availableThemes.keySet(); }
 	public static UITheme getTheme() { return currentTheme; }
 	
+	/**
+	 * Set the current theme. Theme must already be loaded!
+	 */
 	public static boolean setTheme(String name) {
 		if(availableThemes.containsKey(name)) {
 			currentTheme = processTheme(availableThemes.get(name));
 			if(currentTheme != null) {
 				System.out.println("Applied theme '" + name + "'");
-				MayaColor.GLOBAL_TEXT = currentTheme.getClass("global").get("color", new MayaColor(), MayaColor.WHITE);
+				MayaColor.GLOBAL_COLOR = currentTheme.getClass("global").get("color", new MayaColor(), MayaColor.WHITE);
 				MayaColor.GLOBAL_BACKGROUND = currentTheme.getClass("global").get("background-color", new MayaColor(), MayaColor.BLUE);
 				
 				//currentTheme.output();
@@ -41,7 +48,10 @@ public class ThemeManager {
 
 	private static final File themeLocation = new File("E:/Git/Maya Client/Maya-UI/themes");
 	private static final String themePattern = "([^{]+)\\s*\\{\\s*([^}]+)\\s*}";
-
+	
+	/**
+	 * Load the theme list from the theme directory. 
+	 */
 	public static void loadThemes() {
 		availableThemes = new HashMap<String, File>();
 		
@@ -55,7 +65,10 @@ public class ThemeManager {
 			}
 		}
 	}
-
+	
+	/**
+	 * If the file appears to be a theme file.
+	 */
 	private static String isTheme(File file) {
 		if(!file.getName().endsWith(".mayatheme"))
 			return null;
@@ -63,14 +76,23 @@ public class ThemeManager {
 		return processThemeForName(file);
 	}
 	
+	/**
+	 * Process the theme, but only retrieve the display name.
+	 */
 	private static String processThemeForName(File file) {
 		return (String)process(file, new String[] { "info", "name" });
 	}
-	
+
+	/**
+	 * Process the theme.
+	 */
 	private static UITheme processTheme(File file) {
 		return (UITheme)process(file, null);
 	}
 	
+	/**
+	 * Parse the theme file. Creates the theme, adds parents, children, and sets values.
+	 */
 	private static Object process(File file, String[] returnkey) {
 		try {
 			String content = getFileContents(file);
@@ -145,6 +167,9 @@ public class ThemeManager {
 		return null;
 	}
 
+	/**
+	 * Return a file as a string.
+	 */
 	private static String getFileContents(File file) {
 		try {
 			InputStream in = new FileInputStream(file);

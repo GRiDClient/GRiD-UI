@@ -13,13 +13,23 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+/**
+ * Maya's custom texture loader.
+ * @author Stumblinbear
+ */
 public class MayaTextureLoader {
 	public static HashMap<String, MTexture> textures = new HashMap<String, MTexture>();
 	
+	/**
+	 * Returns a loaded texture.
+	 */
 	public static MTexture getTexture(String texture) {
 		return textures.get(texture);
 	}
 	
+	/**
+	 * Load a texture from a file.
+	 */
 	public static void loadFile(String name, File file) {
 		BufferedImage texture;
 		try {
@@ -35,7 +45,11 @@ public class MayaTextureLoader {
 		
 		textures.put(name, new MTexture(loadTexture(texture)));
 	}
-
+	
+	/**
+	 * 3 = RGB<br />
+	 * 4 = RGBA
+	 */
 	private static final int BYTES_PER_PIXEL = 4;
 	private static int loadTexture(BufferedImage image) {
 		int[] pixels = new int[image.getWidth() * image.getHeight()];

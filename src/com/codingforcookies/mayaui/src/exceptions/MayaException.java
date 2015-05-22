@@ -1,5 +1,9 @@
 package com.codingforcookies.mayaui.src.exceptions;
 
+/**
+ * Maya UI's generated exceptions
+ * @author Stumblinbear
+ */
 @SuppressWarnings("serial")
 public class MayaException extends Exception {
 	public MayaException(String error) {
