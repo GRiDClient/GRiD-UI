@@ -9,6 +9,10 @@ public class MOptionInfo extends MOptionParser {
 	
 	public MOptionRuntime[] getRuntime() { return null; }
 	
+	public MOptionInfo getDefault() { return null; }
+	
+	public <T> T getValue(T type) { return null; }
+	
 	public MOptionParser parse(UITheme theme, String keyclass, String type, String value) {
 		switch(type) {
 			case "name":
@@ -24,8 +28,6 @@ public class MOptionInfo extends MOptionParser {
 		
 		return null;
 	}
-	
-	public <T> T getValue(T type) { return null; }
 	
 	public void run(MOptionRuntime runtime, float width, float height) { }
 }

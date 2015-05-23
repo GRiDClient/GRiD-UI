@@ -2,9 +2,7 @@ package com.codingforcookies.mayaui.src.ui.theme;
 
 import java.util.HashMap;
 
-import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionBgColor;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionParser;
-import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionFloat;
 
 /**
  * Themes are reminiscent of CSS in how they are loaded. This class holds all name, creator, description, and class information.
@@ -24,14 +22,6 @@ public class UITheme {
 		classes = new HashMap<String, UIClass>();
 		
 		classes.put("global", new UIClass(null, "global"));
-		setGlobal("width", "0", new MOptionFloat());
-		setGlobal("height", "0", new MOptionFloat());
-		setGlobal("background-color", "#FFF", new MOptionBgColor());
-		setGlobal("opacity", "100%", new MOptionBgColor());
-	}
-	
-	private void setGlobal(String key, String value, MOptionParser parser) {
-		classes.get("global").set(key, parser.parse(this, "global", key, value));
 	}
 	
 	/**
@@ -68,6 +58,14 @@ public class UITheme {
 	 * Set a value under a class.
 	 */
 	public void set(String key, String classname, MOptionParser parser) {
+		if(!classes.get("global").has(classname))
+			if(parser != null) {
+				if(classname.contains("opacity")) {
+					System.out.println(parser.clone().getDefault());
+				}
+				classes.get("global").set(classname, parser.clone().getDefault());
+			}
+		
 		getLowestClass(key).set(classname, parser);
 	}
 	

@@ -18,7 +18,7 @@ public class RenderHelper {
 	 * Various renderWithTheme functions.
 	 */
 	public static void renderWithTheme(UIClass uiclass, float width) {
-		renderWithTheme(uiclass, width, uiclass.get("height").getValue(new Float(0)));
+		renderWithTheme(uiclass, width, uiclass.get("height") != null ? uiclass.get("height").getValue(new Float(0)) : 0F);
 	}
 	
 	/**
@@ -27,12 +27,12 @@ public class RenderHelper {
 	 */
 	public static void renderWithTheme(UIClass uiclass, float width, float height, MayaColor color) {
 		uiclass.run(MOptionRuntime.PRERENDER, width, height);
-
+		
 		if(color != null)
 			color.use();
-
+		
 		renderBox(0, 0, width, height);
-
+		
 		uiclass.run(MOptionRuntime.POSTRENDER, width, height);
 	}
 
@@ -69,7 +69,7 @@ public class RenderHelper {
 		uiclass.run(MOptionRuntime.PRETEXT, width, MayaFontRenderer.CHAR_WIDTH);
 
 		if(hastextclass) {
-			uiclass.getClass("text").run(MOptionRuntime.PRERENDER, width, MayaFontRenderer.CHAR_WIDTH);
+			uiclass.getClass("text").runSingle(MOptionRuntime.PRERENDER, width, MayaFontRenderer.CHAR_WIDTH, null);
 			uiclass.getClass("text").run(MOptionRuntime.PRETEXT, width, MayaFontRenderer.CHAR_WIDTH);
 		}
 		
@@ -77,7 +77,7 @@ public class RenderHelper {
 		
 		if(hastextclass) {
 			uiclass.getClass("text").run(MOptionRuntime.POSTTEXT, width, MayaFontRenderer.CHAR_WIDTH);
-			uiclass.getClass("text").run(MOptionRuntime.POSTRENDER, width, MayaFontRenderer.CHAR_WIDTH);
+			uiclass.getClass("text").runSingle(MOptionRuntime.POSTRENDER, width, MayaFontRenderer.CHAR_WIDTH, null);
 		}
 
 		uiclass.run(MOptionRuntime.POSTTEXT, width, MayaFontRenderer.CHAR_WIDTH);

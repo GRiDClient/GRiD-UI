@@ -173,8 +173,7 @@ public class ThemeManager {
 								return set[1];
 						}else{
 							MOptionParser parser = runParser(theme, key, set[0], set[1]);
-							if(parser != null)
-								theme.set(key, set[0], parser);
+							theme.set(key, set[0], parser);
 						}
 					}
 				}

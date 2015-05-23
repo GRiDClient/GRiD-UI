@@ -11,14 +11,19 @@ public class MOptionNone extends MOptionParser {
 	
 	public MOptionRuntime[] getRuntime() { return null; }
 	
-	public MOptionParser parse(UITheme theme, String keyclass, String type, String value) {
-		System.out.println("Unhandled option: " + type);
-		this.value = value;
+	public MOptionParser getDefault() {
+		value = null;
 		return this;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public <T> T getValue(T type) { return (T)value; }
+	
+	public MOptionParser parse(UITheme theme, String keyclass, String type, String value) {
+		System.out.println("Unhandled option: " + type);
+		this.value = value;
+		return this;
+	}
 	
 	public void run(MOptionRuntime runtime, float width, float height) { }
 }

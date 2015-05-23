@@ -3,8 +3,6 @@ package com.codingforcookies.mayaui.src.ui.theme.parser;
 import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.MayaUI;
-import com.codingforcookies.mayaui.src.exceptions.MayaException;
-import com.codingforcookies.mayaui.src.exceptions.ThemeInvalidException;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.UITheme;
 
@@ -19,6 +17,16 @@ public class MOptionBgColor extends MOptionParser {
 		return new MOptionRuntime[] { MOptionRuntime.PRERENDER, MOptionRuntime.POSTRENDER };
 	}
 	
+	public MOptionBgColor getDefault() {
+		color = MayaColor.FALLBACK_COLOR.clone();
+		return this;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getValue(T type) {
+		return (T)color;
+	}
+	
 	public MOptionParser parse(UITheme theme, String keyclass, String key, String value) {
 		boolean hasBgColor = theme.getClass(keyclass).has("background-color");
 		MOptionBgColor parentColor = (MOptionBgColor)theme.getClass(keyclass).get("background-color");
@@ -27,9 +35,13 @@ public class MOptionBgColor extends MOptionParser {
 			if(hasBgColor) {
 				parentColor.color.setAlpha(MayaUI.parseConfigFloat(value));
 				return null;
-			}else
-				MayaException.throwNonClosing(new ThemeInvalidException("Opacity in '" + keyclass + "' must be set after background-color!"));
+			}else if(parentColor == null) {
+				parentColor = this;
+				color = new MayaColor();
+			}
 			
+			color = parentColor.color.clone();
+			color.setAlpha(MayaUI.parseConfigFloat(value));
 			return this;
 		}else{
 			if(hasBgColor) {
@@ -40,16 +52,12 @@ public class MOptionBgColor extends MOptionParser {
 					color = parentColor.getValue(new MayaColor()).clone();
 				else
 					color = new MayaColor();
+				
 				color.setColor(value);
 			}
 			
 			return this;
 		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T> T getValue(T type) {
-		return (T)color;
 	}
 	
 	public void run(MOptionRuntime runtime, float width, float height) {

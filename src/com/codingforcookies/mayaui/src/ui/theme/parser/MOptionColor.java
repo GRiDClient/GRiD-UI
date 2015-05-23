@@ -14,14 +14,19 @@ public class MOptionColor extends MOptionParser {
 		return new MOptionRuntime[] { MOptionRuntime.PRETEXT, MOptionRuntime.POSTTEXT };
 	}
 	
-	public MOptionParser parse(UITheme theme, String keyclass, String key, String value) {
-		color = new MayaColor(value);
+	public MOptionColor getDefault() {
+		color = MayaColor.FALLBACK_COLOR.clone();
 		return this;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public <T> T getValue(T type) {
 		return (T)color;
+	}
+	
+	public MOptionParser parse(UITheme theme, String keyclass, String key, String value) {
+		color = new MayaColor(value);
+		return this;
 	}
 	
 	public void run(MOptionRuntime runtime, float width, float height) {

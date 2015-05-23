@@ -108,8 +108,8 @@ public class Test {
 		
 		uimanager = MayaUI.getUIManager();
 		
-		uimanager.createWindow(new MWindow("Test Window", 10, 40, 300, 200));
-		uimanager.createWindow(new MWindow("Test Window", 320, 40, 470, 200));
+		uimanager.createWindow(new MWindow("Test Window", 10, 15, 300, 200));
+		uimanager.createWindow(new MWindow("Test Window", 320, 15, 470, 200));
 		uimanager.createWindow(new MWindowPanel("Performance Monitor", 10, Display.getHeight() - 210, 300, 200) {
 			public void init() {
 				super.init();

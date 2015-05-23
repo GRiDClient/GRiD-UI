@@ -3,6 +3,7 @@ package com.codingforcookies.mayaui.src.ui.theme;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionParser;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionRuntime;
@@ -44,6 +45,12 @@ public class UIClass {
 		this.name = name;
 		values = new HashMap<String, MOptionParser>();
 		
+		if(parent != null) {
+			for(Entry<String, MOptionParser> entry : parent.values.entrySet())
+				if(entry.getValue().shouldCopyToChildren())
+					values.put(entry.getKey(), entry.getValue().clone());
+		}
+		
 		valueTimes = new ArrayList[MOptionRuntime.values().length];
 		for(int i = 0; i < valueTimes.length; i++)
 			valueTimes[i] = new ArrayList<String>();
@@ -54,10 +61,17 @@ public class UIClass {
 	 */
 	public void set(String key, MOptionParser value) {
 		try {
-			if(value != null && ((MOptionParser)value).getRuntime() != null)
-				for(MOptionRuntime runtime : ((MOptionParser)value).getRuntime())
-					valueTimes[runtime.ordinal()].add(key);
-			values.put(key, value);
+			if(value != null) {
+				if(value.getRuntime() != null)
+					for(MOptionRuntime runtime : value.getRuntime())
+						valueTimes[runtime.ordinal()].add(key);
+				values.put(key, value);
+			}else{
+				for(MOptionRuntime runtime : MOptionRuntime.values())
+					valueTimes[runtime.ordinal()].remove(key);
+				values.remove(key);
+			}
+			
 		} catch(Exception e) { e.printStackTrace(); }
 	}
 	
@@ -108,17 +122,21 @@ public class UIClass {
 	}
 	
 	public void run(MOptionRuntime runtime, float width, float height) {
-		run(runtime, width, height, true);
+		run(runtime, width, height, this);
 	}
 	
-	private void run(MOptionRuntime runtime, float width, float height, boolean top) {
+	private void run(MOptionRuntime runtime, float width, float height, UIClass top) {
 		if(parent != null)
-			parent.run(runtime, width, height, false);
+			parent.run(runtime, width, height, top);
+		runSingle(runtime, width, height, top);
+	}
+	
+	public void runSingle(MOptionRuntime runtime, float width, float height, UIClass top) {
 		for(String str : valueTimes[runtime.ordinal()]) {
 			if(values.get(str) == null)
 				continue;
 			
-			if(!top ? values.get(str).shouldRunParented() : true)
+			if(top != this ? !values.get(str).shouldCopyToChildren() : true)
 				values.get(str).run(runtime, width, height);
 		}
 	}

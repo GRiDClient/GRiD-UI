@@ -29,7 +29,7 @@ public class MNotification extends UIComponent {
 		this.message = message;
 
 		this.width = MayaFontRenderer.getStringWidth(message) + 20F;
-		this.height = uiclass.get("height").getValue(new Float(0));
+		this.height = uiclass.get("height") != null ? uiclass.get("height").getValue(new Float(0)) : 0F;
 		this.spacing = ((MOptionMargin)uiclass.get("margin")).bottom;
 	}
 	

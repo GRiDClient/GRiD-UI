@@ -16,6 +16,14 @@ public class MOptionMargin extends MOptionParser {
 		return new MOptionRuntime[] { MOptionRuntime.PRERENDER };
 	}
 	
+	public MOptionMargin getDefault() {
+		top = 0F;
+		left = 0F;
+		return this;
+	}
+	
+	public <T> T getValue(T type) { return null; }
+	
 	public MOptionParser parse(UITheme theme, String keyclass, String key, String value) {
 		MOptionMargin premargin = (MOptionMargin)theme.getClass(keyclass).get("margin");
 		if(premargin == null)
@@ -43,9 +51,13 @@ public class MOptionMargin extends MOptionParser {
 		return null;
 	}
 	
-	public <T> T getValue(T type) { return null; }
-	
 	public void run(MOptionRuntime runtime, float width, float height) {
-		GL11.glTranslatef(left, -top, 0F);
+		switch(runtime) {
+			case PRERENDER:
+				GL11.glTranslatef(left, -top, 0F);
+				break;
+			default:
+				break;
+		}
 	}
 }

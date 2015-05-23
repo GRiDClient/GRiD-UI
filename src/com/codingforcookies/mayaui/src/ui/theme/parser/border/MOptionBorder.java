@@ -17,7 +17,7 @@ public class MOptionBorder extends MOptionParser {
 	public MBorderLocation borderLocation = MBorderLocation.INNER;
 	public float size = 0F;
 	public MBorderType borderType = MBorderType.SOLID;
-	public MayaColor color = MayaColor.FALLBACK_BACKGROUND;
+	public MayaColor color = MayaColor.FALLBACK_COLOR;
 	
 	public boolean shouldParse(String keyclass, String key, String value) {
 		return key.startsWith("border");
@@ -27,13 +27,15 @@ public class MOptionBorder extends MOptionParser {
 		return new MOptionRuntime[] { MOptionRuntime.POSTRENDER };
 	}
 	
-	public boolean shouldRunParented() { return false; }
+	public boolean shouldCopyToChildren() { return true; }
+	
+	public MOptionParser getDefault() { return this; }
 	
 	public <T> T getValue(T type) { return null; }
 	
 	public MOptionParser parse(UITheme theme, String keyclass, String key, String value) {
+		UIClass uiclass = theme.getClass(keyclass);
 		if(key.equals("border")) {
-			UIClass uiclass = theme.getClass(keyclass);
 			uiclass.set("border-top", new MOptionBorder().parse(theme, keyclass, "border-top", value));
 			uiclass.set("border-right", new MOptionBorder().parse(theme, keyclass, "border-right", value));
 			uiclass.set("border-bottom", new MOptionBorder().parse(theme, keyclass, "border-bottom", value));
@@ -41,19 +43,14 @@ public class MOptionBorder extends MOptionParser {
 			return null;
 		}else{
 			boolean hasBorder = theme.getClass(keyclass).has(key);
-			MOptionBorder preborder = (MOptionBorder)theme.getClass(keyclass).get(key);
+			MOptionBorder preborder;
 			
-			if(hasBorder) {
-				if(preborder != null)
-					return process(preborder, key, value);
-				return null;
-			}else{
-				if(preborder != null)
-					preborder = (MOptionBorder)preborder.clone();
-				else
-					preborder = this;
-				return process(preborder, key, value);
-			}
+			if(!hasBorder)
+				preborder = this;
+			else
+				preborder = (MOptionBorder)theme.getClass(keyclass).get(key);
+			
+			return process(preborder, key, value);
 		}
 	}
 	
@@ -61,7 +58,7 @@ public class MOptionBorder extends MOptionParser {
 	 * Create the new border option.
 	 */
 	private MOptionBorder process(MOptionBorder border, String side, String type) {
-		if(type.equals("none") || type.equals("0"))
+		if(type.equals("none") || type.equals("0") || border == null)
 			return null;
 		
 		border.side = side.split("-")[1];

@@ -12,18 +12,22 @@ import com.codingforcookies.mayaui.src.exceptions.ThemeInvalidException;
  * @author Stumblinbear
  */
 public class MayaColor implements Cloneable {
-	public static final MayaColor BLACK = new MayaColor(0F, 0F, 0F);
-	public static final MayaColor WHITE = new MayaColor(1F, 1F, 1F);
-	public static final MayaColor RED = new MayaColor(1F, 0F, 0F);
-	public static final MayaColor GREEN = new MayaColor(0F, 1F, 0F);
-	public static final MayaColor BLUE = new MayaColor(0F, 0F, 1F);
+	public static final MayaColor BLACK = new MayaColor(0F, 0F, 0F, 1F);
+	public static final MayaColor WHITE = new MayaColor(1F, 1F, 1F, 1F);
+	public static final MayaColor RED = new MayaColor(1F, 0F, 0F, 1F);
+	public static final MayaColor GREEN = new MayaColor(0F, 1F, 0F, 1F);
+	public static final MayaColor BLUE = new MayaColor(0F, 0F, 1F, 1F);
 
 	public static MayaColor FALLBACK_COLOR = BLUE;
-	public static MayaColor FALLBACK_BACKGROUND = BLUE;
 	
 	private float r, g, b, a;
 
-	public MayaColor() { }
+	public MayaColor() {
+		r = FALLBACK_COLOR.r;
+		g = FALLBACK_COLOR.g;
+		b = FALLBACK_COLOR.b;
+		a = FALLBACK_COLOR.a;
+	}
 	
 	/**
 	 * Generate a random color.
@@ -34,9 +38,7 @@ public class MayaColor implements Cloneable {
 	}
 
 	public MayaColor(float r, float g, float b) {
-		this.r = r;
-		this.g = g;
-		this.b = b;
+		this(r, g, b, 1F);
 	}
 
 	public MayaColor(float r, float g, float b, float a) {

@@ -4,48 +4,62 @@ info {
 }
 
 vars {
-	maincolor: #FF1919
-	brightermaincolor: #FF3B3B
+	maincolor: #CE352C
+	maincolor-b: #DA6854
 }
 
 global {
 	color: #000
-	background-color: #FFF
+	background-color: #777
 }
 
 separator {
-	border: outer 1px solid [brightermaincolor]
+	border: outer 1px solid [maincolor-b]
 }
 
 progressbar {
 	background-color: #777
-	border-bottom: outer 2px solid #999
 }
 
 progressbar .overlay {
 	background-color: #44EE44
-	border-bottom: outer 2px solid #77FF77
 }
 
 panel {
 	background-color: #FFF
 	opacity: 80%
-	border-bottom: inner 3px solid [brightermaincolor]
+	border: outer 1px solid [maincolor-b]
+	border-bottom: inner 3px solid [maincolor-b]
+}
+
+panel #performance_monitor {
+	opacity: 100%
+	border: outer 1px solid [maincolor-b]
+	border-bottom: inner 3px solid [maincolor-b]
 }
 
 window {
 	background-color: #FFF
 	opacity: 90%
-	border: outer 1px solid [brightermaincolor]
-	border-bottom: outer 3px solid [brightermaincolor]
+		
+	border: outer 1px solid [maincolor-b]
+	border-bottom: outer 3px solid [maincolor-b]
 }
 
 window .title {
-	height: 25px
+	height: 30px
 	
 	color: #FFF
 	background-color: [maincolor]
-	border-bottom: inner 5px solid [brightermaincolor]
+	opacity: 100%
+	
+	border: outer 1px solid [maincolor-b]
+	border-bottom: 0
+}
+
+window .title text {
+	margin-top: 12px
+	margin-left: 10px
 }
 
 notification {
@@ -54,22 +68,34 @@ notification {
 	margin-bottom: 10px
 	margin-left: -10px
 	
+	color: #000
 	background-color: #FFF
 	opacity: 80%
-	border-bottom: inner 3px solid [brightermaincolor]
+	
+	border: outer 1px solid #777
+	border-bottom: inner 3px solid #777
 }
 
 notification #help {
-	background-color: #7777FF
-	border-bottom: inner 3px solid #3333CC
+	color: #FFF
+	background-color: #16499A
+	
+	border: outer 1px solid #5077A6
+	border-bottom: inner 3px solid #5077A6
 }
 
 notification #warning {
-	background-color: #FFFF77
-	border-bottom: inner 3px solid #AAAA00
+	color: #FFF
+	background-color: #FA6800
+	
+	border: outer 1px solid #FB8E33
+	border-bottom: inner 3px solid #FB8E33
 }
 
 notification #error {
-	background-color: #FF7777
-	border-bottom: inner 3px solid #CC3333
+	color: #FFF
+	background-color: #CE352C
+	
+	border: outer 1px solid #DA6854
+	border-bottom: inner 3px solid #DA6854
 }

@@ -36,7 +36,7 @@ public class MWindow extends MWindowPanel {
 				grabbedY = Mouse.getY();
 				
 				if(grabbedX > x && grabbedX < x + width &&
-						grabbedY > y && grabbedY < y + titleHeight) {
+						grabbedY > y - titleHeight && grabbedY < y) {
 					grabbed = 1;
 					grabbedX -= x;
 					grabbedY -= y;
@@ -66,14 +66,14 @@ public class MWindow extends MWindowPanel {
 				titleHeight = windowclass.getClass(".title").get("height").getValue(new Float(0F));
 		    
 		    /* DRAW WINDOW BODY */
-			GL11.glTranslatef(x, y, 0F);
+			GL11.glTranslatef(x, y - titleHeight, 0F);
 		    RenderHelper.renderWithTheme(windowclass, width, height);
 		    
 		    /* DRAW WINDOW TITLE */
 			GL11.glTranslatef(0F, titleHeight, 0F);
 		    RenderHelper.renderWithTheme(windowclass.getClass(".title"), width);
 		    
-		    RenderHelper.drawString(windowclass.getClass(".title"), title, 6, -7);
+		    RenderHelper.drawString(windowclass.getClass(".title"), title, 0, 0);
 		    
 		    super.drawComponents();
 		}
