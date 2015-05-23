@@ -14,21 +14,18 @@ public class RenderHelper {
 		renderWithTheme(uiclass, width, height, null);
 	}
 	/**
-	 * Renders a square. But reads the theme file and appends all defined components such as borders. Includes a color override.
+	 * Renders a square. But reads the theme file and appends all defined components such as borders. Includes a color override.<br><br>
+	 * Warning: Does not run GL11.glPushMatrix() or GL11.glPopMatrix()
 	 */
 	public static void renderWithTheme(UIClass uiclass, float width, float height, MayaColor color) {
-		GL11.glPushMatrix();
-		{
-			uiclass.run(MOptionRuntime.PRERENDER, width, height);
-	
-			if(color != null)
-				color.use();
-	
-			renderBox(0, 0, width, height);
-	
-			uiclass.run(MOptionRuntime.POSTRENDER, width, height);
-		}
-		GL11.glPopMatrix();
+		uiclass.run(MOptionRuntime.PRERENDER, width, height);
+
+		if(color != null)
+			color.use();
+
+		renderBox(0, 0, width, height);
+
+		uiclass.run(MOptionRuntime.POSTRENDER, width, height);
 	}
 
 	/**
@@ -67,16 +64,20 @@ public class RenderHelper {
 	public static void drawString(UIClass uiclass, String string, float x, float y) {
 		boolean hastextclass = uiclass.hasClass("text");
 		float width = MayaFontRenderer.getStringWidth(string);
-
+		
 		uiclass.run(MOptionRuntime.PRETEXT, width, MayaFontRenderer.CHAR_WIDTH);
 
-		if(hastextclass)
+		if(hastextclass) {
+			uiclass.getClass("text").run(MOptionRuntime.PRERENDER, width, MayaFontRenderer.CHAR_WIDTH);
 			uiclass.getClass("text").run(MOptionRuntime.PRETEXT, width, MayaFontRenderer.CHAR_WIDTH);
+		}
 
 		MayaFontRenderer.draw(string, x, y);
 
-		if(hastextclass)
+		if(hastextclass) {
 			uiclass.getClass("text").run(MOptionRuntime.POSTTEXT, width, MayaFontRenderer.CHAR_WIDTH);
+			uiclass.getClass("text").run(MOptionRuntime.POSTRENDER, width, MayaFontRenderer.CHAR_WIDTH);
+		}
 
 		uiclass.run(MOptionRuntime.POSTTEXT, width, MayaFontRenderer.CHAR_WIDTH);
 	}

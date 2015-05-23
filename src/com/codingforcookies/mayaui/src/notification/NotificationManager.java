@@ -10,7 +10,7 @@ public class NotificationManager {
 	
 	public static void addNotification(MNotification mNotification) {
 		if(notificationWindow == null) {
-			notificationWindow = new MWindowBase(0, 0, Display.getWidth(), Display.getHeight()) {
+			notificationWindow = new MWindowBase(Display.getWidth() - 100, Display.getHeight() - 100, 0, 0) {
 				public void update() {
 					super.update();
 					

@@ -25,6 +25,18 @@ public class MOptionBorder extends MOptionParser {
 	public <T> T getValue(T type) { return null; }
 	
 	public MOptionParser parse(UITheme theme, String keyclass, String key, String value) {
+		MOptionBorder preborder = (MOptionBorder)theme.getClass(keyclass).get("border");
+		if(preborder != null) {
+			process(preborder, key, value);
+			return null;
+		}
+		
+		process(this, key, value);
+		
+		return this;
+	}
+	
+	private void process(MOptionBorder border, String key, String value) {
 		if(!key.equals("border")) {
 			String[] types = key.substring(key.indexOf("-") + 1).split("-");
 			for(String str : types) {
@@ -41,8 +53,6 @@ public class MOptionBorder extends MOptionParser {
 			}
 		}else
 			top = right = bottom = left = createBorder("all", value);
-		
-		return this;
 	}
 	
 	/**

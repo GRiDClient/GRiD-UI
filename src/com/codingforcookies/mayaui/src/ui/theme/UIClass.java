@@ -100,10 +100,8 @@ public class UIClass {
 	 */
 	public MOptionParser get(String name) {
 		if(!values.containsKey(name)) {
-			if(parent == null) {
-				System.err.println("Parent is null for " + this.name + " while looking for " + name);
+			if(parent == null)
 				return null;
-			}
 			return parent.get(name);
 		}
 		return values.get(name);

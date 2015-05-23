@@ -10,27 +10,10 @@ vars {
 
 global {
 	color: #000
-	line-color: [brightermaincolor]
 }
 
-panel {
-	background-color: #FFF
-	opacity: 80%
-	border-bottom: inner 3px solid [brightermaincolor]
-}
-
-window {
-	background-color: #FFF
-	opacity: 90%
-	border-bottom: outer 5px solid [brightermaincolor]
-}
-
-window .title {
-	height: 25px
-	
-	color: #FFF
-	background-color: [maincolor]
-	border-bottom: inner 5px solid [brightermaincolor]
+separator {
+	border: outer 1px solid [brightermaincolor]
 }
 
 progressbar {
@@ -43,14 +26,35 @@ progressbar .overlay {
 	border-bottom: outer 2px solid #77FF77
 }
 
+panel {
+	background-color: #FFF
+	opacity: 80%
+	border-bottom: inner 3px solid [brightermaincolor]
+}
+
+window {
+	background-color: #FFF
+	opacity: 90%
+	border: outer 1px solid [brightermaincolor]
+	border-bottom: outer 5px solid [brightermaincolor]
+}
+
+window .title {
+	height: 25px
+	
+	color: #FFF
+	background-color: [maincolor]
+	border-bottom: inner 5px solid [brightermaincolor]
+}
+
 notification {
 	width: 200px
 	height: 30px
-	margin-left: 10px
+	margin: -100px
 	color: #FFF
 	
 	background-color: #000
-	opacity: 50%
+	opacity: 100%
 	border-bottom: inner 3px solid #000
 }
 

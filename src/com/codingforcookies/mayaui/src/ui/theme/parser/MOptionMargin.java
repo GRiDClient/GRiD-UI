@@ -37,5 +37,6 @@ public class MOptionMargin extends MOptionParser {
 	
 	public void run(MOptionRuntime runtime, float width, float height) {
 		GL11.glTranslatef(left, top, 0F);
+		System.out.println("translated");
 	}
 }

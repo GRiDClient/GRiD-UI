@@ -1,6 +1,9 @@
 package com.codingforcookies.mayaui.src.ui.theme.components;
 
+import org.lwjgl.opengl.GL11;
+
 import com.codingforcookies.mayaui.src.ui.MayaFontRenderer;
+import com.codingforcookies.mayaui.src.ui.RenderHelper;
 import com.codingforcookies.mayaui.src.ui.theme.MAlign;
 
 /**
@@ -38,8 +41,12 @@ public class UILabel extends UIComponent {
 		}
 		
 		//RenderHelper.renderBox(x, y, width, height);
-		
-		drawString(drawntext, x + (align == MAlign.CENTER ? width / 2 - MayaFontRenderer.getStringWidth(drawntext) / 2 : align == MAlign.RIGHT ? width - MayaFontRenderer.getStringWidth(drawntext) : 0), y - 2);
+
+		GL11.glPushMatrix();
+		{
+			RenderHelper.drawString(uiclass, drawntext, x + (align == MAlign.CENTER ? width / 2 - MayaFontRenderer.getStringWidth(drawntext) / 2 : align == MAlign.RIGHT ? width - MayaFontRenderer.getStringWidth(drawntext) : 0), y - 2);
+		}
+		GL11.glPopMatrix();
 	}
 	
 	public UILabel setBounds(float x, float y, float width, float height) {

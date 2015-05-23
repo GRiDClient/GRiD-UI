@@ -1,5 +1,7 @@
 package com.codingforcookies.mayaui.src.ui.theme.components;
 
+import org.lwjgl.opengl.GL11;
+
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
 
 /**
@@ -14,10 +16,16 @@ public class UISeparator extends UIComponent {
 	public void update() { }
 	
 	public void render() {
-		if(width >= height)
-			RenderHelper.renderWithTheme(uiclass, width, 2);
-		else
-			RenderHelper.renderWithTheme(uiclass, 2, height);
+		GL11.glPushMatrix();
+		{
+			GL11.glTranslatef(x, y, 0F);
+			
+			if(width >= height)
+				RenderHelper.renderWithTheme(uiclass, width, 0);
+			else
+				RenderHelper.renderWithTheme(uiclass, 0, height);
+		}
+		GL11.glPopMatrix();
 	}
 	
 	public UISeparator setBounds(float x, float y, float width, float height) {

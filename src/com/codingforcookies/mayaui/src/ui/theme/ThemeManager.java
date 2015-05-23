@@ -39,10 +39,10 @@ public class ThemeManager {
 	private static MOptionParser runParser(UITheme theme, String keyclass, String key, String value) {
 		for(MOptionParser parser : optionParsers)
 			if(parser.shouldParse(keyclass, key, value)) {
-				MOptionParser ret = parser.parse(theme, keyclass, key, value);
+				MOptionParser ret = parser.clone().parse(theme, keyclass, key, value);
 				if(ret == null)
 					return null;
-				return ret.clone();
+				return ret;
 			}
 		return new MOptionNone().parse(theme, keyclass, key, value);
 	}

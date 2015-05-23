@@ -31,8 +31,4 @@ public abstract class UIComponent extends MayaRender {
 		
 		return this;
 	}
-	
-	protected void drawString(String string, float x, float y) {
-		RenderHelper.drawString(uiclass, string, x, y);
-	}
 }
