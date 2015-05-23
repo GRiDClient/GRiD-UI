@@ -55,7 +55,7 @@ public class MayaUI {
 	 * Push a notification to the screen.
 	 */
 	public static void addNotification(MNotificationType type, String message) {
-		new MNotification(type, message).push();
+		addNotification(new MNotification(type, message));
 	}
 
 	/**

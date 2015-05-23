@@ -3,7 +3,7 @@ package com.codingforcookies.mayaui.src.ui.theme.parser;
 import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.ui.theme.UITheme;
 
-public class MOptionSize extends MOptionParser {
+public class MOptionFloat extends MOptionParser {
 	public Float size;
 	
 	public boolean shouldParse(String keyclass, String key, String value) {

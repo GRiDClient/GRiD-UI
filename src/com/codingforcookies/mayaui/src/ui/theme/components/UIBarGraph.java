@@ -26,7 +26,7 @@ public class UIBarGraph extends UIComponent {
 		uibarclass = uiclass.getClass(".bar");
 	}
 	
-	public void update() {
+	public void update(float delta) {
 		float total = 0F;
 		
 		for(String bar : bars)

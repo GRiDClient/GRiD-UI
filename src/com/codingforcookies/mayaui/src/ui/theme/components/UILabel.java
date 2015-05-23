@@ -29,7 +29,7 @@ public class UILabel extends UIComponent {
 		this.align = align;
 	}
 	
-	public void update() { }
+	public void update(float delta) { }
 	
 	public void render() {
 		String drawntext = text;

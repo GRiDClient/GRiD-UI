@@ -21,7 +21,7 @@ public class UIProgressBar extends UIComponent {
 		progressClass = uiclass.getClass(".overlay");
 	}
 	
-	public void update() { }
+	public void update(float delta) { }
 	
 	public void render() {
 		GL11.glPushMatrix();

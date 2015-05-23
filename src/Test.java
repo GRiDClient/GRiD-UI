@@ -1,6 +1,7 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
@@ -71,9 +72,9 @@ public class Test {
 		Display.destroy();
 	}
 	
-	public int getDelta() {
+	public float getDelta() {
         long time = getTime();
-        int delta = (int)(time - lastFrame);
+        float delta = (int)(time - lastFrame);
         lastFrame = time;
       
         return delta;
@@ -109,13 +110,13 @@ public class Test {
 		
 		uimanager.createWindow(new MWindow("Test Window", 10, 40, 300, 200));
 		uimanager.createWindow(new MWindow("Test Window", 320, 40, 470, 200));
-		uimanager.createWindow(new MWindowPanel("Performance Monitor", Display.getWidth() - 310, Display.getHeight() - 210, 300, 200) {
+		uimanager.createWindow(new MWindowPanel("Performance Monitor", 10, Display.getHeight() - 210, 300, 200) {
 			public void init() {
 				super.init();
 				UILabel perfLabel = new UILabel("Performance Monitor", MAlign.CENTER).setBounds(5, 5, 185, 10);
 				addComponent(perfLabel);
 				
-				perfChart = new UIBarGraph().setBounds(5, 17, 185, 173);
+				perfChart = new UIBarGraph().setBounds(5, 17, 185, 165);
 				addComponent(perfChart);
 				
 				MayaColor perfUpdateColor = new MayaColor("#DDAF08").darker();
@@ -141,7 +142,7 @@ public class Test {
 				addComponent(prgBar);
 			}
 			
-			public void update() {
+			public void update(float delta) {
 				prgBar.setProgress(prgBar.getProgress() + .0005F);
 				
 				if(prgBar.getProgress() >= 1F)
@@ -152,14 +153,57 @@ public class Test {
 		perfChart.addBar("update", new MayaColor("#DDAF08"));
 		perfChart.addBar("render", new MayaColor("#2676AB"));
 		
-		MayaUI.addNotification(MNotificationType.INFO, "Loading complete.");
-		new MNotification(MNotificationType.WARNING, "Notification pushed.").push();
+		new Thread() {
+			public void run() {
+				try {
+					Thread.sleep(1000L);
+				} catch(InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				MayaUI.addNotification(MNotificationType.INFO, "Loading complete.");
+				try {
+					Thread.sleep(1000L);
+				} catch(InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				MNotification[] testNotifications = new MNotification[] {
+						new MNotification(MNotificationType.WARNING, "Initializing to tha moon thrusters."),
+						new MNotification(MNotificationType.HELP, "To tha moon thrusters are functioning."),
+						new MNotification(MNotificationType.INFO, "Taking off in 3..."),
+						new MNotification(MNotificationType.INFO, "Taking off in 2..."),
+						new MNotification(MNotificationType.INFO, "Taking off in 1..."),
+						new MNotification(MNotificationType.WARNING, "BLAST OFF!!"),
+						new MNotification(MNotificationType.INFO, "..."),
+						new MNotification(MNotificationType.INFO, "..."),
+						new MNotification(MNotificationType.INFO, "..."),
+						new MNotification(MNotificationType.INFO, "..."),
+						new MNotification(MNotificationType.INFO, "..."),
+						new MNotification(MNotificationType.INFO, "..."),
+						new MNotification(MNotificationType.INFO, "..."),
+						new MNotification(MNotificationType.ERROR, "Out of fuel!"),
+						new MNotification(MNotificationType.INFO, "Initiating order #374!"),
+						new MNotification(MNotificationType.ERROR, "Self destruct activated.")
+					};
+				
+				for(int i = 0; i < testNotifications.length; i++) {
+					testNotifications[i].push();
+					
+					try {
+						Thread.sleep(new Random().nextInt(2000));
+					} catch(InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
 	}
 	
-	public void update(int delta) {
+	public void update(float delta) {
 		long start = System.nanoTime();
 		
-		uimanager.doUpdateUI();
+		uimanager.doUpdateUI(delta);
 		
 		updateTimes.add(0, (float)(System.nanoTime() - start));
 		

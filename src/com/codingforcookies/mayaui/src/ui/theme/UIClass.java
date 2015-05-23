@@ -20,6 +20,10 @@ public class UIClass {
 	 * The parent class. Highest level is "global".
 	 */
 	protected UIClass parent;
+
+	public UIClass getParent() {
+		return parent;
+	}
 	
 	public String name;
 	
@@ -50,28 +54,9 @@ public class UIClass {
 	 */
 	public void set(String key, MOptionParser value) {
 		try {
-			/*
-			if(value instanceof String) {
-				value = MayaUI.parseConfigValue(value.toString());
-				
-				if(key.contains("color")) {
-					((MayaColor)value).setAlpha(get("opacity", new Float(0F), 1F));
-				}else if(key.equals("opacity")) {
-					MayaColor color = get("background-color", new MayaColor(), new MayaColor()).clone();
-					color.setAlpha(Float.parseFloat(value.toString()));
-					value = color;
-					key = "background-color";
-				}/*else if(name.startsWith("border")) {
-					MBorder tmpborder = get("border", new MBorder(), new MBorder()).clone();
-					tmpborder.parse(name, value.toString());
-					value = tmpborder;
-					name = "border";
-				}*/
-			
-			if(((MOptionParser)value).getRuntime() != null)
+			if(value != null && ((MOptionParser)value).getRuntime() != null)
 				for(MOptionRuntime runtime : ((MOptionParser)value).getRuntime())
 					valueTimes[runtime.ordinal()].add(key);
-			
 			values.put(key, value);
 		} catch(Exception e) { e.printStackTrace(); }
 	}
@@ -104,6 +89,7 @@ public class UIClass {
 				return null;
 			return parent.get(name);
 		}
+		
 		return values.get(name);
 	}
 	
@@ -122,6 +108,8 @@ public class UIClass {
 	}
 	
 	public void run(MOptionRuntime runtime, float width, float height) {
+		if(parent != null)
+			parent.run(runtime, width, height);
 		for(String str : valueTimes[runtime.ordinal()])
 			((MOptionParser)values.get(str)).run(runtime, width, height);
 	}

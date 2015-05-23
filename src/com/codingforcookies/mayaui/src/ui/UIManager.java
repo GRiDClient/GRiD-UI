@@ -39,13 +39,13 @@ public class UIManager {
 	/**
 	 * Execute the update functions starting from the top of the stack, and dropping as needed.
 	 */
-	public void doUpdateUI() {
+	public void doUpdateUI(float delta) {
 		int size = updates.size();
 		
 		for(int i = 0; i < size; i++) {
 			if(!updates.peek().scheduledForDrop)
 				updates.add(0, updates.peek());
-			updates.pop().update();
+			updates.pop().update(delta);
 		}
 	}
 	

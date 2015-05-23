@@ -18,7 +18,7 @@ public class UIBox extends UIComponent {
 		this.color = color;
 	}
 	
-	public void update() { }
+	public void update(float delta) { }
 	
 	public void render() {
 		GL11.glPushMatrix();

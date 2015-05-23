@@ -41,9 +41,9 @@ public class MWindowBase extends MayaRender {
 	/**
 	 * Updates all components in the window.
 	 */
-	public void update() {
+	public void update(float delta) {
 		for(int i = 0; i < components.size(); i++) {
-			components.get(i).update();
+			components.get(i).update(delta);
 			if(components.get(i).scheduledForDrop) {
 				components.remove(i);
 				i--;

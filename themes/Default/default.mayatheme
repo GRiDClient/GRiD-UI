@@ -10,6 +10,7 @@ vars {
 
 global {
 	color: #000
+	background-color: #FFF
 }
 
 separator {
@@ -48,20 +49,24 @@ window .title {
 }
 
 notification {
-	width: 200px
 	height: 30px
-	margin: -100px
-	color: #FFF
+	margin-top: -60px
+	margin-bottom: 10px
+	margin-left: -10px
 	
-	background-color: #000
-	opacity: 100%
-	border-bottom: inner 3px solid #000
+	background-color: #FFF
+	opacity: 80%
+	border-bottom: inner 3px solid [brightermaincolor]
+}
+
+notification #help {
+	background-color: #7777FF
 }
 
 notification #warning {
-
+	background-color: #FFFF77
 }
 
 notification #error {
-
+	background-color: #FF7777
 }

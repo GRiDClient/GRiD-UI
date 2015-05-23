@@ -13,7 +13,7 @@ public class UISeparator extends UIComponent {
 		super("separator");
 	}
 	
-	public void update() { }
+	public void update(float delta) { }
 	
 	public void render() {
 		GL11.glPushMatrix();

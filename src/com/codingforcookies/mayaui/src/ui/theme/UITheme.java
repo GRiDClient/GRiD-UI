@@ -2,8 +2,9 @@ package com.codingforcookies.mayaui.src.ui.theme;
 
 import java.util.HashMap;
 
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionBgColor;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionParser;
-import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionSize;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionFloat;
 
 /**
  * Themes are reminiscent of CSS in how they are loaded. This class holds all name, creator, description, and class information.
@@ -23,8 +24,14 @@ public class UITheme {
 		classes = new HashMap<String, UIClass>();
 		
 		classes.put("global", new UIClass(null, "global"));
-		classes.get("global").set("width", new MOptionSize().parse(this, "global", "", "0"));
-		classes.get("global").set("height", new MOptionSize().parse(this, "global", "", "0"));
+		setGlobal("width", "0", new MOptionFloat());
+		setGlobal("height", "0", new MOptionFloat());
+		setGlobal("background-color", "#FFF", new MOptionBgColor());
+		setGlobal("opacity", "100%", new MOptionBgColor());
+	}
+	
+	private void setGlobal(String key, String value, MOptionParser parser) {
+		classes.get("global").set(key, parser.parse(this, "global", key, value));
 	}
 	
 	/**
@@ -45,9 +52,16 @@ public class UITheme {
 	 * Returns a class if it exists, otherwise returns "global".
 	 */
 	public UIClass getClass(String key) {
-		if(classes.containsKey(key))
+		if(key.contains(" ")) {
+			String[] keys = key.split(" ");
+			UIClass lowest = getLowestClass(key.substring(0, key.lastIndexOf(" ")));
+			if(!lowest.hasClass(keys[keys.length - 1]))
+				return getUIClass(lowest.classes, lowest, keys[keys.length - 1]);
+			else
+				return lowest.getClass(keys[keys.length - 1]);
+		}else if(classes.containsKey(key))
 			return classes.get(key);
-		return classes.get("global");
+		return getUIClass(classes, getClass("global"), key);
 	}
 	
 	/**
@@ -108,7 +122,7 @@ public class UITheme {
 	 * Returns:<br />
 	 * &nbsp;&nbsp;&nbsp;&nbsp;global panel .title
 	 */
-	protected String buildParentList(UIClass uiclass, String parents) {
+	public String buildParentList(UIClass uiclass, String parents) {
 		if(uiclass.parent != null) {
 			parents = uiclass.parent.name + " " + parents;
 			return buildParentList(uiclass.parent, parents);

@@ -60,8 +60,9 @@ public class MayaColor implements Cloneable {
 		setup(hex, alpha);
 	}
 
-	public void setColor(String parse) {
+	public MayaColor setColor(String parse) {
 		setup(parse, a);
+		return this;
 	}
 	
 	/**
@@ -92,8 +93,9 @@ public class MayaColor implements Cloneable {
 			a = 1F;
 	}
 	
-	public void setAlpha(float alpha) {
+	public MayaColor setAlpha(float alpha) {
 		a = alpha;
+		return this;
 	}
 	
 	public float getRed() {

@@ -21,7 +21,7 @@ import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionInfo;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionMargin;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionNone;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionParser;
-import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionSize;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionFloat;
 import com.codingforcookies.mayaui.src.ui.theme.parser.border.MOptionBorder;
 
 /**
@@ -50,7 +50,7 @@ public class ThemeManager {
 	public static void init() {
 		optionParsers.add(new MOptionInfo());
 		
-		optionParsers.add(new MOptionSize());
+		optionParsers.add(new MOptionFloat());
 		optionParsers.add(new MOptionMargin());
 		optionParsers.add(new MOptionColor());
 		optionParsers.add(new MOptionBgColor());
