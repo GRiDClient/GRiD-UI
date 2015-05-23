@@ -126,8 +126,8 @@ public class Test {
 				addComponent(new UIBox(perfUpdateColor).setBounds(210, 20, 10, 10));
 				addComponent(new UIBox(perfRenderColor).setBounds(210, 35, 10, 10));
 				
-				addComponent(new UILabel("Update").setBounds(230, 20, 60, 10).setColor(perfUpdateColor));
-				addComponent(new UILabel("Render").setBounds(230, 35, 60, 10).setColor(perfRenderColor));
+				addComponent(new UILabel("Update").setBounds(230, 20, 60, 10));
+				addComponent(new UILabel("Render").setBounds(230, 35, 60, 10));
 				
 				perfTime = new UILabel("0.0s", MAlign.RIGHT).setBounds(210, 180, 80, 10);
 				addComponent(perfTime);

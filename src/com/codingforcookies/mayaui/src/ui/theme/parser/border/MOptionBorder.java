@@ -1,38 +1,48 @@
-package com.codingforcookies.mayaui.src.ui.theme;
+package com.codingforcookies.mayaui.src.ui.theme.parser.border;
 
 import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
+import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
+import com.codingforcookies.mayaui.src.ui.theme.UITheme;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionParser;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionRuntime;
 
 /**
  * The Maya border class. Handles parsing, storage, and rendering of borders.
  * @author Stumblinbear
  */
-public class MBorder implements Cloneable {
+public class MOptionBorder extends MOptionParser {
 	public MBorderOptions top, right, bottom, left;
 	
-	public MBorder() { }
-
-	public MBorder(String type, String parse) {
-		parse(type, parse);
+	public boolean shouldParse(String keyclass, String key, String value) {
+		return key.startsWith("border");
 	}
 	
-	public void parse(String type, String parse) {
-		if(type != "") {
-			String[] types = type.substring(type.indexOf("-") + 1).split("-");
+	public MOptionRuntime[] getRuntime() {
+		return new MOptionRuntime[] { MOptionRuntime.POSTRENDER };
+	}
+	
+	public <T> T getValue(T type) { return null; }
+	
+	public MOptionParser parse(UITheme theme, String keyclass, String key, String value) {
+		if(!key.equals("border")) {
+			String[] types = key.substring(key.indexOf("-") + 1).split("-");
 			for(String str : types) {
 				if(str.equals("top"))
-					top = createBorder("top", parse);
+					top = createBorder("top", value);
 				else if(str.equals("right"))
-					right = createBorder("right", parse);
+					right = createBorder("right", value);
 				else if(str.equals("bottom"))
-					bottom = createBorder("bottom", parse);
+					bottom = createBorder("bottom", value);
 				else if(str.equals("left"))
-					left = createBorder("left", parse);
+					left = createBorder("left", value);
 				else
 					System.err.println("Unknown border type " + str);
 			}
 		}else
-			top = right = bottom = left = createBorder("all", type);
+			top = right = bottom = left = createBorder("all", value);
+		
+		return this;
 	}
 	
 	/**
@@ -41,9 +51,9 @@ public class MBorder implements Cloneable {
 	private MBorderOptions createBorder(String side, String type) {
 		String[] options = type.split(" ");
 		MBorderLocation borderLocation = MBorderLocation.valueOf(options[0].toUpperCase());
-		float size = ((Integer)MayaUI.parseConfigValue(options[1])).floatValue();
+		float size = MayaUI.parseConfigFloat(options[1]);
 		MBorderType borderType = MBorderType.valueOf(options[2].toUpperCase());
-		MayaColor color = (MayaColor)MayaUI.parseConfigValue(options[3]);
+		MayaColor color = new MayaColor(options[3]);
 		
 		return new MBorderOptions(side, borderLocation, size, borderType, color);
 	}
@@ -52,7 +62,7 @@ public class MBorder implements Cloneable {
 	 * Render the border.
 	 * TODO: Add outer rendering.
 	 */
-	public void render(float width, float height) {
+	public void run(MOptionRuntime runtime, float width, float height) {
 		boolean istop = top != null;
 		boolean isbottom = bottom != null;
 		if(istop)
@@ -88,15 +98,6 @@ public class MBorder implements Cloneable {
 		if(left != null)
 			ret += left.toString();
 		return ret;
-	}
-	
-	public MBorder clone() {
-		try {
-			return (MBorder)super.clone();
-		} catch(CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 }
 

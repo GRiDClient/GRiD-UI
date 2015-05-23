@@ -43,11 +43,12 @@ progressbar .overlay {
 	border-bottom: outer 2px solid #77FF77
 }
 
-label {
-	color: #000
-}
-
 notification {
+	width: 200px
+	height: 30px
+	margin-left: 10px
+	color: #FFF
+	
 	background-color: #000
 	opacity: 50%
 	border-bottom: inner 3px solid #000

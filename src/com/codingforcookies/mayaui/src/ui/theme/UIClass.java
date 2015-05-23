@@ -1,8 +1,11 @@
 package com.codingforcookies.mayaui.src.ui.theme;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import com.codingforcookies.mayaui.src.MayaUI;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionParser;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionRuntime;
 
 /**
  * Holds class value and information, parent class, as well as child classes.
@@ -23,40 +26,53 @@ public class UIClass {
 	/**
 	 * A hashmap of all values in a class.
 	 */
-	protected HashMap<String, Object> values;
-
+	protected HashMap<String, MOptionParser> values;
+	/**
+	 * Contains the values to run at which time. PreRender, PostRender, etc.
+	 */
+	protected List<String>[] valueTimes;
+	
+	@SuppressWarnings("unchecked")
 	protected UIClass(UIClass parent, String name) {
 		classes = new HashMap<String, UIClass>();
 		this.parent = parent;
 		
 		this.name = name;
-		values = new HashMap<String, Object>();
+		values = new HashMap<String, MOptionParser>();
+		
+		valueTimes = new ArrayList[MOptionRuntime.values().length];
+		for(int i = 0; i < valueTimes.length; i++)
+			valueTimes[i] = new ArrayList<String>();
 	}
 	
 	/**
 	 * Parse and set a value.
 	 */
-	public void set(String name, Object value) {
+	public void set(String key, MOptionParser value) {
 		try {
+			/*
 			if(value instanceof String) {
 				value = MayaUI.parseConfigValue(value.toString());
 				
-				if(name.contains("color")) {
+				if(key.contains("color")) {
 					((MayaColor)value).setAlpha(get("opacity", new Float(0F), 1F));
-				}else if(name.equals("opacity")) {
+				}else if(key.equals("opacity")) {
 					MayaColor color = get("background-color", new MayaColor(), new MayaColor()).clone();
 					color.setAlpha(Float.parseFloat(value.toString()));
 					value = color;
-					name = "background-color";
-				}else if(name.startsWith("border")) {
+					key = "background-color";
+				}/*else if(name.startsWith("border")) {
 					MBorder tmpborder = get("border", new MBorder(), new MBorder()).clone();
 					tmpborder.parse(name, value.toString());
 					value = tmpborder;
 					name = "border";
-				}
-			}
+				}*/
 			
-			values.put(name, value);
+			if(((MOptionParser)value).getRuntime() != null)
+				for(MOptionRuntime runtime : ((MOptionParser)value).getRuntime())
+					valueTimes[runtime.ordinal()].add(key);
+			
+			values.put(key, value);
 		} catch(Exception e) { e.printStackTrace(); }
 	}
 	
@@ -82,27 +98,15 @@ public class UIClass {
 	/**
 	 * Get a value.
 	 */
-	@SuppressWarnings("unchecked")
-	public <T> T get(String name, T returntype) {
+	public MOptionParser get(String name) {
 		if(!values.containsKey(name)) {
-			if(parent == null)
+			if(parent == null) {
+				System.err.println("Parent is null for " + this.name + " while looking for " + name);
 				return null;
-			return parent.get(name, returntype);
+			}
+			return parent.get(name);
 		}
-		return (T)values.get(name);
-	}
-	
-	/**
-	 * Get a value with a fallback default value.
-	 */
-	@SuppressWarnings("unchecked")
-	public <T> T get(String name, T returntype, T defaultValue) {
-		if(!values.containsKey(name)) {
-			if(parent == null)
-				return defaultValue;
-			return parent.get(name, returntype, defaultValue);
-		}
-		return (T)values.get(name);
+		return values.get(name);
 	}
 	
 	/**
@@ -117,6 +121,11 @@ public class UIClass {
 	 */
 	public boolean has(String name) {
 		return values.containsKey(name);
+	}
+	
+	public void run(MOptionRuntime runtime, float width, float height) {
+		for(String str : valueTimes[runtime.ordinal()])
+			((MOptionParser)values.get(str)).run(runtime, width, height);
 	}
 	
 	public String toString() {

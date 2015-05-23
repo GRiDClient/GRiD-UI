@@ -1,14 +1,15 @@
 package com.codingforcookies.mayaui.src.notification;
 
 import com.codingforcookies.mayaui.src.MayaUI;
-import com.codingforcookies.mayaui.src.texture.MayaFontRenderer;
+import com.codingforcookies.mayaui.src.ui.RenderHelper;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIComponent;
 
 public class MNotification extends UIComponent {
+	public int number = 0;
+	
 	private MNotificationType type;
 	private String message;
 	private long startTime = 0L;
-	public boolean done = false;
 	
 	public MNotification(MNotificationType type, String message) {
 		super("notifiation");
@@ -27,6 +28,7 @@ public class MNotification extends UIComponent {
 	}
 	
 	public void render() {
-		MayaFontRenderer.draw(message, 0, -20);
+		RenderHelper.renderWithTheme(uiclass);
+		RenderHelper.drawString(uiclass, message, 0, -20);
 	}
 }

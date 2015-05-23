@@ -4,7 +4,6 @@ import com.codingforcookies.mayaui.src.notification.MNotification;
 import com.codingforcookies.mayaui.src.notification.MNotificationType;
 import com.codingforcookies.mayaui.src.notification.NotificationManager;
 import com.codingforcookies.mayaui.src.ui.UIManager;
-import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
 
 /**
@@ -28,6 +27,7 @@ public class MayaUI {
 	 * Currently only loads all themes available under /themes/
 	 */
 	public static void initialize() {
+		ThemeManager.init();
 		ThemeManager.loadThemes();
 		
 		if(!ThemeManager.setTheme("Maya Theme")) {
@@ -40,20 +40,15 @@ public class MayaUI {
 		System.out.println("  Done");
 	}
 	
-	/**
-	 * Parses a configuration value to return it's code-useful value
-	 */
-	public static Object parseConfigValue(String str) {
-		if(str.endsWith("px")) {
-			return Integer.parseInt(str.substring(0, str.length() - 2));
-		}else if(str.startsWith("0x")) {
-			return Integer.parseInt(str);
-		}else if(str.endsWith("%")) {
-			return Integer.parseInt(str.substring(0, str.length() - 1)) / 100F;
-		}else if(str.startsWith("#")) {
-			return new MayaColor(str);
+	public static float parseConfigFloat(String value) {
+		if(value.endsWith("px")) {
+			return Float.parseFloat(value.substring(0, value.length() - 2));
+		}else if(value.startsWith("0x")) {
+			return Float.parseFloat(value);
+		}else if(value.endsWith("%")) {
+			return Float.parseFloat(value.substring(0, value.length() - 1)) / 100F;
 		}else
-			return str;
+			return Float.parseFloat(value);
 	}
 	
 	/**

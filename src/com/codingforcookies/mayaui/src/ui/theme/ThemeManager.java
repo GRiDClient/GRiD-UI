@@ -5,14 +5,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.codingforcookies.mayaui.src.exceptions.ThemeInvalidException;
-import com.codingforcookies.mayaui.src.texture.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.texture.MayaTextureLoader;
+import com.codingforcookies.mayaui.src.ui.MayaFontRenderer;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionBgColor;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionColor;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionInfo;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionMargin;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionNone;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionParser;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionSize;
+import com.codingforcookies.mayaui.src.ui.theme.parser.border.MOptionBorder;
 
 /**
  * Manages all theme loading, parsing, and storage.
@@ -25,6 +35,28 @@ public class ThemeManager {
 	public static Set<String> getThemes() { return availableThemes.keySet(); }
 	public static UITheme getTheme() { return currentTheme; }
 	
+	public static List<MOptionParser> optionParsers = new ArrayList<MOptionParser>();
+	private static MOptionParser runParser(UITheme theme, String keyclass, String key, String value) {
+		for(MOptionParser parser : optionParsers)
+			if(parser.shouldParse(keyclass, key, value)) {
+				MOptionParser ret = parser.parse(theme, keyclass, key, value);
+				if(ret == null)
+					return null;
+				return ret.clone();
+			}
+		return new MOptionNone().parse(theme, keyclass, key, value);
+	}
+	
+	public static void init() {
+		optionParsers.add(new MOptionInfo());
+		
+		optionParsers.add(new MOptionSize());
+		optionParsers.add(new MOptionMargin());
+		optionParsers.add(new MOptionColor());
+		optionParsers.add(new MOptionBgColor());
+		optionParsers.add(new MOptionBorder());
+	}
+	
 	/**
 	 * Set the current theme. Theme must already be loaded!
 	 */
@@ -34,8 +66,6 @@ public class ThemeManager {
 			currentTheme = processTheme(availableThemes.get(name));
 			if(currentTheme != null) {
 				System.out.println("Applied theme '" + name + "'");
-				MayaColor.GLOBAL_COLOR = currentTheme.getClass("global").get("color", new MayaColor(), MayaColor.WHITE);
-				MayaColor.GLOBAL_BACKGROUND = currentTheme.getClass("global").get("background-color", new MayaColor(), MayaColor.BLUE);
 				
 				//currentTheme.output();
 				
@@ -141,8 +171,11 @@ public class ThemeManager {
 						if(returnkey != null) {
 							if(returnkey[1].equals(set[0]))
 								return set[1];
-						}else
-							theme.set(key, set[0], set[1]);
+						}else{
+							MOptionParser parser = runParser(theme, key, set[0], set[1]);
+							if(parser != null)
+								theme.set(key, set[0], parser);
+						}
 					}
 				}
 			}

@@ -10,22 +10,21 @@ public class NotificationManager {
 	
 	public static void addNotification(MNotification mNotification) {
 		if(notificationWindow == null) {
-			new MWindowBase(0, 0, Display.getWidth(), Display.getHeight()) {
+			notificationWindow = new MWindowBase(0, 0, Display.getWidth(), Display.getHeight()) {
 				public void update() {
 					super.update();
 					
 					if(components.size() == 0) {
-						this.scheduledForDrop = true;
+						scheduledForDrop = true;
 						notificationWindow = null;
 					}
 				}
 			};
 			
 			MayaUI.getUIManager().createWindow(notificationWindow);
-			
-			System.out.println("Created notification panel");
 		}
 		
+		mNotification.number = notificationWindow.getComponents().size();
 		notificationWindow.addComponent(mNotification);
 	}
 }

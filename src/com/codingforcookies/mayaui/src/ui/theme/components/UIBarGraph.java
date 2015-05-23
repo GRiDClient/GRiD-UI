@@ -4,19 +4,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
+import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 
 /**
  * Maya UI bar graph component. Displays a bar graph in the window.
  * @author Stumblinbear
  */
 public class UIBarGraph extends UIComponent {
+	private UIClass uibarclass;
+	
 	private HashMap<String, UIBarGraphBar> barInfo = new HashMap<String, UIBarGraphBar>();
 	private List<String> bars = new ArrayList<String>();
 	
 	public UIBarGraph() {
 		super("bargraph");
+		
+		uibarclass = uiclass.getClass(".bar");
 	}
 	
 	public void update() {
@@ -38,9 +45,14 @@ public class UIBarGraph extends UIComponent {
 		for(String bar : bars) {
 			UIBarGraphBar thebar = barInfo.get(bar);
 			
-			thebar.color.use();
 			float i = (width / bars.size());
-			RenderHelper.renderBox(x + i * num + 2, y, i - 4, thebar.percent * height);
+			
+			GL11.glPushMatrix();
+			{
+				GL11.glTranslatef(x + i * num + 2, y, 0F);
+				RenderHelper.renderWithTheme(uibarclass, i - 4, thebar.percent * height, thebar.color);
+			}
+			GL11.glPopMatrix();
 			
 			num++;
 		}

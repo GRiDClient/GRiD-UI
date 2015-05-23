@@ -1,4 +1,4 @@
-package com.codingforcookies.mayaui.src.ui.theme;
+package com.codingforcookies.mayaui.src.ui.theme.parser.border;
 
 /**
  * Enum for border type

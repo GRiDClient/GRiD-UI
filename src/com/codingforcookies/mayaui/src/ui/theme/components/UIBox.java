@@ -1,5 +1,7 @@
 package com.codingforcookies.mayaui.src.ui.theme.components;
 
+import org.lwjgl.opengl.GL11;
+
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 
@@ -19,7 +21,12 @@ public class UIBox extends UIComponent {
 	public void update() { }
 	
 	public void render() {
-		RenderHelper.renderBox(x, y, width, height, color);
+		GL11.glPushMatrix();
+		{
+			GL11.glTranslatef(x, y, 0F);
+			RenderHelper.renderWithTheme(uiclass, width, height, color);
+		}
+		GL11.glPopMatrix();
 	}
 	
 	public UIBox setBounds(float x, float y, float width, float height) {

@@ -69,6 +69,13 @@ public class MWindowBase extends MayaRender {
 	public void addComponent(UIComponent component) {
 		components.add(component);
 	}
+	
+	/**
+	 * Returns a list of all the components in the window
+	 */
+	public List<UIComponent> getComponents() {
+		return components;
+	}
 
 	/**
 	 * For render functions that override the super render function. Just draws the components.

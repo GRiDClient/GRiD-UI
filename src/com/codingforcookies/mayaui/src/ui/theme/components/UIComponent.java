@@ -1,6 +1,7 @@
 package com.codingforcookies.mayaui.src.ui.theme.components;
 
 import com.codingforcookies.mayaui.src.ui.MayaRender;
+import com.codingforcookies.mayaui.src.ui.RenderHelper;
 import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 
@@ -18,7 +19,7 @@ public abstract class UIComponent extends MayaRender {
 	public UIComponent(String uiclass) {
 		this.uiclass = ThemeManager.getTheme().getClass(uiclass);
 	}
-
+	
 	/**
 	 * Set the location, width, and height of the component.
 	 */
@@ -29,5 +30,9 @@ public abstract class UIComponent extends MayaRender {
 		this.height = height;
 		
 		return this;
+	}
+	
+	protected void drawString(String string, float x, float y) {
+		RenderHelper.drawString(uiclass, string, x, y);
 	}
 }

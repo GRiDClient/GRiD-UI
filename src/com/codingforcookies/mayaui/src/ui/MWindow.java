@@ -4,8 +4,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.MayaUI;
-import com.codingforcookies.mayaui.src.texture.MayaFontRenderer;
-import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 import com.codingforcookies.mayaui.src.ui.theme.UITheme;
@@ -65,7 +63,7 @@ public class MWindow extends MWindowPanel {
 				windowclass = theme.getClass("#" + title.toLowerCase().replace(" ", "_"));
 			
 			if(titleHeight == 0)
-				titleHeight = windowclass.getClass(".title").get("height", new Integer(0), 25);
+				titleHeight = windowclass.getClass(".title").get("height").getValue(new Float(0F));
 		    
 		    /* DRAW WINDOW BODY */
 			GL11.glTranslatef(x, y, 0F);
@@ -75,7 +73,7 @@ public class MWindow extends MWindowPanel {
 			GL11.glTranslatef(0F, titleHeight, 0F);
 		    RenderHelper.renderWithTheme(windowclass.getClass(".title"), width);
 		    
-		    MayaFontRenderer.draw(title, 6, -7, windowclass.getClass(".title").get("color", new MayaColor(), MayaColor.WHITE));
+		    RenderHelper.drawString(windowclass.getClass(".title"), title, 6, -7);
 		    
 		    super.drawComponents();
 		}

@@ -18,8 +18,8 @@ public class MayaColor implements Cloneable {
 	public static final MayaColor GREEN = new MayaColor(0F, 1F, 0F);
 	public static final MayaColor BLUE = new MayaColor(0F, 0F, 1F);
 
-	public static MayaColor GLOBAL_COLOR = BLACK;
-	public static MayaColor GLOBAL_BACKGROUND = BLUE;
+	public static MayaColor FALLBACK_COLOR = BLUE;
+	public static MayaColor FALLBACK_BACKGROUND = BLUE;
 	
 	private float r, g, b, a;
 
@@ -58,6 +58,10 @@ public class MayaColor implements Cloneable {
 	 */
 	public MayaColor(String hex, float alpha) {
 		setup(hex, alpha);
+	}
+
+	public void setColor(String parse) {
+		setup(parse, a);
 	}
 	
 	/**

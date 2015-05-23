@@ -2,64 +2,82 @@ package com.codingforcookies.mayaui.src.ui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.codingforcookies.mayaui.src.ui.theme.MBorder;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionRuntime;
 
 public class RenderHelper {
 	/**
 	 * Renders a square. But reads the theme file and appends all defined components such as borders.
 	 */
-	public static void renderWithTheme(UIClass uiclass, float width, float height, MayaColor bgColor) {
-		bgColor.use();
-		
-		if(bgColor.getAlpha() != 1F) {
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		}
-		
-		renderBox(0, 0, width, height);
-		
-		if(uiclass.has("border"))
-			uiclass.get("border", new MBorder()).render(width, height);
-		
-		if(bgColor.getAlpha() != 1F)
-			GL11.glDisable(GL11.GL_BLEND);
-	}
-	
-	/**
-	 * Various renderWithTheme functions.
-	 */
 	public static void renderWithTheme(UIClass uiclass, float width, float height) {
-		renderWithTheme(uiclass, width, height, uiclass.get("background-color", new MayaColor(), MayaColor.GLOBAL_BACKGROUND));
+		renderWithTheme(uiclass, width, height, null);
+	}
+	/**
+	 * Renders a square. But reads the theme file and appends all defined components such as borders. Includes a color override.
+	 */
+	public static void renderWithTheme(UIClass uiclass, float width, float height, MayaColor color) {
+		GL11.glPushMatrix();
+		{
+			uiclass.run(MOptionRuntime.PRERENDER, width, height);
+	
+			if(color != null)
+				color.use();
+	
+			renderBox(0, 0, width, height);
+	
+			uiclass.run(MOptionRuntime.POSTRENDER, width, height);
+		}
+		GL11.glPopMatrix();
 	}
 
 	/**
 	 * Various renderWithTheme functions.
 	 */
 	public static void renderWithTheme(UIClass uiclass, float width) {
-		renderWithTheme(uiclass, width, uiclass.get("height", new Integer(0), 0).floatValue());
+		renderWithTheme(uiclass, width, uiclass.get("height").getValue(new Float(0)));
 	}
-	
+
 	/**
-	 * Render a box. WITH COLOR!
+	 * Various renderWithTheme functions.
 	 */
+	public static void renderWithTheme(UIClass uiclass) {
+		renderWithTheme(uiclass, uiclass.get("width").getValue(new Float(0)), uiclass.get("height").getValue(new Float(0)));
+	}
+
 	public static void renderBox(float x, float y, float width, float height, MayaColor color) {
 		color.use();
 		renderBox(x, y, width, height);
 	}
-	
+
 	/**
 	 * Render a box.
 	 */
 	public static void renderBox(float x, float y, float width, float height) {
 		GL11.glBegin(GL11.GL_QUADS);
-	    {
-	        GL11.glVertex2f(x, y);
+		{
+			GL11.glVertex2f(x, y);
 			GL11.glVertex2f(x + width, y);
 			GL11.glVertex2f(x + width, y - height);
 			GL11.glVertex2f(x, y - height);
-	    }
-	    GL11.glEnd();
+		}
+		GL11.glEnd();
+	}
+
+	public static void drawString(UIClass uiclass, String string, float x, float y) {
+		boolean hastextclass = uiclass.hasClass("text");
+		float width = MayaFontRenderer.getStringWidth(string);
+
+		uiclass.run(MOptionRuntime.PRETEXT, width, MayaFontRenderer.CHAR_WIDTH);
+
+		if(hastextclass)
+			uiclass.getClass("text").run(MOptionRuntime.PRETEXT, width, MayaFontRenderer.CHAR_WIDTH);
+
+		MayaFontRenderer.draw(string, x, y);
+
+		if(hastextclass)
+			uiclass.getClass("text").run(MOptionRuntime.POSTTEXT, width, MayaFontRenderer.CHAR_WIDTH);
+
+		uiclass.run(MOptionRuntime.POSTTEXT, width, MayaFontRenderer.CHAR_WIDTH);
 	}
 }

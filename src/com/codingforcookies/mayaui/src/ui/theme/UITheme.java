@@ -2,6 +2,9 @@ package com.codingforcookies.mayaui.src.ui.theme;
 
 import java.util.HashMap;
 
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionParser;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionSize;
+
 /**
  * Themes are reminiscent of CSS in how they are loaded. This class holds all name, creator, description, and class information.
  * @author Stumblinbear
@@ -20,6 +23,8 @@ public class UITheme {
 		classes = new HashMap<String, UIClass>();
 		
 		classes.put("global", new UIClass(null, "global"));
+		classes.get("global").set("width", new MOptionSize().parse(this, "global", "", "0"));
+		classes.get("global").set("height", new MOptionSize().parse(this, "global", "", "0"));
 	}
 	
 	/**
@@ -48,16 +53,8 @@ public class UITheme {
 	/**
 	 * Set a value under a class.
 	 */
-	public void set(String key, String classname, String value) {
-		if(key.equals("info")) {
-			if(classname.equals("name"))
-				name = value;
-			else if(name.equals("creator"))
-				creator = value;
-			else if(name.equals("description"))
-				description = value;
-		}else
-			getLowestClass(key).set(classname, value);
+	public void set(String key, String classname, MOptionParser parser) {
+		getLowestClass(key).set(classname, parser);
 	}
 	
 	/**
