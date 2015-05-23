@@ -13,27 +13,9 @@ global {
 	background-color: #777
 }
 
-separator {
-	border: outer 1px solid [maincolor-b]
-}
-
-progressbar {
-	background-color: #777
-}
-
-progressbar .overlay {
-	background-color: #44EE44
-}
-
 panel {
 	background-color: #FFF
 	opacity: 80%
-	border: outer 1px solid [maincolor-b]
-	border-bottom: inner 3px solid [maincolor-b]
-}
-
-panel #performance_monitor {
-	opacity: 100%
 	border: outer 1px solid [maincolor-b]
 	border-bottom: inner 3px solid [maincolor-b]
 }
@@ -98,4 +80,21 @@ notification #error {
 	
 	border: outer 1px solid #DA6854
 	border-bottom: inner 3px solid #DA6854
+}
+
+
+separator {
+	border: outer 1px solid [maincolor-b]
+}
+
+progressbar {
+	background-color: #777
+}
+
+progressbar .overlay {
+	background-color: #44EE44
+}
+
+bargraph .bar {
+	border: 0
 }

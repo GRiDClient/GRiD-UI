@@ -126,4 +126,27 @@ public class UIManager {
 				renders.remove(i);
 			}
 	}
+
+	public void onWindowResized(int changewidth, int changeheight) {
+		for(MayaRender render : renders) {
+			switch(render.anchor) {
+				case TOPLEFT:
+					render.y += changeheight;
+					break;
+				case TOPRIGHT:
+					render.x += changewidth;
+					render.y += changeheight;
+					break;
+				case BOTTOMRIGHT:
+					render.x += changewidth;
+					break;
+				case BOTTOMLEFT:
+					break;
+				default:
+					break;
+			}
+			
+			render.onWindowResized(changewidth, changeheight);
+		}
+	}
 }

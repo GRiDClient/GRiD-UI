@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.ui.MWindowBase;
+import com.codingforcookies.mayaui.src.ui.theme.MAlign;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIComponent;
 
 public class NotificationManager {
@@ -14,6 +15,11 @@ public class NotificationManager {
 	public static void addNotification(MNotification mNotification) {
 		if(notificationWindow == null) {
 			notificationWindow = new MWindowBase(Display.getWidth(), Display.getHeight(), 0, 0) {
+				public void init() {
+					super.init();
+					anchor = MAlign.BOTTOMRIGHT;
+				}
+				
 				public void update(float delta) {
 					for(int i = 0; i < (components.size() > MAX_SHOWN ? MAX_SHOWN : components.size()); i++) {
 						components.get(i).update(delta);

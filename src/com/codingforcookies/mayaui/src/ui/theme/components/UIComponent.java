@@ -13,7 +13,6 @@ public abstract class UIComponent extends MayaRender {
 	 * The theme class for the component.
 	 */
 	protected UIClass uiclass;
-	public float x, y, width, height;
 	
 	public UIComponent(String uiclass) {
 		this.uiclass = ThemeManager.getTheme().getClass(uiclass);

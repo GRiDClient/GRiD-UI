@@ -41,17 +41,13 @@ public class Test {
 	
 	public Test() {
 		try {
+		    Display.setResizable(true);
 		    Display.setDisplayMode(new DisplayMode(800, 500));
 		    Display.create();
 		} catch (LWJGLException e) {
 		    e.printStackTrace();
 		    System.exit(0);
 		}
-		
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
-		GL11.glOrtho(0, 800, 0, 500, 1, -1);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		
 		MayaUI.initialize();
 		
@@ -61,6 +57,22 @@ public class Test {
 		init();
 		
 		while(!Display.isCloseRequested()) {
+			if(Display.wasResized()) {
+				GL11.glMatrixMode(GL11.GL_PROJECTION);
+				GL11.glLoadIdentity();
+				GL11.glOrtho(0, Display.getWidth(), 0, Display.getHeight(), 1, -1);
+				GL11.glMatrixMode(GL11.GL_MODELVIEW);
+				GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
+
+				int changewidth = Display.getWidth() - MayaUI.SCREEN_WIDTH;
+				int changeheight = Display.getHeight() - MayaUI.SCREEN_HEIGHT;
+				
+				MayaUI.SCREEN_WIDTH = Display.getWidth();
+				MayaUI.SCREEN_HEIGHT = Display.getHeight();
+				
+				MayaUI.getUIManager().onWindowResized(changewidth, changeheight);
+			}
+			
 			update(getDelta());
 			updateFPS();
 			
@@ -108,11 +120,23 @@ public class Test {
 		
 		uimanager = MayaUI.getUIManager();
 		
-		uimanager.createWindow(new MWindow("Test Window", 10, 15, 300, 200));
-		uimanager.createWindow(new MWindow("Test Window", 320, 15, 470, 200));
+		uimanager.createWindow(new MWindow("Test Window", 10, 15, 300, 200) {
+			public void init() {
+				super.init();
+				this.anchor = MAlign.TOPLEFT;
+			}
+		});
+		uimanager.createWindow(new MWindow("Test Window", 320, 15, 470, 200) {
+			public void init() {
+				super.init();
+				this.anchor = MAlign.TOPRIGHT;
+			}
+		});
 		uimanager.createWindow(new MWindowPanel("Performance Monitor", 10, Display.getHeight() - 210, 300, 200) {
 			public void init() {
 				super.init();
+				this.anchor = MAlign.BOTTOMLEFT;
+				
 				UILabel perfLabel = new UILabel("Performance Monitor", MAlign.CENTER).setBounds(5, 5, 185, 10);
 				addComponent(perfLabel);
 				
@@ -138,6 +162,9 @@ public class Test {
 		uimanager.createWindow(new MWindowBase(0, 0, Display.getWidth(), 5) {
 			UIProgressBar prgBar;
 			public void init() {
+				super.init();
+				anchor = MAlign.TOPLEFT;
+				
 				prgBar = new UIProgressBar().setBounds(0, 0, Display.getWidth(), 5);
 				addComponent(prgBar);
 			}
@@ -147,6 +174,10 @@ public class Test {
 				
 				if(prgBar.getProgress() >= 1F)
 					prgBar.setProgress(0);
+			}
+			
+			public void onWindowResized(int changewidth, int changeheight) {
+				prgBar.width += changewidth;
 			}
 		});
 		

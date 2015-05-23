@@ -62,7 +62,7 @@ public class MWindow extends MWindowPanel {
 			if(theme.hasClass("#" + title.toLowerCase().replace(" ", "_")))
 				windowclass = theme.getClass("#" + title.toLowerCase().replace(" ", "_"));
 			
-			if(titleHeight == 0)
+			if(titleHeight == 0 && windowclass.getClass(".title").get("height") != null)
 				titleHeight = windowclass.getClass(".title").get("height").getValue(new Float(0F));
 		    
 		    /* DRAW WINDOW BODY */

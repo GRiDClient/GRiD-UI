@@ -13,8 +13,6 @@ import com.codingforcookies.mayaui.src.ui.theme.components.UIComponent;
  * @author Stumblinbear
  */
 public class MWindowBase extends MayaRender {
-	public float x, y, width, height;
-	
 	/**
 	 * A list of all the components in the window.
 	 */

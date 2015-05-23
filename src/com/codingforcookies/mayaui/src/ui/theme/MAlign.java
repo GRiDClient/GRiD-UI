@@ -5,9 +5,16 @@ package com.codingforcookies.mayaui.src.ui.theme;
  * @author Stumblinbear
  */
 public enum MAlign {
-	LEFT,
+	TOP,
 	RIGHT,
+	BOTTOM,
+	LEFT,
 	CENTER,
 	VERTICAL,
-	HORIZONTAL;
+	HORIZONTAL,
+	
+	TOPLEFT,
+	TOPRIGHT,
+	BOTTOMLEFT,
+	BOTTOMRIGHT;
 }
