@@ -8,6 +8,12 @@ public abstract class MOptionParser implements Cloneable {
 	
 	public abstract boolean shouldParse(String keyclass, String key, String value);
 	public abstract MOptionRuntime[] getRuntime();
+	/**
+	 * If this parser should also run when children are rendered.
+	 */
+	public boolean shouldRunParented() {
+		return true;
+	}
 	
 	public abstract MOptionParser parse(UITheme theme, String keyclass, String key, String value);
 	public abstract <T> T getValue(T type);

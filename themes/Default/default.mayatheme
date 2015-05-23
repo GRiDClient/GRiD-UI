@@ -37,7 +37,7 @@ window {
 	background-color: #FFF
 	opacity: 90%
 	border: outer 1px solid [brightermaincolor]
-	border-bottom: outer 5px solid [brightermaincolor]
+	border-bottom: outer 3px solid [brightermaincolor]
 }
 
 window .title {
@@ -61,12 +61,15 @@ notification {
 
 notification #help {
 	background-color: #7777FF
+	border-bottom: inner 3px solid #3333CC
 }
 
 notification #warning {
 	background-color: #FFFF77
+	border-bottom: inner 3px solid #AAAA00
 }
 
 notification #error {
 	background-color: #FF7777
+	border-bottom: inner 3px solid #CC3333
 }

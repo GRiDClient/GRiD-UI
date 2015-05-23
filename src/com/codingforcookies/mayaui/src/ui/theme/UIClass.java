@@ -108,10 +108,19 @@ public class UIClass {
 	}
 	
 	public void run(MOptionRuntime runtime, float width, float height) {
+		run(runtime, width, height, true);
+	}
+	
+	private void run(MOptionRuntime runtime, float width, float height, boolean top) {
 		if(parent != null)
-			parent.run(runtime, width, height);
-		for(String str : valueTimes[runtime.ordinal()])
-			((MOptionParser)values.get(str)).run(runtime, width, height);
+			parent.run(runtime, width, height, false);
+		for(String str : valueTimes[runtime.ordinal()]) {
+			if(values.get(str) == null)
+				continue;
+			
+			if(!top ? values.get(str).shouldRunParented() : true)
+				values.get(str).run(runtime, width, height);
+		}
 	}
 	
 	public String toString() {
