@@ -110,7 +110,6 @@ public class VertexBufferObject {
 	}
 
 	public void setColor(int index, int rgba) {
-		System.out.println(rgba);
 		index *= vertexSize + (hasTexture ? 20 : 12);
 		buffer.position(index);
 		buffer.putInt(rgba);

@@ -59,12 +59,8 @@ public class UITheme {
 	 */
 	public void set(String key, String classname, MOptionParser parser) {
 		if(!classes.get("global").has(classname))
-			if(parser != null) {
-				if(classname.contains("opacity")) {
-					System.out.println(parser.clone().getDefault());
-				}
+			if(parser != null)
 				classes.get("global").set(classname, parser.clone().getDefault());
-			}
 		
 		getLowestClass(key).set(classname, parser);
 	}
