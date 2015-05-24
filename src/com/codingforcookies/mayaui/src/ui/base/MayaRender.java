@@ -17,8 +17,6 @@ public abstract class MayaRender extends MayaUpdate {
 		return this;
 	}
 	
-	protected MVBO mVBO;
-
 	/**
 	 * Initializes the render.
 	 */
@@ -28,13 +26,6 @@ public abstract class MayaRender extends MayaUpdate {
 			render();
 		}
 		GL11.glPopMatrix();
-	}
-	
-	/**
-	 * Create the VBO.
-	 */
-	public void createVBO() {
-		
 	}
 	
 	/**

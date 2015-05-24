@@ -32,8 +32,6 @@ public class MWindow extends MWindowPanel {
 		super.init();
 		
 		uititleclass = uiclass.getClass(".title");
-		
-		createVBO();
 	}
 	
 	public void update(float delta) {

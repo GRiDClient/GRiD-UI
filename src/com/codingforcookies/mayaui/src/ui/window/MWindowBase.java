@@ -6,8 +6,6 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.MayaUI;
-import com.codingforcookies.mayaui.src.exceptions.MayaException;
-import com.codingforcookies.mayaui.src.exceptions.VBOInvalidException;
 import com.codingforcookies.mayaui.src.ui.base.MayaRender;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIComponent;
@@ -65,19 +63,6 @@ public class MWindowBase extends MayaRender {
 		}
 	}
 	
-	public void createRender() {
-		
-	}
-	
-	public void renderVBO() {
-		if(mVBO == null) {
-			MayaException.throwNonClosing(new VBOInvalidException("Attempt to render a null VBO."));
-			return;
-		}
-		
-		mVBO.render();
-	}
-
 	/**
 	 * Renders all components in the window.
 	 */

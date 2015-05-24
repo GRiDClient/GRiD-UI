@@ -3,8 +3,6 @@ package com.codingforcookies.mayaui.src.ui.window;
 import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
-import com.codingforcookies.mayaui.src.ui.base.MVBO;
-import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
 import com.codingforcookies.mayaui.src.ui.theme.UITheme;
 
@@ -24,18 +22,6 @@ public class MWindowPanel extends MWindowBase {
 			uiclass = uiclass.getClass("#" + title.toLowerCase().replace(" ", "_"));
 		
 		super.init();
-		
-		createVBO();
-	}
-	
-	public void createVBO() {
-		MayaColor color;
-		if(uiclass.has("background-color"))
-			color = uiclass.get("background-color").getValue(new MayaColor());
-		else
-			color = MayaColor.FALLBACK_COLOR;
-		
-		mVBO = new MVBO().create(width, height, color);
 	}
 	
 	public void render() {
