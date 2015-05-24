@@ -2,36 +2,50 @@ package com.codingforcookies.mayaui.src.ui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.codingforcookies.mayaui.src.ui.base.MVBO;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionRuntime;
 
 public class RenderHelper {
-	/**
-	 * Renders a square. But reads the theme file and appends all defined components such as borders.
-	 */
-	public static void renderWithTheme(UIClass uiclass, float width, float height) {
-		renderWithTheme(uiclass, width, height, null);
-	}
-
-	/**
-	 * Various renderWithTheme functions.
-	 */
 	public static void renderWithTheme(UIClass uiclass, float width) {
-		renderWithTheme(uiclass, width, uiclass.get("height") != null ? uiclass.get("height").getValue(new Float(0)) : 0F);
+		renderWithTheme(uiclass, width, uiclass.get("height") == null ? 0F : uiclass.get("height").getValue(new Float(0)));
+	}
+	
+	public static void renderWithTheme(UIClass uiclass, float width, float height) {
+		renderWithTheme(uiclass, width, height, null, null);
+	}
+	
+	public static void renderWithTheme(UIClass uiclass, MVBO mVBO) {
+		renderWithTheme(uiclass, uiclass.get("height") == null ? 0F : uiclass.get("height").getValue(new Float(0)), mVBO);
+	}
+	
+	public static void renderWithTheme(UIClass uiclass, float width, MVBO mVBO) {
+		renderWithTheme(uiclass, width, uiclass.get("height") == null ? 0F : uiclass.get("height").getValue(new Float(0)), mVBO);
+	}
+	
+	public static void renderWithTheme(UIClass uiclass, float width, float height, MVBO mVBO) {
+		renderWithTheme(uiclass, width, height, null, mVBO);
+	}
+	
+	public static void renderWithTheme(UIClass uiclass, float width, float height, MayaColor color) {
+		renderWithTheme(uiclass, width, height, color, null);
 	}
 	
 	/**
 	 * Renders a square. But reads the theme file and appends all defined components such as borders. Includes a color override.<br><br>
 	 * Warning: Does not run GL11.glPushMatrix() or GL11.glPopMatrix()
 	 */
-	public static void renderWithTheme(UIClass uiclass, float width, float height, MayaColor color) {
+	public static void renderWithTheme(UIClass uiclass, float width, float height, MayaColor color, MVBO mVBO) {
 		uiclass.run(MOptionRuntime.PRERENDER, width, height);
 		
 		if(color != null)
 			color.use();
 		
-		renderBox(0, 0, width, height);
+		if(mVBO != null)
+			mVBO.render();
+		else
+			renderBox(0, 0, width, height);
 		
 		uiclass.run(MOptionRuntime.POSTRENDER, width, height);
 	}
@@ -52,12 +66,15 @@ public class RenderHelper {
 	 * Render a box.
 	 */
 	public static void renderBox(float x, float y, float width, float height) {
-		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glBegin(GL11.GL_TRIANGLES);
 		{
+			GL11.glVertex2f(x, y);
+			GL11.glVertex2f(x, y - height);
+			GL11.glVertex2f(x + width, y - height);
+			
 			GL11.glVertex2f(x, y);
 			GL11.glVertex2f(x + width, y);
 			GL11.glVertex2f(x + width, y - height);
-			GL11.glVertex2f(x, y - height);
 		}
 		GL11.glEnd();
 	}

@@ -1,4 +1,4 @@
-package com.codingforcookies.mayaui.src.ui;
+package com.codingforcookies.mayaui.src.ui.base;
 
 /**
  * Common abstract class for update components.

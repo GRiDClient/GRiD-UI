@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import com.codingforcookies.mayaui.src.ui.base.MayaRender;
+import com.codingforcookies.mayaui.src.ui.base.MayaUpdate;
+import com.codingforcookies.mayaui.src.ui.window.MWindow;
+import com.codingforcookies.mayaui.src.ui.window.MWindowBase;
+
 /**
  * Handles all rendering and updating for Maya UI windows.
  * @author Stumblinbear
@@ -32,7 +37,7 @@ public class UIManager {
 				renders.remove(i);
 				i--;
 			}else
-				renders.get(i).render();
+				renders.get(i).startRender();
 		}
 	}
 	

@@ -1,4 +1,4 @@
-package com.codingforcookies.mayaui.src.ui;
+package com.codingforcookies.mayaui.src.ui.window;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,10 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.MayaUI;
+import com.codingforcookies.mayaui.src.exceptions.MayaException;
+import com.codingforcookies.mayaui.src.exceptions.VBOInvalidException;
+import com.codingforcookies.mayaui.src.ui.base.MayaRender;
+import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIComponent;
 
 /**
@@ -14,11 +18,23 @@ import com.codingforcookies.mayaui.src.ui.theme.components.UIComponent;
  */
 public class MWindowBase extends MayaRender {
 	/**
+	 * The theme class for the window.
+	 */
+	public UIClass uiclass;
+	
+	/**
 	 * A list of all the components in the window.
 	 */
 	protected List<UIComponent> components;
 	
-	public MWindowBase(float x, float y, float width, float height) {
+	/**
+	 * The title of the window.
+	 */
+	public String title = "";
+	
+	public MWindowBase(String title, float x, float y, float width, float height) {
+		this.title = title;
+		
 		this.x = x;
 		this.y = MayaUI.SCREEN_HEIGHT - y;
 		this.width = width;
@@ -48,17 +64,26 @@ public class MWindowBase extends MayaRender {
 			}
 		}
 	}
+	
+	public void createRender() {
+		
+	}
+	
+	public void renderVBO() {
+		if(mVBO == null) {
+			MayaException.throwNonClosing(new VBOInvalidException("Attempt to render a null VBO."));
+			return;
+		}
+		
+		mVBO.render();
+	}
 
 	/**
 	 * Renders all components in the window.
 	 */
 	public void render() {
-		GL11.glPushMatrix();
-		{
-			GL11.glTranslatef(x, y, 0F);
-			drawComponents();
-		}
-		GL11.glPopMatrix();
+		GL11.glTranslatef(x, y, 0F);
+		drawComponents();
 	}
 	
 	/**
@@ -80,6 +105,6 @@ public class MWindowBase extends MayaRender {
 	 */
 	public void drawComponents() {
 		for(UIComponent component : components)
-			component.render();
+			component.startRender();
 	}
 }

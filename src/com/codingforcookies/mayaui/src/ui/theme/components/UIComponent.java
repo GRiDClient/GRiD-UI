@@ -1,6 +1,6 @@
 package com.codingforcookies.mayaui.src.ui.theme.components;
 
-import com.codingforcookies.mayaui.src.ui.MayaRender;
+import com.codingforcookies.mayaui.src.ui.base.MayaRender;
 import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 

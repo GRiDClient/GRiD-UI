@@ -142,6 +142,14 @@ public class MayaColor implements Cloneable {
 	public void use() {
 		GL11.glColor4f(r, g, b, a);
 	}
+
+	public int getRGBAInt() {
+		int rgba = (int)(r * 255);
+		rgba = (rgba << 8) + (int)(g * 255);
+		rgba = (rgba << 8) + (int)(b * 255);
+		rgba = (rgba << 8) + (int)(a * 255);
+		return rgba;
+	}
 	
 	public String toString() {
 		return "color(r" + r + " g" + g + " b" + b + " a" + a + ")";

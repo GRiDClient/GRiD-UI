@@ -1,18 +1,19 @@
-package com.codingforcookies.mayaui.src.ui;
+package com.codingforcookies.mayaui.src.ui.window;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.MayaUI;
-import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
+import com.codingforcookies.mayaui.src.ui.RenderHelper;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
-import com.codingforcookies.mayaui.src.ui.theme.UITheme;
 
 /**
  * Maya UI Window. Same as Maya Panel, but includes a title bar.
  * @author Stumblinbear
  */
 public class MWindow extends MWindowPanel {
+	public UIClass uititleclass;
+	
 	public float titleHeight = 0;
 	
 	/**
@@ -27,8 +28,19 @@ public class MWindow extends MWindowPanel {
 		super(title, x, y, width, height);
 	}
 	
+	public void init() {
+		super.init();
+		
+		uititleclass = uiclass.getClass(".title");
+		
+		createVBO();
+	}
+	
 	public void update(float delta) {
 		super.update(delta);
+		
+		if(titleHeight == 0F && uititleclass.has("height"))
+			titleHeight = uititleclass.get("height").getValue(new Float(0F));
 		
 		if(Mouse.isButtonDown(0)) {
 			if(grabbed == 0) {
@@ -55,28 +67,16 @@ public class MWindow extends MWindowPanel {
 	}
 	
 	public void render() {
-		GL11.glPushMatrix();
-		{
-			UITheme theme = ThemeManager.getTheme();
-			UIClass windowclass = theme.getClass("window");
-			if(theme.hasClass("#" + title.toLowerCase().replace(" ", "_")))
-				windowclass = theme.getClass("#" + title.toLowerCase().replace(" ", "_"));
-			
-			if(titleHeight == 0 && windowclass.getClass(".title").get("height") != null)
-				titleHeight = windowclass.getClass(".title").get("height").getValue(new Float(0F));
-		    
-		    /* DRAW WINDOW BODY */
-			GL11.glTranslatef(x, y - titleHeight, 0F);
-		    RenderHelper.renderWithTheme(windowclass, width, height);
-		    
-		    /* DRAW WINDOW TITLE */
-			GL11.glTranslatef(0F, titleHeight, 0F);
-		    RenderHelper.renderWithTheme(windowclass.getClass(".title"), width);
-		    
-		    RenderHelper.drawString(windowclass.getClass(".title"), title, 0, 0);
-		    
-		    super.drawComponents();
-		}
-		GL11.glPopMatrix();
+		/* DRAW WINDOW BODY */
+		GL11.glTranslatef(x, y - titleHeight, 0F);
+		RenderHelper.renderWithTheme(uiclass, width, height);
+		
+		/* DRAW WINDOW TITLE */
+		GL11.glTranslatef(0F, titleHeight, 0F);
+		RenderHelper.renderWithTheme(uititleclass, width);
+		
+		RenderHelper.drawString(uititleclass, title, 0, 0);
+		
+		drawComponents();
 	}
 }

@@ -1,4 +1,6 @@
-package com.codingforcookies.mayaui.src.ui;
+package com.codingforcookies.mayaui.src.ui.base;
+
+import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.ui.theme.MAlign;
 
@@ -15,7 +17,30 @@ public abstract class MayaRender extends MayaUpdate {
 		return this;
 	}
 	
-	public abstract void render();
+	protected MVBO mVBO;
+
+	/**
+	 * Initializes the render.
+	 */
+	public void startRender() {
+		GL11.glPushMatrix();
+		{
+			render();
+		}
+		GL11.glPopMatrix();
+	}
+	
+	/**
+	 * Create the VBO.
+	 */
+	public void createVBO() {
+		
+	}
+	
+	/**
+	 * Renders everything else.
+	 */
+	protected abstract void render();
 	
 	public void onWindowResized(int changewidth, int changeheight) {
 		

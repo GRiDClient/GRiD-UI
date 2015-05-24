@@ -21,14 +21,10 @@ public class UIBox extends UIComponent {
 	public void update(float delta) { }
 	
 	public void render() {
-		GL11.glPushMatrix();
-		{
-			GL11.glTranslatef(x, y, 0F);
-			RenderHelper.renderWithTheme(uiclass, width, height, color);
-		}
-		GL11.glPopMatrix();
+		GL11.glTranslatef(x, y, 0F);
+		RenderHelper.renderWithTheme(uiclass, width, height, color);
 	}
-	
+
 	public UIBox setBounds(float x, float y, float width, float height) {
 		return (UIBox)super.setBounds(x, y, width, height);
 	}

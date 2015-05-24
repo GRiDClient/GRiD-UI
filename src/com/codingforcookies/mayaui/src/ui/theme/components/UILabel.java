@@ -40,13 +40,10 @@ public class UILabel extends UIComponent {
 				drawntext = drawntext.substring(0, drawntext.length() - 4) + "...";
 		}
 		
-		//RenderHelper.renderBox(x, y, width, height);
-
-		GL11.glPushMatrix();
-		{
-			RenderHelper.drawString(uiclass, drawntext, x + (align == MAlign.CENTER ? width / 2 - MayaFontRenderer.getStringWidth(drawntext) / 2 : align == MAlign.RIGHT ? width - MayaFontRenderer.getStringWidth(drawntext) : 0), y - 2);
-		}
-		GL11.glPopMatrix();
+		GL11.glTranslatef(x, y, 0F);
+		RenderHelper.renderWithTheme(uiclass, width, height);
+		
+		RenderHelper.drawString(uiclass, drawntext, (align == MAlign.CENTER ? width / 2 - MayaFontRenderer.getStringWidth(drawntext) / 2 : align == MAlign.RIGHT ? width - MayaFontRenderer.getStringWidth(drawntext) : 0), -2);
 	}
 	
 	public UILabel setBounds(float x, float y, float width, float height) {

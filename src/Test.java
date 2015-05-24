@@ -1,6 +1,3 @@
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.LWJGLException;
@@ -12,17 +9,12 @@ import org.lwjgl.opengl.GL11;
 import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.notification.MNotification;
 import com.codingforcookies.mayaui.src.notification.MNotificationType;
-import com.codingforcookies.mayaui.src.ui.MWindow;
-import com.codingforcookies.mayaui.src.ui.MWindowBase;
-import com.codingforcookies.mayaui.src.ui.MWindowPanel;
-import com.codingforcookies.mayaui.src.ui.UIManager;
 import com.codingforcookies.mayaui.src.ui.theme.MAlign;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
-import com.codingforcookies.mayaui.src.ui.theme.components.UIBarGraph;
-import com.codingforcookies.mayaui.src.ui.theme.components.UIBox;
-import com.codingforcookies.mayaui.src.ui.theme.components.UILabel;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIProgressBar;
-import com.codingforcookies.mayaui.src.ui.theme.components.UISeparator;
+import com.codingforcookies.mayaui.src.ui.window.MWindow;
+import com.codingforcookies.mayaui.src.ui.window.MWindowBase;
+import com.codingforcookies.mayaui.src.ui.window.preset.PerformanceMonitor;
 
 /**
  * Simple testing program
@@ -106,60 +98,25 @@ public class Test {
         fps++;
     }
 	
-	private UIManager uimanager;
-	
-	private UIBarGraph perfChart;
-	private UILabel perfTime;
-
-	private List<Float> updateTimes = new ArrayList<Float>();
-	private List<Float> renderTimes = new ArrayList<Float>();
-	
 	public void init() {
 		MayaUI.SCREEN_WIDTH = Display.getWidth();
 		MayaUI.SCREEN_HEIGHT = Display.getHeight();
 		
-		uimanager = MayaUI.getUIManager();
-		
-		uimanager.createWindow(new MWindow("Test Window", 10, 15, 300, 200) {
+		MayaUI.getUIManager().createWindow(new MWindow("Window 1", 10, 15, 300, 200) {
 			public void init() {
 				super.init();
 				this.anchor = MAlign.TOPLEFT;
 			}
 		});
-		uimanager.createWindow(new MWindow("Test Window", 320, 15, 470, 200) {
+		
+		MayaUI.getUIManager().createWindow(new MWindow("Window 2", 320, 15, 470, 200) {
 			public void init() {
 				super.init();
 				this.anchor = MAlign.TOPRIGHT;
 			}
 		});
-		uimanager.createWindow(new MWindowPanel("Performance Monitor", 10, Display.getHeight() - 210, 300, 200) {
-			public void init() {
-				super.init();
-				this.anchor = MAlign.BOTTOMLEFT;
-				
-				UILabel perfLabel = new UILabel("Performance Monitor", MAlign.CENTER).setBounds(5, 5, 185, 10);
-				addComponent(perfLabel);
-				
-				perfChart = new UIBarGraph().setBounds(5, 17, 185, 165);
-				addComponent(perfChart);
-				
-				MayaColor perfUpdateColor = new MayaColor("#DDAF08").darker();
-				MayaColor perfRenderColor = new MayaColor("#2676AB").darker();
-
-				addComponent(new UISeparator().setBounds(198, 20, 0, 180));
-				
-				addComponent(new UIBox(perfUpdateColor).setBounds(210, 20, 10, 10));
-				addComponent(new UIBox(perfRenderColor).setBounds(210, 35, 10, 10));
-				
-				addComponent(new UILabel("Update").setBounds(230, 20, 60, 10));
-				addComponent(new UILabel("Render").setBounds(230, 35, 60, 10));
-				
-				perfTime = new UILabel("0.0s", MAlign.RIGHT).setBounds(210, 180, 80, 10);
-				addComponent(perfTime);
-			}
-		});
 		
-		uimanager.createWindow(new MWindowBase(0, 0, Display.getWidth(), 5) {
+		MayaUI.getUIManager().createWindow(new MWindowBase("prgbar", 0, 0, Display.getWidth(), 5) {
 			UIProgressBar prgBar;
 			public void init() {
 				super.init();
@@ -181,9 +138,6 @@ public class Test {
 			}
 		});
 		
-		perfChart.addBar("update", new MayaColor("#DDAF08"));
-		perfChart.addBar("render", new MayaColor("#2676AB"));
-		
 		new Thread() {
 			public void run() {
 				try {
@@ -202,17 +156,7 @@ public class Test {
 				MNotification[] testNotifications = new MNotification[] {
 						new MNotification(MNotificationType.WARNING, "Initializing to tha moon thrusters."),
 						new MNotification(MNotificationType.HELP, "To tha moon thrusters are functioning."),
-						new MNotification(MNotificationType.INFO, "Taking off in 3..."),
-						new MNotification(MNotificationType.INFO, "Taking off in 2..."),
-						new MNotification(MNotificationType.INFO, "Taking off in 1..."),
 						new MNotification(MNotificationType.WARNING, "BLAST OFF!!"),
-						new MNotification(MNotificationType.INFO, "..."),
-						new MNotification(MNotificationType.INFO, "..."),
-						new MNotification(MNotificationType.INFO, "..."),
-						new MNotification(MNotificationType.INFO, "..."),
-						new MNotification(MNotificationType.INFO, "..."),
-						new MNotification(MNotificationType.INFO, "..."),
-						new MNotification(MNotificationType.INFO, "..."),
 						new MNotification(MNotificationType.ERROR, "Out of fuel!"),
 						new MNotification(MNotificationType.INFO, "Initiating order #374!"),
 						new MNotification(MNotificationType.ERROR, "Self destruct activated.")
@@ -229,40 +173,26 @@ public class Test {
 				}
 			}
 		}.start();
+		
+		MayaUI.getUIManager().createWindow(new PerformanceMonitor());
+		
+		PerformanceMonitor.addSection("total", "update", new MayaColor("#DDAF08"));
+		PerformanceMonitor.addSection("total", "render", new MayaColor("#2676AB"));
 	}
 	
 	public void update(float delta) {
-		long start = System.nanoTime();
+		PerformanceMonitor.startUpdateSection("update");
+		PerformanceMonitor.startUpdateSection("update_screen");
 		
-		uimanager.doUpdateUI(delta);
-		
-		updateTimes.add(0, (float)(System.nanoTime() - start));
-		
-		while(updateTimes.size() > 500)
-			updateTimes.remove(updateTimes.size() - 1);
-		while(renderTimes.size() > 500)
-			renderTimes.remove(renderTimes.size() - 1);
-		
-		float updateAvg = average(updateTimes) / 1000000000F;
-		float renderAvg = average(renderTimes) / 1000000000F;
-		
-		perfChart.updateBar("update", updateAvg);
-		perfChart.updateBar("render", renderAvg);
-		
-		perfTime.setText(new DecimalFormat("#.0000000000").format((updateAvg + renderAvg) / 2) + "s");
-	}
-	
-	public float average(List<Float> list) {
-		float avg = 0F;
-		
-		for(Float flo : list)
-			avg += flo;
-		
-		return avg / list.size();
+		MayaUI.getUIManager().doUpdateUI(delta);
+
+		PerformanceMonitor.endSection("update_screen");
+		PerformanceMonitor.endSection("update");
 	}
 	
 	public void render() {
-		long start = System.nanoTime();
+		PerformanceMonitor.startRenderSection("render");
+		PerformanceMonitor.startRenderSection("render_screen");
 		
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		
@@ -277,8 +207,9 @@ public class Test {
 	    }
 	    GL11.glEnd();
 	    
-		uimanager.doRenderUI();
-		
-		renderTimes.add(0, (float)(System.nanoTime() - start));
+		MayaUI.getUIManager().doRenderUI();
+
+		PerformanceMonitor.endSection("render_screen");
+		PerformanceMonitor.endSection("render");
 	}
 }

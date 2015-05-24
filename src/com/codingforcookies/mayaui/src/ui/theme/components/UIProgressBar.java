@@ -1,7 +1,5 @@
 package com.codingforcookies.mayaui.src.ui.theme.components;
 
-import org.lwjgl.opengl.GL11;
-
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 
@@ -22,16 +20,12 @@ public class UIProgressBar extends UIComponent {
 	}
 	
 	public void update(float delta) { }
-	
+
 	public void render() {
-		GL11.glPushMatrix();
-		{
-			RenderHelper.renderWithTheme(uiclass, width, height);
-			RenderHelper.renderWithTheme(progressClass, width * progress, height);
-		}
-		GL11.glPopMatrix();
+		RenderHelper.renderWithTheme(uiclass, width, height);
+		RenderHelper.renderWithTheme(progressClass, width * progress, height);
 	}
-	
+
 	public UIProgressBar setBounds(float x, float y, float width, float height) {
 		return (UIProgressBar)super.setBounds(x, y, width, height);
 	}

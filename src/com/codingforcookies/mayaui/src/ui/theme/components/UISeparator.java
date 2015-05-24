@@ -16,16 +16,12 @@ public class UISeparator extends UIComponent {
 	public void update(float delta) { }
 	
 	public void render() {
-		GL11.glPushMatrix();
-		{
-			GL11.glTranslatef(x, y, 0F);
-			
-			if(width >= height)
-				RenderHelper.renderWithTheme(uiclass, width, 0);
-			else
-				RenderHelper.renderWithTheme(uiclass, 0, height);
-		}
-		GL11.glPopMatrix();
+		GL11.glTranslatef(x, y, 0F);
+
+		if(width >= height)
+			RenderHelper.renderWithTheme(uiclass, width, 0);
+		else
+			RenderHelper.renderWithTheme(uiclass, 0, height);
 	}
 	
 	public UISeparator setBounds(float x, float y, float width, float height) {

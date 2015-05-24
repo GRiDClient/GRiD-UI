@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionMargin;
 
 /**
  * Maya UI bar graph component. Displays a bar graph in the window.
@@ -20,10 +21,15 @@ public class UIBarGraph extends UIComponent {
 	private HashMap<String, UIBarGraphBar> barInfo = new HashMap<String, UIBarGraphBar>();
 	private List<String> bars = new ArrayList<String>();
 	
+	private float heightOffset = 0F;
+	
 	public UIBarGraph() {
 		super("bargraph");
 		
 		uibarclass = uiclass.getClass(".bar");
+		
+		if(uibarclass.has("margin"))
+			heightOffset = ((MOptionMargin)uibarclass.get("margin")).bottom;
 	}
 	
 	public void update(float delta) {
@@ -40,7 +46,8 @@ public class UIBarGraph extends UIComponent {
 	public void render() {
 		int num = 0;
 		
-		//RenderHelper.renderBox(x, y, width, height);
+		GL11.glTranslatef(x, y, 0F);
+		RenderHelper.renderWithTheme(uiclass, width, height);
 		
 		for(String bar : bars) {
 			UIBarGraphBar thebar = barInfo.get(bar);
@@ -49,8 +56,8 @@ public class UIBarGraph extends UIComponent {
 			
 			GL11.glPushMatrix();
 			{
-				GL11.glTranslatef(x + i * num + 2, y, 0F);
-				RenderHelper.renderWithTheme(uibarclass, i - 4, thebar.percent * height, thebar.color);
+				GL11.glTranslatef(i * num + 2, 0F, 0F);
+				RenderHelper.renderWithTheme(uibarclass, i - 4, thebar.percent * (height - heightOffset), thebar.color);
 			}
 			GL11.glPopMatrix();
 			
@@ -89,9 +96,19 @@ public class UIBarGraph extends UIComponent {
 	}
 	
 	/**
+	 * Remove all bars from the graph.
+	 */
+	public void clearBars() {
+		barInfo.clear();
+		bars.clear();
+	}
+	
+	/**
 	 * Change a bar's value.
 	 */
 	public void updateBar(String name, float value) {
+		if(!barInfo.containsKey(name))
+			addBar(name, new MayaColor().random(), value);
 		barInfo.get(name).value = value;
 	}
 }

@@ -12,7 +12,7 @@ public class MOptionNone extends MOptionParser {
 	public MOptionRuntime[] getRuntime() { return null; }
 	
 	public MOptionParser getDefault() {
-		value = null;
+		value = 0;
 		return this;
 	}
 	

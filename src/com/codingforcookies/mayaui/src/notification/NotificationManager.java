@@ -4,9 +4,9 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaui.src.MayaUI;
-import com.codingforcookies.mayaui.src.ui.MWindowBase;
 import com.codingforcookies.mayaui.src.ui.theme.MAlign;
-import com.codingforcookies.mayaui.src.ui.theme.components.UIComponent;
+import com.codingforcookies.mayaui.src.ui.window.MWindowBase;
+import com.codingforcookies.mayaui.src.ui.window.preset.PerformanceMonitor;
 
 public class NotificationManager {
 	private final static int MAX_SHOWN = 5;
@@ -14,13 +14,15 @@ public class NotificationManager {
 	
 	public static void addNotification(MNotification mNotification) {
 		if(notificationWindow == null) {
-			notificationWindow = new MWindowBase(Display.getWidth(), Display.getHeight(), 0, 0) {
+			notificationWindow = new MWindowBase("Notifications", Display.getWidth(), Display.getHeight(), 0, 0) {
 				public void init() {
 					super.init();
 					anchor = MAlign.BOTTOMRIGHT;
 				}
 				
 				public void update(float delta) {
+					PerformanceMonitor.startUpdateSection("U_Notifications");
+					
 					for(int i = 0; i < (components.size() > MAX_SHOWN ? MAX_SHOWN : components.size()); i++) {
 						components.get(i).update(delta);
 						if(components.get(i).scheduledForDrop) {
@@ -33,13 +35,16 @@ public class NotificationManager {
 						scheduledForDrop = true;
 						notificationWindow = null;
 					}
-				}
-				
-				public void addComponent(UIComponent component) {
-					components.add(component);
+					
+					PerformanceMonitor.endSection("U_Notifications");
 				}
 				
 				public void drawComponents() {
+					if(components.size() == 0)
+						return;
+
+					PerformanceMonitor.startRenderSection("R_Notifications");
+					
 					float totalspacing = 0F;
 					for(int i = 0; i < (components.size() > MAX_SHOWN ? MAX_SHOWN : components.size()); i++)
 						totalspacing += -components.get(i).height - ((MNotification)components.get(i)).spacing;
@@ -47,8 +52,10 @@ public class NotificationManager {
 					GL11.glTranslatef(0F, -totalspacing, 0F);
 					for(int i = 0; i < (components.size() > MAX_SHOWN ? MAX_SHOWN : components.size()); i++) {
 						GL11.glTranslatef(0F, -components.get(i).height - ((MNotification)components.get(i)).spacing, 0F);
-						components.get(i).render();
+						components.get(i).startRender();
 					}
+					
+					PerformanceMonitor.endSection("R_Notifications");
 				}
 			};
 			
