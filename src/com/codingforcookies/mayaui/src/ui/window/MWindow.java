@@ -32,13 +32,13 @@ public class MWindow extends MWindowPanel {
 		super.init();
 		
 		uititleclass = uiclass.getClass(".title");
+		
+		if(uititleclass.has("height"))
+			titleHeight = uititleclass.get("height").getValue(new Float(0F));
 	}
 	
 	public void update(float delta) {
 		super.update(delta);
-		
-		if(titleHeight == 0F && uititleclass.has("height"))
-			titleHeight = uititleclass.get("height").getValue(new Float(0F));
 		
 		if(Mouse.isButtonDown(0)) {
 			if(grabbed == 0) {
@@ -74,7 +74,8 @@ public class MWindow extends MWindowPanel {
 		RenderHelper.renderWithTheme(uititleclass, width);
 		
 		RenderHelper.drawString(uititleclass, title, 0, 0);
-		
+
+		GL11.glTranslatef(-7F, titleHeight - 5F, 0F);
 		drawComponents();
 	}
 }

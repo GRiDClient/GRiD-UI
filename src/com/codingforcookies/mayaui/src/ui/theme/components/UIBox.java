@@ -22,7 +22,7 @@ public class UIBox extends UIComponent {
 	
 	public void render() {
 		GL11.glTranslatef(x, y, 0F);
-		RenderHelper.renderWithTheme(uiclass, width, height, color);
+		RenderHelper.renderWithTheme(isHovering ? hoverClass : uiclass, width, height, color);
 	}
 
 	public UIBox setBounds(float x, float y, float width, float height) {

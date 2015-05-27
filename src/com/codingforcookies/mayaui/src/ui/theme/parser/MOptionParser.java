@@ -22,7 +22,7 @@ public abstract class MOptionParser implements Cloneable {
 	public abstract void run(MOptionRuntime runtime, float width, float height);
 	
 	public String toString() {
-		return getValue(null).toString();
+		return "";
 	}
 	
 	public MOptionParser clone() {

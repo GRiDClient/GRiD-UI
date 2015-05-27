@@ -4,29 +4,21 @@ import org.lwjgl.opengl.GL11;
 
 import com.codingforcookies.mayaclientapi.src.font.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
-import com.codingforcookies.mayaui.src.ui.theme.MAlign;
 
 /**
- * Maya UI label component. Displays text in the window.
+ * Maya UI button component. A clickable button for windows and panels.
  * @author Stumblinbear
  */
-public class UILabel extends UIComponent {
+public class UIButton extends UIComponent {
 	/**
 	 * The text to be drawn.
 	 */
 	private String text;
-	private MAlign align = MAlign.LEFT;
 	
-	public UILabel(String text) {
-		super("label");
+	public UIButton(String text) {
+		super("button");
 		
 		this.text = text;
-	}
-	
-	public UILabel(String text, MAlign align) {
-		this(text);
-		
-		this.align = align;
 	}
 	
 	public void update(float delta) { }
@@ -43,11 +35,11 @@ public class UILabel extends UIComponent {
 		GL11.glTranslatef(x, y, 0F);
 		RenderHelper.renderWithTheme(isHovering ? hoverClass : uiclass, width, height);
 		
-		RenderHelper.drawString(isHovering ? hoverClass : uiclass, drawntext, (align == MAlign.CENTER ? width / 2 - MayaFontRenderer.getStringWidth(drawntext) / 2 : align == MAlign.RIGHT ? width - MayaFontRenderer.getStringWidth(drawntext) : 0), -2);
+		RenderHelper.drawString(isHovering ? hoverClass : uiclass, drawntext, width / 2 - MayaFontRenderer.getStringWidth(drawntext) / 2, MayaFontRenderer.CHAR_WIDTH_HALF - height / 2);
 	}
 	
-	public UILabel setBounds(float x, float y, float width, float height) {
-		return (UILabel)super.setBounds(x, y, width, height);
+	public UIButton setBounds(float x, float y, float width, float height) {
+		return (UIButton)super.setBounds(x, y, width, height);
 	}
 	
 	/**
@@ -60,7 +52,7 @@ public class UILabel extends UIComponent {
 	/**
 	 * Set the text to be drawn.
 	 */
-	public UILabel setText(String text) {
+	public UIButton setText(String text) {
 		this.text = text;
 		return this;
 	}

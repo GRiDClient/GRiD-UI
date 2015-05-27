@@ -47,7 +47,7 @@ public class UIBarGraph extends UIComponent {
 		int num = 0;
 		
 		GL11.glTranslatef(x, y, 0F);
-		RenderHelper.renderWithTheme(uiclass, width, height);
+		RenderHelper.renderWithTheme(isHovering ? hoverClass : uiclass, width, height);
 		
 		for(String bar : bars) {
 			UIBarGraphBar thebar = barInfo.get(bar);

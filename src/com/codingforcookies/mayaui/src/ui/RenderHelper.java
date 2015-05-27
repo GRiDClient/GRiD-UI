@@ -2,6 +2,7 @@ package com.codingforcookies.mayaui.src.ui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.codingforcookies.mayaclientapi.src.font.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.ui.base.MVBO;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;

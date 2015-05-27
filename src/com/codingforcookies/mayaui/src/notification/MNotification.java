@@ -2,8 +2,8 @@ package com.codingforcookies.mayaui.src.notification;
 
 import org.lwjgl.opengl.GL11;
 
+import com.codingforcookies.mayaclientapi.src.font.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.MayaUI;
-import com.codingforcookies.mayaui.src.ui.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIComponent;

@@ -6,11 +6,14 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import com.codingforcookies.mayaclientapi.src.MayaAPI;
+import com.codingforcookies.mayaclientapi.src.RenderLoading;
 import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.notification.MNotification;
 import com.codingforcookies.mayaui.src.notification.MNotificationType;
 import com.codingforcookies.mayaui.src.ui.theme.MAlign;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
+import com.codingforcookies.mayaui.src.ui.theme.components.UIButton;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIProgressBar;
 import com.codingforcookies.mayaui.src.ui.window.MWindow;
 import com.codingforcookies.mayaui.src.ui.window.MWindowBase;
@@ -41,13 +44,14 @@ public class Test {
 		    System.exit(0);
 		}
 		
-		MayaUI.initialize();
+		MayaUI.onLoad();
 		
 		getDelta();
         lastFPS = getTime();
 		
 		init();
 		
+		boolean skipEvent = false;
 		while(!Display.isCloseRequested()) {
 			if(Display.wasResized()) {
 				GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -56,19 +60,23 @@ public class Test {
 				GL11.glMatrixMode(GL11.GL_MODELVIEW);
 				GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
 
-				int changewidth = Display.getWidth() - MayaUI.SCREEN_WIDTH;
-				int changeheight = Display.getHeight() - MayaUI.SCREEN_HEIGHT;
+				int changewidth = Display.getWidth() - MayaAPI.SCREEN_WIDTH;
+				int changeheight = Display.getHeight() - MayaAPI.SCREEN_HEIGHT;
 				
-				MayaUI.SCREEN_WIDTH = Display.getWidth();
-				MayaUI.SCREEN_HEIGHT = Display.getHeight();
+				MayaAPI.SCREEN_WIDTH = Display.getWidth();
+				MayaAPI.SCREEN_HEIGHT = Display.getHeight();
 				
-				MayaUI.getUIManager().onWindowResized(changewidth, changeheight);
+				MayaUI.getUIManager().onWindowResized(skipEvent, changewidth, changeheight);
+				
+				if(!skipEvent)
+					skipEvent = true;
 			}
 			
-			update(getDelta());
+			float delta = getDelta();
+			update(delta);
 			updateFPS();
 			
-			render();
+			render(delta);
 			
 		    Display.update();
 		}
@@ -99,23 +107,6 @@ public class Test {
     }
 	
 	public void init() {
-		MayaUI.SCREEN_WIDTH = Display.getWidth();
-		MayaUI.SCREEN_HEIGHT = Display.getHeight();
-		
-		MayaUI.getUIManager().createWindow(new MWindow("Window 1", 10, 15, 300, 200) {
-			public void init() {
-				super.init();
-				this.anchor = MAlign.TOPLEFT;
-			}
-		});
-		
-		MayaUI.getUIManager().createWindow(new MWindow("Window 2", 320, 15, 470, 200) {
-			public void init() {
-				super.init();
-				this.anchor = MAlign.TOPRIGHT;
-			}
-		});
-		
 		MayaUI.getUIManager().createWindow(new MWindowBase("prgbar", 0, 0, Display.getWidth(), 5) {
 			UIProgressBar prgBar;
 			public void init() {
@@ -135,6 +126,23 @@ public class Test {
 			
 			public void onWindowResized(int changewidth, int changeheight) {
 				prgBar.width += changewidth;
+			}
+		});
+		
+		MayaUI.getUIManager().createWindow(new MWindow("Window 1", 10, 15, 300, 200) {
+			public void init() {
+				super.init();
+				this.anchor = MAlign.TOPLEFT;
+				
+				addComponent(new UIButton("Thuper").setBounds(0, height - 40, 100, 30));
+				addComponent(new UIButton("Duper").setBounds(width - 110, height - 70, 100, 60));
+			}
+		});
+		
+		MayaUI.getUIManager().createWindow(new MWindow("Window 2", -480, 15, 470, 200) {
+			public void init() {
+				super.init();
+				this.anchor = MAlign.TOPRIGHT;
 			}
 		});
 		
@@ -190,7 +198,7 @@ public class Test {
 		PerformanceMonitor.endSection("update");
 	}
 	
-	public void render() {
+	public void render(float delta) {
 		PerformanceMonitor.startRenderSection("render");
 		PerformanceMonitor.startRenderSection("render_screen");
 		
@@ -208,6 +216,8 @@ public class Test {
 	    GL11.glEnd();
 	    
 		MayaUI.getUIManager().doRenderUI();
+		
+		RenderLoading.draw("Loading", MayaAPI.SCREEN_WIDTH - 45, MayaAPI.SCREEN_HEIGHT - 39, 60, delta);
 
 		PerformanceMonitor.endSection("render_screen");
 		PerformanceMonitor.endSection("render");

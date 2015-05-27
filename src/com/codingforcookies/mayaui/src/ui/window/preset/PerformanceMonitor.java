@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.lwjgl.opengl.Display;
-
 import com.codingforcookies.mayaui.src.ui.base.MayaUpdate;
 import com.codingforcookies.mayaui.src.ui.theme.MAlign;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
@@ -24,7 +22,7 @@ public class PerformanceMonitor extends MWindowPanel {
 	public static PerformanceMonitor instance;
 	
 	public PerformanceMonitor() {
-		super("Performance Monitor", 10, Display.getHeight() - 210, 350, 200);
+		super("Performance Monitor", 10, -210, 350, 200);
 		instance = this;
 	}
 	

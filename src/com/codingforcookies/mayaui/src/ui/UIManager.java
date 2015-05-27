@@ -117,8 +117,9 @@ public class UIManager {
 	 * Adds a window to the render and update lists.
 	 */
 	public void createWindow(MayaPriority priority, int zindex, MWindowBase mayaWindow) {
-		newRender(zindex, mayaWindow);
+		mayaWindow.init();
 		newUpdate(priority, mayaWindow);
+		newRender(zindex, mayaWindow);
 	}
 	
 	/**
@@ -132,26 +133,25 @@ public class UIManager {
 			}
 	}
 
-	public void onWindowResized(int changewidth, int changeheight) {
+	public void onWindowResized(boolean skipEvent, int changewidth, int changeheight) {
 		for(MayaRender render : renders) {
 			switch(render.anchor) {
 				case TOPLEFT:
 					render.y += changeheight;
 					break;
 				case TOPRIGHT:
-					render.x += changewidth;
 					render.y += changeheight;
+					render.x += changewidth;
 					break;
 				case BOTTOMRIGHT:
 					render.x += changewidth;
-					break;
-				case BOTTOMLEFT:
 					break;
 				default:
 					break;
 			}
 			
-			render.onWindowResized(changewidth, changeheight);
+			if(skipEvent)
+				render.onWindowResized(changewidth, changeheight);
 		}
 	}
 }

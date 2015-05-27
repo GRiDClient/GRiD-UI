@@ -9,13 +9,21 @@ import com.codingforcookies.mayaui.src.ui.theme.UIClass;
  * @author Stumblinbear
  */
 public abstract class UIComponent extends MayaRender {
+	protected MayaRender parent;
+	
 	/**
 	 * The theme class for the component.
 	 */
 	protected UIClass uiclass;
+	protected UIClass hoverClass;
+
+	public UIComponentEvent componentEvent = new DefaultComponentEvent();
+	public boolean isGrabbed = false;
+	public boolean isHovering = false;
 	
 	public UIComponent(String uiclass) {
 		this.uiclass = ThemeManager.getTheme().getClass(uiclass);
+		hoverClass = !this.uiclass.getClass(":hover").name.equals("global") ? this.uiclass.getClass(":hover") : this.uiclass;
 	}
 	
 	/**
@@ -28,5 +36,21 @@ public abstract class UIComponent extends MayaRender {
 		this.height = height;
 		
 		return this;
+	}
+	
+	public UIComponent setParent(MayaRender parent) {
+		this.parent = parent;
+		return this;
+	}
+	
+	public UIComponent setEvent(UIComponentEvent componentEvent) {
+		this.componentEvent = componentEvent;
+		return this;
+	}
+}
+
+class DefaultComponentEvent extends UIComponentEvent {
+	public void onClick(UIComponent component) {
+		
 	}
 }

@@ -1,5 +1,6 @@
 package com.codingforcookies.mayaui.src;
 
+import com.codingforcookies.mayaclientapi.src.MayaModule;
 import com.codingforcookies.mayaui.src.notification.MNotification;
 import com.codingforcookies.mayaui.src.notification.MNotificationType;
 import com.codingforcookies.mayaui.src.notification.NotificationManager;
@@ -10,13 +11,12 @@ import com.codingforcookies.mayaui.src.ui.theme.ThemeManager;
  * The main class for Maya UI
  * @author Stumblinbear
  */
+@MayaModule(firstLoad = true, ID = "maya.ui", name = "MayaUI", description = "Maya Client's UI system", creator = "Stumblinbear", version = "1.0.0", homepage = "http://codingforcookies.com/")
 public class MayaUI {
 	/**
 	 * Current running version of MayaUI
 	 */
 	public static final String version = "Chill Leopard";
-	public static int SCREEN_WIDTH = 0;
-	public static int SCREEN_HEIGHT = 0;
 	
 	public static UIManager uimanager;
 	public static UIManager getUIManager() {
@@ -26,18 +26,19 @@ public class MayaUI {
 	/**
 	 * Currently only loads all themes available under /themes/
 	 */
-	public static void initialize() {
+	public static void onLoad() {
 		ThemeManager.init();
+		
+		System.out.println("Initializing UIManager...");
+		uimanager = new UIManager();
+		System.out.println("  Done");
+		
 		ThemeManager.loadThemes();
 		
 		if(!ThemeManager.setTheme("Maya Theme")) {
 			System.err.println("Failed to load default theme");
 			return;
 		}
-		
-		System.out.println("Initializing UIManager...");
-		uimanager = new UIManager();
-		System.out.println("  Done");
 	}
 	
 	public static float parseConfigFloat(String value) {

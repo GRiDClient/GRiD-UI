@@ -19,9 +19,9 @@ public class UISeparator extends UIComponent {
 		GL11.glTranslatef(x, y, 0F);
 
 		if(width >= height)
-			RenderHelper.renderWithTheme(uiclass, width, 0);
+			RenderHelper.renderWithTheme(isHovering ? hoverClass : uiclass, width, 0);
 		else
-			RenderHelper.renderWithTheme(uiclass, 0, height);
+			RenderHelper.renderWithTheme(isHovering ? hoverClass : uiclass, 0, height);
 	}
 	
 	public UISeparator setBounds(float x, float y, float width, float height) {

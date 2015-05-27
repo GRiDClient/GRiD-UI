@@ -12,16 +12,16 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.codingforcookies.mayaclientapi.src.font.MayaFontRenderer;
+import com.codingforcookies.mayaclientapi.src.texture.MayaTextureLoader;
 import com.codingforcookies.mayaui.src.exceptions.ThemeInvalidException;
-import com.codingforcookies.mayaui.src.texture.MayaTextureLoader;
-import com.codingforcookies.mayaui.src.ui.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionBgColor;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionColor;
+import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionFloat;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionInfo;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionMargin;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionNone;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionParser;
-import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionFloat;
 import com.codingforcookies.mayaui.src.ui.theme.parser.border.MOptionBorder;
 
 /**
@@ -139,6 +139,7 @@ public class ThemeManager {
 			Matcher m = Pattern.compile(themePattern).matcher(content);
 			while(m.find()) {
 				String key = m.group(1).trim();
+				key = key.replace(":", " :");
 				
 				if(returnkey != null)
 					if(!key.equals(returnkey[0]))
@@ -184,8 +185,11 @@ public class ThemeManager {
 			
 			File fontFile = new File(file.getParentFile(), "font.png");
 			System.out.println("  Loading font...");
-			MayaTextureLoader.loadFile("font", fontFile);
-			MayaFontRenderer.font = MayaTextureLoader.getTexture("font");
+			MayaTextureLoader.loadFile("font", fontFile, new Runnable() {
+				public void run() {
+					MayaFontRenderer.font = MayaTextureLoader.getTexture("font");
+				}
+			});
 			
 			if(theme.name == null)
 				throw new ThemeInvalidException("Invalid Theme: " + file.getName());
