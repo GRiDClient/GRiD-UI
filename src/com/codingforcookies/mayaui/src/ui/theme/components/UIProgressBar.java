@@ -21,7 +21,7 @@ public class UIProgressBar extends UIComponent {
 	
 	public void update(float delta) { }
 
-	public void render() {
+	public void render(float delta) {
 		RenderHelper.renderWithTheme(isHovering ? hoverClass : uiclass, width, height);
 		RenderHelper.renderWithTheme(progressClass, width * progress, height);
 	}

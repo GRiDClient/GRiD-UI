@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
+import com.codingforcookies.mayaui.src.ui.theme.components.UIButtonClose;
 
 /**
  * Maya UI Window. Same as Maya Panel, but includes a title bar.
@@ -35,36 +36,40 @@ public class MWindow extends MWindowPanel {
 		
 		if(uititleclass.has("height"))
 			titleHeight = uititleclass.get("height").getValue(new Float(0F));
+		
+		addComponent((UIButtonClose)new UIButtonClose().setBounds(width - titleHeight - 3, titleHeight / 2 - 2, titleHeight, titleHeight));
 	}
 	
 	public void update(float delta) {
 		super.update(delta);
 		
-		if(Mouse.isButtonDown(0)) {
-			if(grabbed == 0) {
-				grabbedX = Mouse.getX();
-				grabbedY = Mouse.getY();
-				
-				if(grabbedX > x && grabbedX < x + width &&
-						grabbedY > y - titleHeight && grabbedY < y) {
-					grabbed = 1;
-					grabbedX -= x;
-					grabbedY -= y;
+		if(MayaUI.getUIManager().darken.size() == 0) {
+			if(Mouse.isButtonDown(0)) {
+				if(grabbed == 0) {
+					grabbedX = Mouse.getX();
+					grabbedY = Mouse.getY();
 					
-					MayaUI.getUIManager().bringWindow(this);
-				}else
-					grabbed = 2;
-			}
-			
-			if(grabbed == 1) {
-				x = Mouse.getX() - grabbedX;
-				y = Mouse.getY() - grabbedY;
-			}
-		}else
-			grabbed = 0;
+					if(grabbedX > x && grabbedX < x + width &&
+							grabbedY > y - titleHeight && grabbedY < y) {
+						grabbed = 1;
+						grabbedX -= x;
+						grabbedY -= y;
+						
+						MayaUI.getUIManager().bringWindow(this);
+					}else
+						grabbed = 2;
+				}
+				
+				if(grabbed == 1) {
+					x = Mouse.getX() - grabbedX;
+					y = Mouse.getY() - grabbedY;
+				}
+			}else
+				grabbed = 0;
+		}
 	}
 	
-	public void render() {
+	public void render(float delta) {
 		/* DRAW WINDOW BODY */
 		GL11.glTranslatef(x, y - titleHeight, 0F);
 		RenderHelper.renderWithTheme(uiclass, width, height);
@@ -76,6 +81,6 @@ public class MWindow extends MWindowPanel {
 		RenderHelper.drawString(uititleclass, title, 0, 0);
 
 		GL11.glTranslatef(-7F, titleHeight - 5F, 0F);
-		drawComponents();
+		drawComponents(delta);
 	}
 }

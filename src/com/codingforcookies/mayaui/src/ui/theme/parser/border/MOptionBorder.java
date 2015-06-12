@@ -77,18 +77,38 @@ public class MOptionBorder extends MOptionParser {
 	 * TODO: Add outer rendering.
 	 */
 	public void run(MOptionRuntime runtime, float width, float height) {
-		switch(side) {
-			case "top":
-				RenderHelper.renderBox(0, 0, width, size, color);
+		switch(borderLocation) {
+			case INNER:
+				switch(side) {
+					case "top":
+						RenderHelper.renderBox(0, 0, width, size, color);
+						break;
+					case "bottom":
+						RenderHelper.renderBox(0, size - height, width, size, color);
+						break;
+					case "right":
+						RenderHelper.renderBox(width - size, 0, size, height, color);
+						break;
+					case "left":
+						RenderHelper.renderBox(0, 0, size, height, color);
+						break;
+				}
 				break;
-			case "bottom":
-				RenderHelper.renderBox(0, size - height, width, size, color);
-				break;
-			case "right":
-				RenderHelper.renderBox(width - size, 0, size, height, color);
-				break;
-			case "left":
-				RenderHelper.renderBox(0, 0, size, height, color);
+			case OUTER:
+				switch(side) {
+					case "top":
+						RenderHelper.renderBox(0, size, width, size, color);
+						break;
+					case "bottom":
+						RenderHelper.renderBox(0, - height, width, size, color);
+						break;
+					case "right":
+						RenderHelper.renderBox(width, 0, size, height, color);
+						break;
+					case "left":
+						RenderHelper.renderBox(-size, 0, size, height, color);
+						break;
+				}
 				break;
 		}
 		/*

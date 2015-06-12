@@ -43,7 +43,7 @@ public class UIBarGraph extends UIComponent {
 				barInfo.get(bar).percent = barInfo.get(bar).value / total;
 	}
 	
-	public void render() {
+	public void render(float delta) {
 		int num = 0;
 		
 		GL11.glTranslatef(x, y, 0F);

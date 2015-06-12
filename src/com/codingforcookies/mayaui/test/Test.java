@@ -1,3 +1,4 @@
+package com.codingforcookies.mayaui.test;
 import java.util.Random;
 
 import org.lwjgl.LWJGLException;
@@ -6,11 +7,11 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
-import com.codingforcookies.mayaclientapi.src.MayaAPI;
-import com.codingforcookies.mayaclientapi.src.RenderLoading;
 import com.codingforcookies.mayaui.src.MayaUI;
+import com.codingforcookies.mayaui.src.events.EventHandler;
 import com.codingforcookies.mayaui.src.notification.MNotification;
 import com.codingforcookies.mayaui.src.notification.MNotificationType;
+import com.codingforcookies.mayaui.src.texture.MayaTextureLoader;
 import com.codingforcookies.mayaui.src.ui.theme.MAlign;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIButton;
@@ -44,8 +45,6 @@ public class Test {
 		    System.exit(0);
 		}
 		
-		MayaUI.onLoad();
-		
 		getDelta();
         lastFPS = getTime();
 		
@@ -53,6 +52,8 @@ public class Test {
 		
 		boolean skipEvent = false;
 		while(!Display.isCloseRequested()) {
+			MayaTextureLoader.loadQueuedTexture();
+			
 			if(Display.wasResized()) {
 				GL11.glMatrixMode(GL11.GL_PROJECTION);
 				GL11.glLoadIdentity();
@@ -60,16 +61,18 @@ public class Test {
 				GL11.glMatrixMode(GL11.GL_MODELVIEW);
 				GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
 
-				int changewidth = Display.getWidth() - MayaAPI.SCREEN_WIDTH;
-				int changeheight = Display.getHeight() - MayaAPI.SCREEN_HEIGHT;
+				int changewidth = Display.getWidth() - MayaUI.SCREEN_WIDTH;
+				int changeheight = Display.getHeight() - MayaUI.SCREEN_HEIGHT;
 				
-				MayaAPI.SCREEN_WIDTH = Display.getWidth();
-				MayaAPI.SCREEN_HEIGHT = Display.getHeight();
+				MayaUI.SCREEN_WIDTH = Display.getWidth();
+				MayaUI.SCREEN_HEIGHT = Display.getHeight();
 				
 				MayaUI.getUIManager().onWindowResized(skipEvent, changewidth, changeheight);
 				
-				if(!skipEvent)
+				if(!skipEvent) {
+					EventHandler.triggerEvent("EventOpenGLLoad");
 					skipEvent = true;
+				}
 			}
 			
 			float delta = getDelta();
@@ -215,9 +218,7 @@ public class Test {
 	    }
 	    GL11.glEnd();
 	    
-		MayaUI.getUIManager().doRenderUI();
-		
-		RenderLoading.draw("Loading", MayaAPI.SCREEN_WIDTH - 45, MayaAPI.SCREEN_HEIGHT - 39, 60, delta);
+		MayaUI.getUIManager().doRenderUI(delta);
 
 		PerformanceMonitor.endSection("render_screen");
 		PerformanceMonitor.endSection("render");

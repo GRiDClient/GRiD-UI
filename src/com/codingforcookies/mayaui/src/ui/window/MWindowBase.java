@@ -6,7 +6,7 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import com.codingforcookies.mayaclientapi.src.MayaAPI;
+import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.ui.base.MayaRender;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIComponent;
@@ -35,7 +35,7 @@ public class MWindowBase extends MayaRender {
 		this.title = title;
 		
 		this.x = x;
-		this.y = MayaAPI.SCREEN_HEIGHT - y;
+		this.y = MayaUI.SCREEN_HEIGHT - y;
 		this.width = width;
 		this.height = height;
 		
@@ -48,6 +48,11 @@ public class MWindowBase extends MayaRender {
 	public void init() {
 		
 	}
+	
+	/**
+	 * On close window
+	 */
+	public void onClose() { }
 	
 	/**
 	 * Updates all components in the window.
@@ -86,7 +91,8 @@ public class MWindowBase extends MayaRender {
 					else
 						component.componentEvent.onDrag(component, mouseX, mouseY);
 				}
-			}
+			}else
+				components.get(i).isHovering = false;
 			
 			components.get(i).update(delta);
 			if(components.get(i).scheduledForDrop) {
@@ -99,9 +105,9 @@ public class MWindowBase extends MayaRender {
 	/**
 	 * Renders all components in the window.
 	 */
-	public void render() {
+	public void render(float delta) {
 		GL11.glTranslatef(x, y, 0F);
-		drawComponents();
+		drawComponents(delta);
 	}
 	
 	/**
@@ -121,8 +127,8 @@ public class MWindowBase extends MayaRender {
 	/**
 	 * For render functions that override the super render function. Just draws the components.
 	 */
-	public void drawComponents() {
+	public void drawComponents(float delta) {
 		for(UIComponent component : components)
-			component.startRender();
+			component.startRender(delta);
 	}
 }

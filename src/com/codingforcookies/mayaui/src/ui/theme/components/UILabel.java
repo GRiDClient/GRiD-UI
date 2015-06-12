@@ -2,8 +2,8 @@ package com.codingforcookies.mayaui.src.ui.theme.components;
 
 import org.lwjgl.opengl.GL11;
 
-import com.codingforcookies.mayaclientapi.src.font.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
+import com.codingforcookies.mayaui.src.ui.font.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.ui.theme.MAlign;
 
 /**
@@ -31,8 +31,11 @@ public class UILabel extends UIComponent {
 	
 	public void update(float delta) { }
 	
-	public void render() {
+	public void render(float delta) {
 		String drawntext = text;
+		
+		MayaFontRenderer.push(fontsize);
+		MayaFontRenderer.pushFont(font);
 		
 		if(MayaFontRenderer.getStringWidth(drawntext) > width) {
 			drawntext += "...";
@@ -44,6 +47,9 @@ public class UILabel extends UIComponent {
 		RenderHelper.renderWithTheme(isHovering ? hoverClass : uiclass, width, height);
 		
 		RenderHelper.drawString(isHovering ? hoverClass : uiclass, drawntext, (align == MAlign.CENTER ? width / 2 - MayaFontRenderer.getStringWidth(drawntext) / 2 : align == MAlign.RIGHT ? width - MayaFontRenderer.getStringWidth(drawntext) : 0), -2);
+
+		MayaFontRenderer.popFont();
+		MayaFontRenderer.pop();
 	}
 	
 	public UILabel setBounds(float x, float y, float width, float height) {

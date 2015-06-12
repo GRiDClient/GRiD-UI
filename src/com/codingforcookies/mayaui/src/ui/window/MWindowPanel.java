@@ -24,12 +24,12 @@ public class MWindowPanel extends MWindowBase {
 		super.init();
 	}
 	
-	public void render() {
+	public void render(float delta) {
 		GL11.glTranslatef(x, y, 0F);
 		
 		/* DRAW WINDOW BODY */
 		RenderHelper.renderWithTheme(uiclass, width, height);
 
-		drawComponents();
+		drawComponents(delta);
 	}
 }

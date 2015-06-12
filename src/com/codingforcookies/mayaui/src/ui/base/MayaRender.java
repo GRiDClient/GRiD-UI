@@ -20,10 +20,10 @@ public abstract class MayaRender extends MayaUpdate {
 	/**
 	 * Initializes the render.
 	 */
-	public void startRender() {
+	public void startRender(float delta) {
 		GL11.glPushMatrix();
 		{
-			render();
+			render(delta);
 		}
 		GL11.glPopMatrix();
 	}
@@ -31,7 +31,7 @@ public abstract class MayaRender extends MayaUpdate {
 	/**
 	 * Renders everything else.
 	 */
-	protected abstract void render();
+	protected abstract void render(float delta);
 	
 	public void onWindowResized(int changewidth, int changeheight) {
 		

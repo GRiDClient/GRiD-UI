@@ -2,8 +2,8 @@ package com.codingforcookies.mayaui.src.ui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.codingforcookies.mayaclientapi.src.font.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.ui.base.MVBO;
+import com.codingforcookies.mayaui.src.ui.font.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.ui.theme.MayaColor;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionRuntime;
@@ -38,7 +38,8 @@ public class RenderHelper {
 	 * Warning: Does not run GL11.glPushMatrix() or GL11.glPopMatrix()
 	 */
 	public static void renderWithTheme(UIClass uiclass, float width, float height, MayaColor color, MVBO mVBO) {
-		uiclass.run(MOptionRuntime.PRERENDER, width, height);
+		if(uiclass != null)
+			uiclass.run(MOptionRuntime.PRERENDER, width, height);
 		
 		if(color != null)
 			color.use();
@@ -48,7 +49,8 @@ public class RenderHelper {
 		else
 			renderBox(0, 0, width, height);
 		
-		uiclass.run(MOptionRuntime.POSTRENDER, width, height);
+		if(uiclass != null)
+			uiclass.run(MOptionRuntime.POSTRENDER, width, height);
 	}
 
 	/**

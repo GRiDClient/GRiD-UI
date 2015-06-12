@@ -21,6 +21,9 @@ public abstract class UIComponent extends MayaRender {
 	public boolean isGrabbed = false;
 	public boolean isHovering = false;
 	
+	protected String font = "";
+	protected float fontsize = 8F;
+	
 	public UIComponent(String uiclass) {
 		this.uiclass = ThemeManager.getTheme().getClass(uiclass);
 		hoverClass = !this.uiclass.getClass(":hover").name.equals("global") ? this.uiclass.getClass(":hover") : this.uiclass;
@@ -45,6 +48,16 @@ public abstract class UIComponent extends MayaRender {
 	
 	public UIComponent setEvent(UIComponentEvent componentEvent) {
 		this.componentEvent = componentEvent;
+		return this;
+	}
+	
+	public UIComponent setFont(String font) {
+		this.font = font;
+		return this;
+	}
+	
+	public UIComponent setFontSize(float size) {
+		fontsize = size;
 		return this;
 	}
 }

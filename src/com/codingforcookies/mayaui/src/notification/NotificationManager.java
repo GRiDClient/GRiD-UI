@@ -39,7 +39,7 @@ public class NotificationManager {
 					PerformanceMonitor.endSection("U_Notifications");
 				}
 				
-				public void drawComponents() {
+				public void drawComponents(float delta) {
 					if(components.size() == 0)
 						return;
 
@@ -52,7 +52,7 @@ public class NotificationManager {
 					GL11.glTranslatef(0F, -totalspacing, 0F);
 					for(int i = 0; i < (components.size() > MAX_SHOWN ? MAX_SHOWN : components.size()); i++) {
 						GL11.glTranslatef(0F, -components.get(i).height - ((MNotification)components.get(i)).spacing, 0F);
-						components.get(i).startRender();
+						components.get(i).startRender(delta);
 					}
 					
 					PerformanceMonitor.endSection("R_Notifications");

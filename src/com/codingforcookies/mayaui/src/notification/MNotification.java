@@ -2,9 +2,9 @@ package com.codingforcookies.mayaui.src.notification;
 
 import org.lwjgl.opengl.GL11;
 
-import com.codingforcookies.mayaclientapi.src.font.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.MayaUI;
 import com.codingforcookies.mayaui.src.ui.RenderHelper;
+import com.codingforcookies.mayaui.src.ui.font.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.ui.theme.UIClass;
 import com.codingforcookies.mayaui.src.ui.theme.components.UIComponent;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionMargin;
@@ -51,7 +51,7 @@ public class MNotification extends UIComponent {
 			showPercent = -easeOut(timeSince - (SHOW_TIME + STAY_TIME), 1F, -1F, HIDE_TIME);
 	}
 	
-	public void render() {
+	public void render(float delta) {
 		GL11.glPushMatrix();
 		{
 			UIClass notifClass;

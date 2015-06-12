@@ -9,6 +9,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/jinput.jar"/>
 	<classpathentry kind="lib" path="libs/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="libs/MayaAPI.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Stumblinbear/AppData/Roaming/MayaClient/MayaBootstrap.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

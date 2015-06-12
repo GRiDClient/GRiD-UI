@@ -12,9 +12,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.codingforcookies.mayaclientapi.src.font.MayaFontRenderer;
-import com.codingforcookies.mayaclientapi.src.texture.MayaTextureLoader;
+import com.codingforcookies.mayabackbone.src.MayaClient;
 import com.codingforcookies.mayaui.src.exceptions.ThemeInvalidException;
+import com.codingforcookies.mayaui.src.texture.MayaTextureLoader;
+import com.codingforcookies.mayaui.src.ui.font.MayaFontRenderer;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionBgColor;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionColor;
 import com.codingforcookies.mayaui.src.ui.theme.parser.MOptionFloat;
@@ -77,7 +78,7 @@ public class ThemeManager {
 		return false;
 	}
 
-	private static final File themeLocation = new File("E:/Git/Maya Client/Maya-UI/themes");
+	private static final File themeLocation = new File(MayaClient.mayaDirectory, "themes");
 	private static final String themePattern = "([^{]+)\\s*\\{\\s*([^}]+)\\s*}";
 	
 	/**
